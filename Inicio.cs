@@ -1,14 +1,23 @@
-﻿using System;
+﻿using BeanDesktop.CapaDeEntidades;
+using BeanDesktop.CapaDeNegocio;
+using CapaDeEntidades;
+using FontAwesome.Sharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace BeanDesktop
 {
     public partial class Inicio : Form
     {
+        private static Usuario usuarioActual;
+        private static IconMenuItem MenuActivo = null;
+        private static Form FormularioActivo = null;
+
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn
             (
@@ -20,14 +29,43 @@ namespace BeanDesktop
             int nHeightEllipse
             );
 
-        public Inicio()
+        // Constructor
+        public Inicio(Usuario objusuario)
         {
             InitializeComponent();
-            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 25, 25));
-            PnlNav.Height = BtnDashboard.Height;
-            PnlNav.Top = BtnDashboard.Top;
-            PnlNav.Left = BtnDashboard.Left;
-            PnlNav.BackColor = Color.FromArgb(46, 51, 73);
+            usuarioActual = objusuario;
+
+            // Configuración de la región redondeada ya puede ir acá
+            Region = System.Drawing.Region.FromHrgn(
+                CreateRoundRectRgn(0, 0, Width, Height, 25, 25)
+            );
+
+            this.Load += Inicio_Load;
+        }
+
+        private void Inicio_Load(object sender, EventArgs e)
+        {
+            
+            if (BtnDashboard != null && PnlNav != null)
+            {
+                PnlNav.Height = BtnDashboard.Height;
+                PnlNav.Top = BtnDashboard.Top;
+                PnlNav.Left = BtnDashboard.Left;
+                PnlNav.BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
+            }
+
+            if (usuarioActual != null)
+            {
+                LblUserNameInicio.Text = usuarioActual.NombreCompleto;
+                LblTipoUser.Text = usuarioActual.oRol?.Descripcion ?? "";
+            }
+
+            List<Permiso> ListaPermisos = new CN_Permiso().Listar(usuarioActual.IdUsuario);
+            foreach (IconMenuItem iconmenu in menu.Items)
+            {
+                bool encontrado = ListaPermisos.Any(m => m.NombreMenu == iconmenu.Name);
+                iconmenu.Visible = encontrado;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -35,126 +73,100 @@ namespace BeanDesktop
 
         }
 
-        private void BtnDashboard_Click(object sender, EventArgs e)
-        {
-            BtnDashboard.BackColor = Color.FromArgb(46, 51, 73);
-            PnlNav.Height = BtnDashboard.Height;
-            PnlNav.Top = BtnDashboard.Top;
-            PnlNav.Left = BtnDashboard.Left;
-            PnlNav.BackColor = Color.FromArgb(46, 51, 73);
-        }
-        private void btnStock_Click(object sender, EventArgs e)
-        {
-            btnStock.BackColor = Color.FromArgb(46, 51, 73);
-            PnlNav.Height = btnStock.Height;
-            PnlNav.Top = btnStock.Top;
-            PnlNav.Left = btnStock.Left;
-            PnlNav.BackColor = Color.FromArgb(46, 51, 73);
 
-            // 👉 Abrir el formulario de gestión de productos
-            VistaProductos frm = new VistaProductos();
-            frm.ShowDialog(); // Modal (bloquea hasta cerrar)
-        }
-
-
-        private void buttonUsuarios_Click(object sender, EventArgs e)
-        {
-            buttonUsuarios.BackColor = Color.FromArgb(46, 51, 73);
-            PnlNav.Height = buttonUsuarios.Height;
-            PnlNav.Top = buttonUsuarios.Top;
-            PnlNav.Left = buttonUsuarios.Left;
-            PnlNav.BackColor = Color.FromArgb(46, 51, 73);
-        }
-
-        private void buttonCaja_Click(object sender, EventArgs e)
-        {
-            buttonCaja.BackColor = Color.FromArgb(46, 51, 73);
-            PnlNav.Height = buttonCaja.Height;
-            PnlNav.Top = buttonCaja.Top;
-            PnlNav.Left = buttonCaja.Left;
-            PnlNav.BackColor = Color.FromArgb(46, 51, 73);
-        }
-
-        private void buttonAiMl_Click(object sender, EventArgs e)
-        {
-            buttonAiMl.BackColor = Color.FromArgb(46, 51, 73);
-            PnlNav.Height = buttonAiMl.Height;
-            PnlNav.Top = buttonAiMl.Top;
-            PnlNav.Left = buttonAiMl.Left;
-            PnlNav.BackColor = Color.FromArgb(46, 51, 73);
-        }
-        private void btnConfig_Click(object sender, EventArgs e)
-        {
-            btnConfig.BackColor = Color.FromArgb(46, 51, 73);
-            PnlNav.Height = btnConfig.Height;
-            PnlNav.Top = btnConfig.Top;
-            PnlNav.Left = btnConfig.Left;
-            PnlNav.BackColor = Color.FromArgb(46, 51, 73);
-        }
-
-        private void BtnDashboard_Leave(object sender, EventArgs e)
-        {
-            BtnDashboard.BackColor = Color.FromArgb(24, 30, 54);
-        }
-
-        private void btnStock_Leave(object sender, EventArgs e)
-        {
-            btnStock.BackColor = Color.FromArgb(24, 30, 54);
-        }
-
-        private void buttonUsuarios_Leave(object sender, EventArgs e)
-        {
-            buttonUsuarios.BackColor = Color.FromArgb(24, 30, 54);
-        }
-
-        private void buttonCaja_Leave(object sender, EventArgs e)
-        {
-            buttonCaja.BackColor = Color.FromArgb(24, 30, 54);
-        }
-
-        private void buttonAiMl_Leave(object sender, EventArgs e)
-        {
-            buttonAiMl.BackColor = Color.FromArgb(24, 30, 54);
-        }
-
-        private void btnConfig_Leave(object sender, EventArgs e)
-        {
-            btnConfig.BackColor = Color.FromArgb(24, 30, 54);
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void productoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        //A PARTIR DE ACA LO MÁS IMPORTANTE
+        private void AbrirFormulario(IconMenuItem menu, Form formulario)
+        {
+            if (MenuActivo != null)
+            {
+                MenuActivo.BackColor = System.Drawing.Color.FromArgb(24, 30, 54);
+            }
+            menu.BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
+            MenuActivo = menu;
+
+            if (FormularioActivo != null)
+            {
+                FormularioActivo.Close();
+            }
+            FormularioActivo = formulario;
+            formulario.TopLevel = false;
+            formulario.FormBorderStyle = FormBorderStyle.None;
+            formulario.Dock = DockStyle.Fill;
+            formulario.BackColor = System.Drawing.Color.FromArgb(24, 30, 54);
+
+            contenedor.Controls.Add(formulario);
+            formulario.Show();
+        }
+
+
+        private void iconMenuItem4_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((IconMenuItem)sender, new FrmUsuarios());
+        }
+
+        private void categoríasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((menuStock), new frmCategoria());
+        }
+
+        private void agregarProductoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((menuStock), new frmProducto());
+        }
+
+        private void subMenuRegistrarVenta_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((menuCajaRegistradora), new cajaRegistradora());
+        }
+
+        private void subMenuVerDetalles_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((menuCajaRegistradora), new frmDetralleVenta());
+        }
+
+        private void menuClientes_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((IconMenuItem)sender, new frmClientes());
+        }
+
+        private void menuIAML_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((IconMenuItem)sender, new frmIAML());
+        }
+
+        private void menuReporte_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((IconMenuItem)sender, new frmReportes());
+        }
+
+        private void verStockToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((menuStock), new frmVerStock());
+        }
+
+        private void menuAcercaDe_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((IconMenuItem)sender, new frmAcercaDe());
+        }
     }
 }

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Inicio));
             panel1 = new Panel();
             PnlNav = new FlowLayoutPanel();
@@ -40,14 +39,29 @@
             BtnDashboard = new Button();
             panel2 = new Panel();
             button1 = new Button();
-            label2 = new Label();
-            label1 = new Label();
+            LblTipoUser = new Label();
+            LblUserNameInicio = new Label();
             pictureBox1 = new PictureBox();
-            imageList1 = new ImageList(components);
             contenedor = new Panel();
+            panel3 = new Panel();
+            menu = new MenuStrip();
+            menuUsuarios = new FontAwesome.Sharp.IconMenuItem();
+            menuReporte = new FontAwesome.Sharp.IconMenuItem();
+            menuCajaRegistradora = new FontAwesome.Sharp.IconMenuItem();
+            subMenuRegistrarVenta = new ToolStripMenuItem();
+            subMenuVerDetalles = new ToolStripMenuItem();
+            menuStock = new FontAwesome.Sharp.IconMenuItem();
+            agregarProductoToolStripMenuItem = new ToolStripMenuItem();
+            categoríasToolStripMenuItem = new ToolStripMenuItem();
+            verStockToolStripMenuItem = new ToolStripMenuItem();
+            menuClientes = new FontAwesome.Sharp.IconMenuItem();
+            menuIAML = new FontAwesome.Sharp.IconMenuItem();
+            menuAcercaDe = new FontAwesome.Sharp.IconMenuItem();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel3.SuspendLayout();
+            menu.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -61,20 +75,18 @@
             panel1.Controls.Add(btnStock);
             panel1.Controls.Add(BtnDashboard);
             panel1.Controls.Add(panel2);
-            panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(263, 900);
+            panel1.Size = new Size(235, 184);
             panel1.TabIndex = 0;
+            panel1.Paint += panel1_Paint;
             // 
             // PnlNav
             // 
             PnlNav.BackColor = Color.DodgerBlue;
-            PnlNav.Location = new Point(3, 253);
-            PnlNav.Margin = new Padding(3, 4, 3, 4);
+            PnlNav.Location = new Point(3, 190);
             PnlNav.Name = "PnlNav";
-            PnlNav.Size = new Size(5, 133);
+            PnlNav.Size = new Size(4, 100);
             PnlNav.TabIndex = 1;
             // 
             // btnConfig
@@ -87,20 +99,17 @@
             btnConfig.ForeColor = Color.FromArgb(64, 158, 255);
             btnConfig.Image = (Image)resources.GetObject("btnConfig.Image");
             btnConfig.ImageAlign = ContentAlignment.MiddleRight;
-            btnConfig.Location = new Point(0, 823);
-            btnConfig.Margin = new Padding(3, 4, 3, 4);
+            btnConfig.Location = new Point(0, 543);
             btnConfig.Name = "btnConfig";
-            btnConfig.Padding = new Padding(29, 3, 29, 3);
+            btnConfig.Padding = new Padding(25, 2, 25, 2);
             btnConfig.RightToLeft = RightToLeft.No;
-            btnConfig.Size = new Size(263, 61);
+            btnConfig.Size = new Size(230, 46);
             btnConfig.TabIndex = 6;
             btnConfig.Text = "Configuración";
             btnConfig.TextAlign = ContentAlignment.MiddleLeft;
             btnConfig.TextImageRelation = TextImageRelation.TextBeforeImage;
             btnConfig.UseCompatibleTextRendering = true;
             btnConfig.UseVisualStyleBackColor = false;
-            btnConfig.Click += btnConfig_Click;
-            btnConfig.Leave += btnConfig_Leave;
             // 
             // buttonAiMl
             // 
@@ -113,20 +122,17 @@
             buttonAiMl.ForeColor = Color.FromArgb(64, 158, 255);
             buttonAiMl.Image = (Image)resources.GetObject("buttonAiMl.Image");
             buttonAiMl.ImageAlign = ContentAlignment.MiddleRight;
-            buttonAiMl.Location = new Point(0, 580);
-            buttonAiMl.Margin = new Padding(3, 4, 3, 4);
+            buttonAiMl.Location = new Point(0, 468);
             buttonAiMl.Name = "buttonAiMl";
-            buttonAiMl.Padding = new Padding(6, 3, 6, 3);
+            buttonAiMl.Padding = new Padding(5, 2, 5, 2);
             buttonAiMl.RightToLeft = RightToLeft.No;
-            buttonAiMl.Size = new Size(263, 97);
+            buttonAiMl.Size = new Size(235, 54);
             buttonAiMl.TabIndex = 5;
             buttonAiMl.Text = "IA / ML";
             buttonAiMl.TextAlign = ContentAlignment.MiddleLeft;
             buttonAiMl.TextImageRelation = TextImageRelation.TextBeforeImage;
             buttonAiMl.UseCompatibleTextRendering = true;
             buttonAiMl.UseVisualStyleBackColor = false;
-            buttonAiMl.Click += buttonAiMl_Click;
-            buttonAiMl.Leave += buttonAiMl_Leave;
             // 
             // buttonCaja
             // 
@@ -139,20 +145,17 @@
             buttonCaja.ForeColor = Color.FromArgb(64, 158, 255);
             buttonCaja.Image = (Image)resources.GetObject("buttonCaja.Image");
             buttonCaja.ImageAlign = ContentAlignment.MiddleRight;
-            buttonCaja.Location = new Point(0, 483);
-            buttonCaja.Margin = new Padding(3, 4, 3, 4);
+            buttonCaja.Location = new Point(0, 387);
             buttonCaja.Name = "buttonCaja";
-            buttonCaja.Padding = new Padding(6, 3, 6, 3);
+            buttonCaja.Padding = new Padding(5, 2, 5, 2);
             buttonCaja.RightToLeft = RightToLeft.No;
-            buttonCaja.Size = new Size(263, 97);
+            buttonCaja.Size = new Size(235, 81);
             buttonCaja.TabIndex = 4;
             buttonCaja.Text = "Caja Registradora";
             buttonCaja.TextAlign = ContentAlignment.MiddleLeft;
             buttonCaja.TextImageRelation = TextImageRelation.TextBeforeImage;
             buttonCaja.UseCompatibleTextRendering = true;
             buttonCaja.UseVisualStyleBackColor = false;
-            buttonCaja.Click += buttonCaja_Click;
-            buttonCaja.Leave += buttonCaja_Leave;
             // 
             // buttonUsuarios
             // 
@@ -165,20 +168,17 @@
             buttonUsuarios.ForeColor = Color.FromArgb(64, 158, 255);
             buttonUsuarios.Image = (Image)resources.GetObject("buttonUsuarios.Image");
             buttonUsuarios.ImageAlign = ContentAlignment.MiddleRight;
-            buttonUsuarios.Location = new Point(0, 386);
-            buttonUsuarios.Margin = new Padding(3, 4, 3, 4);
+            buttonUsuarios.Location = new Point(0, 330);
             buttonUsuarios.Name = "buttonUsuarios";
-            buttonUsuarios.Padding = new Padding(6, 3, 6, 3);
+            buttonUsuarios.Padding = new Padding(5, 2, 5, 2);
             buttonUsuarios.RightToLeft = RightToLeft.No;
-            buttonUsuarios.Size = new Size(263, 97);
+            buttonUsuarios.Size = new Size(235, 57);
             buttonUsuarios.TabIndex = 3;
             buttonUsuarios.Text = "Gestión de Usuarios";
             buttonUsuarios.TextAlign = ContentAlignment.MiddleLeft;
             buttonUsuarios.TextImageRelation = TextImageRelation.TextBeforeImage;
             buttonUsuarios.UseCompatibleTextRendering = true;
             buttonUsuarios.UseVisualStyleBackColor = false;
-            buttonUsuarios.Click += buttonUsuarios_Click;
-            buttonUsuarios.Leave += buttonUsuarios_Leave;
             // 
             // btnStock
             // 
@@ -191,20 +191,17 @@
             btnStock.ForeColor = Color.FromArgb(64, 158, 255);
             btnStock.Image = (Image)resources.GetObject("btnStock.Image");
             btnStock.ImageAlign = ContentAlignment.MiddleRight;
-            btnStock.Location = new Point(0, 289);
-            btnStock.Margin = new Padding(3, 4, 3, 4);
+            btnStock.Location = new Point(0, 257);
             btnStock.Name = "btnStock";
-            btnStock.Padding = new Padding(6, 3, 6, 3);
+            btnStock.Padding = new Padding(5, 2, 5, 2);
             btnStock.RightToLeft = RightToLeft.No;
-            btnStock.Size = new Size(263, 97);
+            btnStock.Size = new Size(235, 73);
             btnStock.TabIndex = 2;
             btnStock.Text = "Gestión de Stock";
             btnStock.TextAlign = ContentAlignment.MiddleLeft;
             btnStock.TextImageRelation = TextImageRelation.TextBeforeImage;
             btnStock.UseCompatibleTextRendering = true;
             btnStock.UseVisualStyleBackColor = false;
-            btnStock.Click += btnStock_Click;
-            btnStock.Leave += btnStock_Leave;
             // 
             // BtnDashboard
             // 
@@ -217,105 +214,253 @@
             BtnDashboard.ForeColor = Color.FromArgb(64, 158, 255);
             BtnDashboard.Image = (Image)resources.GetObject("BtnDashboard.Image");
             BtnDashboard.ImageAlign = ContentAlignment.MiddleRight;
-            BtnDashboard.Location = new Point(0, 192);
-            BtnDashboard.Margin = new Padding(3, 4, 3, 4);
+            BtnDashboard.Location = new Point(0, 184);
             BtnDashboard.Name = "BtnDashboard";
-            BtnDashboard.Padding = new Padding(6, 3, 6, 3);
+            BtnDashboard.Padding = new Padding(5, 2, 5, 2);
             BtnDashboard.RightToLeft = RightToLeft.No;
-            BtnDashboard.Size = new Size(263, 97);
+            BtnDashboard.Size = new Size(235, 73);
             BtnDashboard.TabIndex = 1;
             BtnDashboard.Text = "Dashboard";
             BtnDashboard.TextAlign = ContentAlignment.MiddleLeft;
             BtnDashboard.TextImageRelation = TextImageRelation.TextBeforeImage;
             BtnDashboard.UseCompatibleTextRendering = true;
             BtnDashboard.UseVisualStyleBackColor = false;
-            BtnDashboard.Click += BtnDashboard_Click;
-            BtnDashboard.Leave += BtnDashboard_Leave;
             // 
             // panel2
             // 
             panel2.Controls.Add(button1);
-            panel2.Controls.Add(label2);
-            panel2.Controls.Add(label1);
+            panel2.Controls.Add(LblTipoUser);
+            panel2.Controls.Add(LblUserNameInicio);
             panel2.Controls.Add(pictureBox1);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
-            panel2.Margin = new Padding(3, 4, 3, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(263, 192);
+            panel2.Size = new Size(235, 184);
             panel2.TabIndex = 0;
             // 
             // button1
             // 
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(14, 28);
-            button1.Margin = new Padding(3, 4, 3, 4);
+            button1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.ForeColor = Color.Tomato;
+            button1.Location = new Point(12, 12);
             button1.Name = "button1";
-            button1.Size = new Size(29, 33);
+            button1.Size = new Size(29, 34);
             button1.TabIndex = 3;
             button1.Text = "X";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // label2
+            // LblTipoUser
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Microsoft Sans Serif", 6.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.WhiteSmoke;
-            label2.Location = new Point(79, 162);
-            label2.Name = "label2";
-            label2.Size = new Size(109, 15);
-            label2.TabIndex = 2;
-            label2.Text = "Tipo de Usuario";
+            LblTipoUser.AutoSize = true;
+            LblTipoUser.Font = new Font("Microsoft Sans Serif", 6.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            LblTipoUser.ForeColor = Color.WhiteSmoke;
+            LblTipoUser.Location = new Point(21, 113);
+            LblTipoUser.Name = "LblTipoUser";
+            LblTipoUser.Size = new Size(83, 12);
+            LblTipoUser.TabIndex = 2;
+            LblTipoUser.Text = "Tipo de Usuario";
             // 
-            // label1
+            // LblUserNameInicio
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.FromArgb(64, 158, 255);
-            label1.Location = new Point(85, 128);
-            label1.Name = "label1";
-            label1.Size = new Size(103, 20);
-            label1.TabIndex = 1;
-            label1.Text = "User Name";
+            LblUserNameInicio.AutoSize = true;
+            LblUserNameInicio.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            LblUserNameInicio.ForeColor = Color.FromArgb(64, 158, 255);
+            LblUserNameInicio.Location = new Point(69, 87);
+            LblUserNameInicio.Name = "LblUserNameInicio";
+            LblUserNameInicio.Size = new Size(85, 16);
+            LblUserNameInicio.TabIndex = 1;
+            LblUserNameInicio.Text = "User Name";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(97, 28);
-            pictureBox1.Margin = new Padding(3, 4, 3, 4);
+            pictureBox1.Location = new Point(81, 12);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(72, 84);
+            pictureBox1.Size = new Size(63, 63);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
-            // imageList1
-            // 
-            imageList1.ColorDepth = ColorDepth.Depth32Bit;
-            imageList1.ImageSize = new Size(16, 16);
-            imageList1.TransparentColor = Color.Transparent;
-            // 
             // contenedor
             // 
-            contenedor.Location = new Point(262, 0);
-            contenedor.Margin = new Padding(3, 4, 3, 4);
+            contenedor.Location = new Point(241, 0);
             contenedor.Name = "contenedor";
-            contenedor.Size = new Size(1109, 900);
+            contenedor.Size = new Size(1150, 700);
             contenedor.TabIndex = 1;
+            // 
+            // panel3
+            // 
+            panel3.Controls.Add(menu);
+            panel3.ImeMode = ImeMode.NoControl;
+            panel3.Location = new Point(0, 184);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(233, 405);
+            panel3.TabIndex = 2;
+            // 
+            // menu
+            // 
+            menu.BackColor = Color.FromArgb(24, 30, 54);
+            menu.Items.AddRange(new ToolStripItem[] { menuUsuarios, menuReporte, menuCajaRegistradora, menuStock, menuClientes, menuIAML, menuAcercaDe });
+            menu.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
+            menu.Location = new Point(0, 0);
+            menu.Name = "menu";
+            menu.Size = new Size(233, 286);
+            menu.TabIndex = 0;
+            menu.Text = "menuStrip1";
+            // 
+            // menuUsuarios
+            // 
+            menuUsuarios.AutoSize = false;
+            menuUsuarios.Font = new Font("Segoe UI", 12F);
+            menuUsuarios.ForeColor = Color.WhiteSmoke;
+            menuUsuarios.IconChar = FontAwesome.Sharp.IconChar.User;
+            menuUsuarios.IconColor = Color.White;
+            menuUsuarios.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            menuUsuarios.IconSize = 35;
+            menuUsuarios.ImageScaling = ToolStripItemImageScaling.None;
+            menuUsuarios.Name = "menuUsuarios";
+            menuUsuarios.Size = new Size(200, 40);
+            menuUsuarios.Text = "Usuarios";
+            menuUsuarios.Click += iconMenuItem4_Click;
+            // 
+            // menuReporte
+            // 
+            menuReporte.AutoSize = false;
+            menuReporte.Font = new Font("Segoe UI", 12F);
+            menuReporte.ForeColor = Color.WhiteSmoke;
+            menuReporte.IconChar = FontAwesome.Sharp.IconChar.ChartColumn;
+            menuReporte.IconColor = Color.White;
+            menuReporte.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            menuReporte.IconSize = 35;
+            menuReporte.ImageScaling = ToolStripItemImageScaling.None;
+            menuReporte.Name = "menuReporte";
+            menuReporte.Size = new Size(200, 40);
+            menuReporte.Text = "Dashboard";
+            menuReporte.Click += menuReporte_Click;
+            // 
+            // menuCajaRegistradora
+            // 
+            menuCajaRegistradora.AutoSize = false;
+            menuCajaRegistradora.DropDownItems.AddRange(new ToolStripItem[] { subMenuRegistrarVenta, subMenuVerDetalles });
+            menuCajaRegistradora.Font = new Font("Segoe UI", 12F);
+            menuCajaRegistradora.ForeColor = Color.WhiteSmoke;
+            menuCajaRegistradora.IconChar = FontAwesome.Sharp.IconChar.CartShopping;
+            menuCajaRegistradora.IconColor = Color.White;
+            menuCajaRegistradora.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            menuCajaRegistradora.IconSize = 35;
+            menuCajaRegistradora.ImageScaling = ToolStripItemImageScaling.None;
+            menuCajaRegistradora.Name = "menuCajaRegistradora";
+            menuCajaRegistradora.Size = new Size(200, 40);
+            menuCajaRegistradora.Text = "CajaRegistradora";
+            // 
+            // subMenuRegistrarVenta
+            // 
+            subMenuRegistrarVenta.Name = "subMenuRegistrarVenta";
+            subMenuRegistrarVenta.Size = new Size(233, 26);
+            subMenuRegistrarVenta.Text = "Registrar";
+            subMenuRegistrarVenta.Click += subMenuRegistrarVenta_Click;
+            // 
+            // subMenuVerDetalles
+            // 
+            subMenuVerDetalles.Name = "subMenuVerDetalles";
+            subMenuVerDetalles.Size = new Size(233, 26);
+            subMenuVerDetalles.Text = "Ver Detalles de Ventas";
+            subMenuVerDetalles.Click += subMenuVerDetalles_Click;
+            // 
+            // menuStock
+            // 
+            menuStock.AutoSize = false;
+            menuStock.DropDownItems.AddRange(new ToolStripItem[] { agregarProductoToolStripMenuItem, categoríasToolStripMenuItem, verStockToolStripMenuItem });
+            menuStock.Font = new Font("Segoe UI", 12F);
+            menuStock.ForeColor = Color.WhiteSmoke;
+            menuStock.IconChar = FontAwesome.Sharp.IconChar.BoxesPacking;
+            menuStock.IconColor = Color.White;
+            menuStock.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            menuStock.IconSize = 35;
+            menuStock.ImageScaling = ToolStripItemImageScaling.None;
+            menuStock.Name = "menuStock";
+            menuStock.Size = new Size(200, 40);
+            menuStock.Text = "Gestión de Stock";
+            // 
+            // agregarProductoToolStripMenuItem
+            // 
+            agregarProductoToolStripMenuItem.Name = "agregarProductoToolStripMenuItem";
+            agregarProductoToolStripMenuItem.Size = new Size(203, 26);
+            agregarProductoToolStripMenuItem.Text = "Agregar Producto";
+            agregarProductoToolStripMenuItem.Click += agregarProductoToolStripMenuItem_Click;
+            // 
+            // categoríasToolStripMenuItem
+            // 
+            categoríasToolStripMenuItem.Name = "categoríasToolStripMenuItem";
+            categoríasToolStripMenuItem.Size = new Size(203, 26);
+            categoríasToolStripMenuItem.Text = "Categorías";
+            categoríasToolStripMenuItem.Click += categoríasToolStripMenuItem_Click;
+            // 
+            // verStockToolStripMenuItem
+            // 
+            verStockToolStripMenuItem.Name = "verStockToolStripMenuItem";
+            verStockToolStripMenuItem.Size = new Size(203, 26);
+            verStockToolStripMenuItem.Text = "Ver Stock";
+            verStockToolStripMenuItem.Click += verStockToolStripMenuItem_Click;
+            // 
+            // menuClientes
+            // 
+            menuClientes.AutoSize = false;
+            menuClientes.Font = new Font("Segoe UI", 12F);
+            menuClientes.ForeColor = Color.WhiteSmoke;
+            menuClientes.IconChar = FontAwesome.Sharp.IconChar.UserFriends;
+            menuClientes.IconColor = Color.White;
+            menuClientes.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            menuClientes.IconSize = 35;
+            menuClientes.ImageScaling = ToolStripItemImageScaling.None;
+            menuClientes.Name = "menuClientes";
+            menuClientes.Size = new Size(200, 40);
+            menuClientes.Text = "Clientes";
+            menuClientes.Click += menuClientes_Click;
+            // 
+            // menuIAML
+            // 
+            menuIAML.AutoSize = false;
+            menuIAML.Font = new Font("Segoe UI", 12F);
+            menuIAML.ForeColor = Color.WhiteSmoke;
+            menuIAML.IconChar = FontAwesome.Sharp.IconChar.Brain;
+            menuIAML.IconColor = Color.White;
+            menuIAML.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            menuIAML.IconSize = 35;
+            menuIAML.ImageScaling = ToolStripItemImageScaling.None;
+            menuIAML.Name = "menuIAML";
+            menuIAML.Size = new Size(200, 40);
+            menuIAML.Text = "IA/ML";
+            menuIAML.Click += menuIAML_Click;
+            // 
+            // menuAcercaDe
+            // 
+            menuAcercaDe.AutoSize = false;
+            menuAcercaDe.Font = new Font("Segoe UI", 12F);
+            menuAcercaDe.ForeColor = Color.WhiteSmoke;
+            menuAcercaDe.IconChar = FontAwesome.Sharp.IconChar.Info;
+            menuAcercaDe.IconColor = Color.White;
+            menuAcercaDe.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            menuAcercaDe.IconSize = 35;
+            menuAcercaDe.ImageScaling = ToolStripItemImageScaling.None;
+            menuAcercaDe.Name = "menuAcercaDe";
+            menuAcercaDe.Size = new Size(200, 40);
+            menuAcercaDe.Text = "Acerca De";
+            menuAcercaDe.Click += menuAcercaDe_Click;
             // 
             // Inicio
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(1371, 900);
-            Controls.Add(contenedor);
+            ClientSize = new Size(1400, 800);
+            Controls.Add(panel3);
             Controls.Add(panel1);
+            Controls.Add(contenedor);
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Inicio";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
@@ -324,6 +469,10 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
+            menu.ResumeLayout(false);
+            menu.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -332,8 +481,8 @@
         private Panel panel1;
         private Panel panel2;
         private PictureBox pictureBox1;
-        private Label label2;
-        private Label label1;
+        private Label LblTipoUser;
+        private Label LblUserNameInicio;
         private Button BtnDashboard;
         private Button buttonCaja;
         private Button buttonUsuarios;
@@ -342,7 +491,20 @@
         private Button btnConfig;
         private FlowLayoutPanel PnlNav;
         private Button button1;
-        private ImageList imageList1;
         private Panel contenedor;
+        private Panel panel3;
+        private MenuStrip menu;
+        private FontAwesome.Sharp.IconMenuItem menuReporte;
+        private FontAwesome.Sharp.IconMenuItem menuCajaRegistradora;
+        private FontAwesome.Sharp.IconMenuItem menuStock;
+        private FontAwesome.Sharp.IconMenuItem menuUsuarios;
+        private ToolStripMenuItem agregarProductoToolStripMenuItem;
+        private ToolStripMenuItem categoríasToolStripMenuItem;
+        private FontAwesome.Sharp.IconMenuItem menuClientes;
+        private FontAwesome.Sharp.IconMenuItem menuIAML;
+        private ToolStripMenuItem verStockToolStripMenuItem;
+        private ToolStripMenuItem subMenuRegistrarVenta;
+        private ToolStripMenuItem subMenuVerDetalles;
+        private FontAwesome.Sharp.IconMenuItem menuAcercaDe;
     }
 }
