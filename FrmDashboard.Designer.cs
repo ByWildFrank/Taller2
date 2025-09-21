@@ -1,6 +1,6 @@
 ﻿namespace BeanDesktop
 {
-    partial class FrmReportes
+    partial class FrmDashboard
     {
         private System.ComponentModel.IContainer components = null;
 

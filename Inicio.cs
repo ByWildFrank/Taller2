@@ -156,7 +156,7 @@ namespace BeanDesktop
 
         private void menuReporte_Click(object sender, EventArgs e)
         {
-            AbrirFormulario((IconMenuItem)sender, new frmReportes());
+            AbrirFormulario((IconMenuItem)sender, new FrmReportes());
         }
 
         private void verStockToolStripMenuItem_Click(object sender, EventArgs e)

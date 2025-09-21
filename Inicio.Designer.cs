@@ -506,5 +506,6 @@
         private ToolStripMenuItem subMenuRegistrarVenta;
         private ToolStripMenuItem subMenuVerDetalles;
         private FontAwesome.Sharp.IconMenuItem menuAcercaDe;
+
     }
 }

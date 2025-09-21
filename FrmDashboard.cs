@@ -9,11 +9,11 @@ using OxyPlot.WindowsForms;
 
 namespace BeanDesktop
 {
-    public partial class FrmReportes : Form
+    public partial class FrmDashboard : Form
     {
         string connectionString = "Server=Franco-Laptop\\SQLEXPRESS;Database=DB_BEAN;Trusted_Connection=True;TrustServerCertificate=True;";
 
-        public FrmReportes()
+        public FrmDashboard()
         {
             InitializeComponent();
         }
