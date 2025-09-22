@@ -23,306 +23,338 @@
 
         private void InitializeComponent()
         {
-            this.lblDocumento = new System.Windows.Forms.Label();
-            this.lblNombreCompleto = new System.Windows.Forms.Label();
-            this.lblCorreo = new System.Windows.Forms.Label();
-            this.lblTelefono = new System.Windows.Forms.Label();
-            this.lblEstado = new System.Windows.Forms.Label();
-
-            this.txtDocumento = new System.Windows.Forms.TextBox();
-            this.txtNombreCompleto = new System.Windows.Forms.TextBox();
-            this.txtCorreo = new System.Windows.Forms.TextBox();
-            this.txtTelefono = new System.Windows.Forms.TextBox();
-
-            this.cboEstado = new System.Windows.Forms.ComboBox();
-
-            this.btnGuardar = new System.Windows.Forms.Button();
-            this.btnEliminar = new System.Windows.Forms.Button();
-
-            this.dgvClientes = new System.Windows.Forms.DataGridView();
-            this.btnSeleccionar = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.IdCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Documento = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NombreCompleto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Correo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EstadoValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-
-            this.groupBoxDatos = new System.Windows.Forms.GroupBox();
-            this.txtid = new System.Windows.Forms.TextBox();
-            this.txtindice = new System.Windows.Forms.TextBox();
-
-            this.groupBoxBusqueda = new System.Windows.Forms.GroupBox();
-            this.cboBusqueda = new System.Windows.Forms.ComboBox();
-            this.txtBusqueda = new System.Windows.Forms.TextBox();
-            this.btnBuscar = new System.Windows.Forms.Button();
-            this.btnLimpiarBuscador = new System.Windows.Forms.Button();
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).BeginInit();
-            this.groupBoxDatos.SuspendLayout();
-            this.groupBoxBusqueda.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // groupBoxDatos
-            // 
-            this.groupBoxDatos.Controls.Add(this.lblDocumento);
-            this.groupBoxDatos.Controls.Add(this.txtDocumento);
-            this.groupBoxDatos.Controls.Add(this.lblNombreCompleto);
-            this.groupBoxDatos.Controls.Add(this.txtNombreCompleto);
-            this.groupBoxDatos.Controls.Add(this.lblCorreo);
-            this.groupBoxDatos.Controls.Add(this.txtCorreo);
-            this.groupBoxDatos.Controls.Add(this.lblTelefono);
-            this.groupBoxDatos.Controls.Add(this.txtTelefono);
-            this.groupBoxDatos.Controls.Add(this.lblEstado);
-            this.groupBoxDatos.Controls.Add(this.cboEstado);
-            this.groupBoxDatos.Controls.Add(this.btnGuardar);
-            this.groupBoxDatos.Controls.Add(this.btnEliminar);
-            this.groupBoxDatos.Location = new System.Drawing.Point(20, 20);
-            this.groupBoxDatos.Name = "groupBoxDatos";
-            this.groupBoxDatos.Size = new System.Drawing.Size(350, 300);
-            this.groupBoxDatos.TabIndex = 0;
-            this.groupBoxDatos.TabStop = false;
-            this.groupBoxDatos.Text = "Datos del Cliente";
+            lblDocumento = new Label();
+            lblNombreCompleto = new Label();
+            lblCorreo = new Label();
+            lblTelefono = new Label();
+            lblEstado = new Label();
+            txtDocumento = new TextBox();
+            txtNombreCompleto = new TextBox();
+            txtCorreo = new TextBox();
+            txtTelefono = new TextBox();
+            cboEstado = new ComboBox();
+            btnGuardar = new Button();
+            btnEliminar = new Button();
+            dgvClientes = new DataGridView();
+            btnSeleccionar = new DataGridViewButtonColumn();
+            IdCliente = new DataGridViewTextBoxColumn();
+            Documento = new DataGridViewTextBoxColumn();
+            NombreCompleto = new DataGridViewTextBoxColumn();
+            Correo = new DataGridViewTextBoxColumn();
+            Telefono = new DataGridViewTextBoxColumn();
+            EstadoValor = new DataGridViewTextBoxColumn();
+            Estado = new DataGridViewTextBoxColumn();
+            groupBoxDatos = new GroupBox();
+            txtid = new TextBox();
+            txtindice = new TextBox();
+            groupBoxBusqueda = new GroupBox();
+            cboBusqueda = new ComboBox();
+            txtBusqueda = new TextBox();
+            btnBuscar = new Button();
+            btnLimpiarBuscador = new Button();
+            ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
+            groupBoxDatos.SuspendLayout();
+            groupBoxBusqueda.SuspendLayout();
+            SuspendLayout();
             // 
             // lblDocumento
             // 
-            this.lblDocumento.AutoSize = true;
-            this.lblDocumento.Location = new System.Drawing.Point(20, 30);
-            this.lblDocumento.Name = "lblDocumento";
-            this.lblDocumento.Size = new System.Drawing.Size(80, 15);
-            this.lblDocumento.TabIndex = 0;
-            this.lblDocumento.Text = "Documento *:";
-            // 
-            // txtDocumento
-            // 
-            this.txtDocumento.Location = new System.Drawing.Point(130, 27);
-            this.txtDocumento.Name = "txtDocumento";
-            this.txtDocumento.Size = new System.Drawing.Size(200, 23);
-            this.txtDocumento.TabIndex = 1;
+            lblDocumento.AutoSize = true;
+            lblDocumento.Location = new Point(20, 33);
+            lblDocumento.Name = "lblDocumento";
+            lblDocumento.Size = new Size(100, 20);
+            lblDocumento.TabIndex = 0;
+            lblDocumento.Text = "Documento *:";
             // 
             // lblNombreCompleto
             // 
-            this.lblNombreCompleto.AutoSize = true;
-            this.lblNombreCompleto.Location = new System.Drawing.Point(20, 70);
-            this.lblNombreCompleto.Name = "lblNombreCompleto";
-            this.lblNombreCompleto.Size = new System.Drawing.Size(105, 15);
-            this.lblNombreCompleto.TabIndex = 2;
-            this.lblNombreCompleto.Text = "Nombre Completo *:";
-            // 
-            // txtNombreCompleto
-            // 
-            this.txtNombreCompleto.Location = new System.Drawing.Point(130, 67);
-            this.txtNombreCompleto.Name = "txtNombreCompleto";
-            this.txtNombreCompleto.Size = new System.Drawing.Size(200, 23);
-            this.txtNombreCompleto.TabIndex = 3;
+            lblNombreCompleto.AutoSize = true;
+            lblNombreCompleto.Location = new Point(6, 70);
+            lblNombreCompleto.Name = "lblNombreCompleto";
+            lblNombreCompleto.Size = new Size(147, 20);
+            lblNombreCompleto.TabIndex = 2;
+            lblNombreCompleto.Text = "Nombre Completo *:";
             // 
             // lblCorreo
             // 
-            this.lblCorreo.AutoSize = true;
-            this.lblCorreo.Location = new System.Drawing.Point(20, 110);
-            this.lblCorreo.Name = "lblCorreo";
-            this.lblCorreo.Size = new System.Drawing.Size(52, 15);
-            this.lblCorreo.TabIndex = 4;
-            this.lblCorreo.Text = "Correo *:";
-            // 
-            // txtCorreo
-            // 
-            this.txtCorreo.Location = new System.Drawing.Point(130, 107);
-            this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(200, 23);
-            this.txtCorreo.TabIndex = 5;
+            lblCorreo.AutoSize = true;
+            lblCorreo.Location = new Point(40, 110);
+            lblCorreo.Name = "lblCorreo";
+            lblCorreo.Size = new Size(67, 20);
+            lblCorreo.TabIndex = 4;
+            lblCorreo.Text = "Correo *:";
             // 
             // lblTelefono
             // 
-            this.lblTelefono.AutoSize = true;
-            this.lblTelefono.Location = new System.Drawing.Point(20, 150);
-            this.lblTelefono.Name = "lblTelefono";
-            this.lblTelefono.Size = new System.Drawing.Size(59, 15);
-            this.lblTelefono.TabIndex = 6;
-            this.lblTelefono.Text = "Teléfono *:";
-            // 
-            // txtTelefono
-            // 
-            this.txtTelefono.Location = new System.Drawing.Point(130, 147);
-            this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(200, 23);
-            this.txtTelefono.TabIndex = 7;
+            lblTelefono.AutoSize = true;
+            lblTelefono.Location = new Point(40, 150);
+            lblTelefono.Name = "lblTelefono";
+            lblTelefono.Size = new Size(80, 20);
+            lblTelefono.TabIndex = 6;
+            lblTelefono.Text = "Teléfono *:";
             // 
             // lblEstado
             // 
-            this.lblEstado.AutoSize = true;
-            this.lblEstado.Location = new System.Drawing.Point(20, 190);
-            this.lblEstado.Name = "lblEstado";
-            this.lblEstado.Size = new System.Drawing.Size(45, 15);
-            this.lblEstado.TabIndex = 8;
-            this.lblEstado.Text = "Estado:";
+            lblEstado.AutoSize = true;
+            lblEstado.Location = new Point(40, 190);
+            lblEstado.Name = "lblEstado";
+            lblEstado.Size = new Size(57, 20);
+            lblEstado.TabIndex = 8;
+            lblEstado.Text = "Estado:";
+            // 
+            // txtDocumento
+            // 
+            txtDocumento.Location = new Point(158, 27);
+            txtDocumento.Name = "txtDocumento";
+            txtDocumento.Size = new Size(200, 27);
+            txtDocumento.TabIndex = 1;
+            // 
+            // txtNombreCompleto
+            // 
+            txtNombreCompleto.Location = new Point(158, 67);
+            txtNombreCompleto.Name = "txtNombreCompleto";
+            txtNombreCompleto.Size = new Size(200, 27);
+            txtNombreCompleto.TabIndex = 3;
+            // 
+            // txtCorreo
+            // 
+            txtCorreo.Location = new Point(158, 103);
+            txtCorreo.Name = "txtCorreo";
+            txtCorreo.Size = new Size(200, 27);
+            txtCorreo.TabIndex = 5;
+            // 
+            // txtTelefono
+            // 
+            txtTelefono.Location = new Point(158, 147);
+            txtTelefono.Name = "txtTelefono";
+            txtTelefono.Size = new Size(200, 27);
+            txtTelefono.TabIndex = 7;
             // 
             // cboEstado
             // 
-            this.cboEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboEstado.FormattingEnabled = true;
-            this.cboEstado.Location = new System.Drawing.Point(130, 187);
-            this.cboEstado.Name = "cboEstado";
-            this.cboEstado.Size = new System.Drawing.Size(200, 23);
-            this.cboEstado.TabIndex = 9;
+            cboEstado.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboEstado.FormattingEnabled = true;
+            cboEstado.Location = new Point(158, 187);
+            cboEstado.Name = "cboEstado";
+            cboEstado.Size = new Size(200, 28);
+            cboEstado.TabIndex = 9;
             // 
             // btnGuardar
             // 
-            this.btnGuardar.BackColor = System.Drawing.Color.SeaGreen;
-            this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGuardar.Location = new System.Drawing.Point(40, 230);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(100, 35);
-            this.btnGuardar.TabIndex = 10;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.UseVisualStyleBackColor = false;
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
+            btnGuardar.BackColor = Color.SeaGreen;
+            btnGuardar.FlatStyle = FlatStyle.Flat;
+            btnGuardar.ForeColor = Color.White;
+            btnGuardar.Location = new Point(40, 230);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(100, 35);
+            btnGuardar.TabIndex = 10;
+            btnGuardar.Text = "Guardar";
+            btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // btnEliminar
             // 
-            this.btnEliminar.BackColor = System.Drawing.Color.Firebrick;
-            this.btnEliminar.ForeColor = System.Drawing.Color.White;
-            this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEliminar.Location = new System.Drawing.Point(180, 230);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(100, 35);
-            this.btnEliminar.TabIndex = 11;
-            this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = false;
-            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            btnEliminar.BackColor = Color.Firebrick;
+            btnEliminar.FlatStyle = FlatStyle.Flat;
+            btnEliminar.ForeColor = Color.White;
+            btnEliminar.Location = new Point(180, 230);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(100, 35);
+            btnEliminar.TabIndex = 11;
+            btnEliminar.Text = "Eliminar";
+            btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // dgvClientes
             // 
-            this.dgvClientes.AllowUserToAddRows = false;
-            this.dgvClientes.BackgroundColor = System.Drawing.Color.White;
-            this.dgvClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvClientes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-                this.btnSeleccionar,
-                this.IdCliente,
-                this.Documento,
-                this.NombreCompleto,
-                this.Correo,
-                this.Telefono,
-                this.EstadoValor,
-                this.Estado});
-            this.dgvClientes.Location = new System.Drawing.Point(390, 100);
-            this.dgvClientes.MultiSelect = false;
-            this.dgvClientes.Name = "dgvClientes";
-            this.dgvClientes.ReadOnly = true;
-            this.dgvClientes.RowTemplate.Height = 25;
-            this.dgvClientes.Size = new System.Drawing.Size(700, 300);
-            this.dgvClientes.TabIndex = 12;
-            this.dgvClientes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClientes_CellContentClick);
+            dgvClientes.AllowUserToAddRows = false;
+            dgvClientes.BackgroundColor = Color.White;
+            dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvClientes.Columns.AddRange(new DataGridViewColumn[] { btnSeleccionar, IdCliente, Documento, NombreCompleto, Correo, Telefono, EstadoValor, Estado });
+            dgvClientes.Location = new Point(390, 100);
+            dgvClientes.MultiSelect = false;
+            dgvClientes.Name = "dgvClientes";
+            dgvClientes.ReadOnly = true;
+            dgvClientes.RowHeadersWidth = 51;
+            dgvClientes.RowTemplate.Height = 25;
+            dgvClientes.Size = new Size(700, 300);
+            dgvClientes.TabIndex = 12;
+            dgvClientes.CellContentClick += dgvClientes_CellContentClick;
             // 
-            // DataGridView Columns
+            // btnSeleccionar
             // 
-            this.btnSeleccionar.HeaderText = "";
-            this.btnSeleccionar.Name = "btnSeleccionar";
-            this.btnSeleccionar.Text = "Seleccionar";
-            this.btnSeleccionar.UseColumnTextForButtonValue = true;
-            this.btnSeleccionar.Width = 80;
-
-            this.IdCliente.HeaderText = "IdCliente";
-            this.IdCliente.Name = "IdCliente";
-            this.IdCliente.Visible = false;
-
-            this.Documento.HeaderText = "Documento";
-            this.Documento.Name = "Documento";
-
-            this.NombreCompleto.HeaderText = "Nombre Completo";
-            this.NombreCompleto.Name = "NombreCompleto";
-
-            this.Correo.HeaderText = "Correo";
-            this.Correo.Name = "Correo";
-
-            this.Telefono.HeaderText = "Teléfono";
-            this.Telefono.Name = "Telefono";
-
-            this.EstadoValor.HeaderText = "EstadoValor";
-            this.EstadoValor.Name = "EstadoValor";
-            this.EstadoValor.Visible = false;
-
-            this.Estado.HeaderText = "Estado";
-            this.Estado.Name = "Estado";
+            btnSeleccionar.HeaderText = "";
+            btnSeleccionar.MinimumWidth = 6;
+            btnSeleccionar.Name = "btnSeleccionar";
+            btnSeleccionar.ReadOnly = true;
+            btnSeleccionar.Text = "Seleccionar";
+            btnSeleccionar.UseColumnTextForButtonValue = true;
+            btnSeleccionar.Width = 80;
+            // 
+            // IdCliente
+            // 
+            IdCliente.HeaderText = "IdCliente";
+            IdCliente.MinimumWidth = 6;
+            IdCliente.Name = "IdCliente";
+            IdCliente.ReadOnly = true;
+            IdCliente.Visible = false;
+            IdCliente.Width = 125;
+            // 
+            // Documento
+            // 
+            Documento.HeaderText = "Documento";
+            Documento.MinimumWidth = 6;
+            Documento.Name = "Documento";
+            Documento.ReadOnly = true;
+            Documento.Width = 125;
+            // 
+            // NombreCompleto
+            // 
+            NombreCompleto.HeaderText = "Nombre Completo";
+            NombreCompleto.MinimumWidth = 6;
+            NombreCompleto.Name = "NombreCompleto";
+            NombreCompleto.ReadOnly = true;
+            NombreCompleto.Width = 125;
+            // 
+            // Correo
+            // 
+            Correo.HeaderText = "Correo";
+            Correo.MinimumWidth = 6;
+            Correo.Name = "Correo";
+            Correo.ReadOnly = true;
+            Correo.Width = 125;
+            // 
+            // Telefono
+            // 
+            Telefono.HeaderText = "Teléfono";
+            Telefono.MinimumWidth = 6;
+            Telefono.Name = "Telefono";
+            Telefono.ReadOnly = true;
+            Telefono.Width = 125;
+            // 
+            // EstadoValor
+            // 
+            EstadoValor.HeaderText = "EstadoValor";
+            EstadoValor.MinimumWidth = 6;
+            EstadoValor.Name = "EstadoValor";
+            EstadoValor.ReadOnly = true;
+            EstadoValor.Visible = false;
+            EstadoValor.Width = 125;
+            // 
+            // Estado
+            // 
+            Estado.HeaderText = "Estado";
+            Estado.MinimumWidth = 6;
+            Estado.Name = "Estado";
+            Estado.ReadOnly = true;
+            Estado.Width = 125;
+            // 
+            // groupBoxDatos
+            // 
+            groupBoxDatos.BackColor = SystemColors.ButtonFace;
+            groupBoxDatos.Controls.Add(lblDocumento);
+            groupBoxDatos.Controls.Add(txtDocumento);
+            groupBoxDatos.Controls.Add(lblNombreCompleto);
+            groupBoxDatos.Controls.Add(txtNombreCompleto);
+            groupBoxDatos.Controls.Add(lblCorreo);
+            groupBoxDatos.Controls.Add(txtCorreo);
+            groupBoxDatos.Controls.Add(lblTelefono);
+            groupBoxDatos.Controls.Add(txtTelefono);
+            groupBoxDatos.Controls.Add(lblEstado);
+            groupBoxDatos.Controls.Add(cboEstado);
+            groupBoxDatos.Controls.Add(btnGuardar);
+            groupBoxDatos.Controls.Add(btnEliminar);
+            groupBoxDatos.Location = new Point(20, 20);
+            groupBoxDatos.Name = "groupBoxDatos";
+            groupBoxDatos.Size = new Size(364, 300);
+            groupBoxDatos.TabIndex = 0;
+            groupBoxDatos.TabStop = false;
+            groupBoxDatos.Text = "Datos del Cliente";
+            // 
+            // txtid
+            // 
+            txtid.Location = new Point(0, 0);
+            txtid.Name = "txtid";
+            txtid.Size = new Size(100, 27);
+            txtid.TabIndex = 14;
+            txtid.Text = "0";
+            txtid.Visible = false;
+            // 
+            // txtindice
+            // 
+            txtindice.Location = new Point(0, 0);
+            txtindice.Name = "txtindice";
+            txtindice.Size = new Size(100, 27);
+            txtindice.TabIndex = 15;
+            txtindice.Text = "-1";
+            txtindice.Visible = false;
             // 
             // groupBoxBusqueda
             // 
-            this.groupBoxBusqueda.Controls.Add(this.cboBusqueda);
-            this.groupBoxBusqueda.Controls.Add(this.txtBusqueda);
-            this.groupBoxBusqueda.Controls.Add(this.btnBuscar);
-            this.groupBoxBusqueda.Controls.Add(this.btnLimpiarBuscador);
-            this.groupBoxBusqueda.Location = new System.Drawing.Point(390, 20);
-            this.groupBoxBusqueda.Name = "groupBoxBusqueda";
-            this.groupBoxBusqueda.Size = new System.Drawing.Size(700, 70);
-            this.groupBoxBusqueda.TabIndex = 13;
-            this.groupBoxBusqueda.TabStop = false;
-            this.groupBoxBusqueda.Text = "Búsqueda";
+            groupBoxBusqueda.Controls.Add(cboBusqueda);
+            groupBoxBusqueda.Controls.Add(txtBusqueda);
+            groupBoxBusqueda.Controls.Add(btnBuscar);
+            groupBoxBusqueda.Controls.Add(btnLimpiarBuscador);
+            groupBoxBusqueda.Location = new Point(390, 20);
+            groupBoxBusqueda.Name = "groupBoxBusqueda";
+            groupBoxBusqueda.Size = new Size(700, 70);
+            groupBoxBusqueda.TabIndex = 13;
+            groupBoxBusqueda.TabStop = false;
+            groupBoxBusqueda.Text = "Búsqueda";
             // 
             // cboBusqueda
             // 
-            this.cboBusqueda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboBusqueda.Location = new System.Drawing.Point(20, 30);
-            this.cboBusqueda.Name = "cboBusqueda";
-            this.cboBusqueda.Size = new System.Drawing.Size(150, 23);
-            this.cboBusqueda.TabIndex = 0;
+            cboBusqueda.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboBusqueda.Location = new Point(20, 30);
+            cboBusqueda.Name = "cboBusqueda";
+            cboBusqueda.Size = new Size(150, 28);
+            cboBusqueda.TabIndex = 0;
             // 
             // txtBusqueda
             // 
-            this.txtBusqueda.Location = new System.Drawing.Point(180, 30);
-            this.txtBusqueda.Name = "txtBusqueda";
-            this.txtBusqueda.Size = new System.Drawing.Size(200, 23);
-            this.txtBusqueda.TabIndex = 1;
+            txtBusqueda.Location = new Point(180, 30);
+            txtBusqueda.Name = "txtBusqueda";
+            txtBusqueda.Size = new Size(200, 27);
+            txtBusqueda.TabIndex = 1;
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(400, 28);
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(80, 25);
-            this.btnBuscar.TabIndex = 2;
-            this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = true;
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            btnBuscar.Location = new Point(400, 28);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(80, 25);
+            btnBuscar.TabIndex = 2;
+            btnBuscar.Text = "Buscar";
+            btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // btnLimpiarBuscador
             // 
-            this.btnLimpiarBuscador.Location = new System.Drawing.Point(490, 28);
-            this.btnLimpiarBuscador.Name = "btnLimpiarBuscador";
-            this.btnLimpiarBuscador.Size = new System.Drawing.Size(80, 25);
-            this.btnLimpiarBuscador.TabIndex = 3;
-            this.btnLimpiarBuscador.Text = "Limpiar";
-            this.btnLimpiarBuscador.UseVisualStyleBackColor = true;
-            this.btnLimpiarBuscador.Click += new System.EventHandler(this.btnLimpiarBuscador_Click);
-            // 
-            // txtid & txtindice (ocultos)
-            // 
-            this.txtid = new System.Windows.Forms.TextBox();
-            this.txtindice = new System.Windows.Forms.TextBox();
-            this.txtid.Visible = false;
-            this.txtindice.Visible = false;
-            this.txtid.Text = "0";
-            this.txtindice.Text = "-1";
+            btnLimpiarBuscador.Location = new Point(490, 28);
+            btnLimpiarBuscador.Name = "btnLimpiarBuscador";
+            btnLimpiarBuscador.Size = new Size(80, 25);
+            btnLimpiarBuscador.TabIndex = 3;
+            btnLimpiarBuscador.Text = "Limpiar";
+            btnLimpiarBuscador.UseVisualStyleBackColor = true;
+            btnLimpiarBuscador.Click += btnLimpiarBuscador_Click;
             // 
             // frmClientes
             // 
-            this.ClientSize = new System.Drawing.Size(1120, 420);
-            this.Controls.Add(this.groupBoxDatos);
-            this.Controls.Add(this.groupBoxBusqueda);
-            this.Controls.Add(this.dgvClientes);
-            this.Controls.Add(this.txtid);
-            this.Controls.Add(this.txtindice);
-            this.Name = "frmClientes";
-            this.Text = "Gestión de Clientes";
-            this.Load += new System.EventHandler(this.frmClientes_Load);
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).EndInit();
-            this.groupBoxDatos.ResumeLayout(false);
-            this.groupBoxDatos.PerformLayout();
-            this.groupBoxBusqueda.ResumeLayout(false);
-            this.groupBoxBusqueda.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            ClientSize = new Size(1120, 420);
+            Controls.Add(groupBoxDatos);
+            Controls.Add(groupBoxBusqueda);
+            Controls.Add(dgvClientes);
+            Controls.Add(txtid);
+            Controls.Add(txtindice);
+            Name = "frmClientes";
+            Text = "Gestión de Clientes";
+            Load += frmClientes_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvClientes).EndInit();
+            groupBoxDatos.ResumeLayout(false);
+            groupBoxDatos.PerformLayout();
+            groupBoxBusqueda.ResumeLayout(false);
+            groupBoxBusqueda.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

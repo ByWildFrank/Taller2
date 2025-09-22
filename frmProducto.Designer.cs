@@ -36,7 +36,6 @@
             lblPrecioFabricacion = new Label();
             lblPrecioVenta = new Label();
             lblEstado = new Label();
-            sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             SuspendLayout();
             // 
@@ -56,63 +55,63 @@
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(120, 12);
+            txtNombre.Location = new Point(150, 11);
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(200, 23);
+            txtNombre.Size = new Size(200, 27);
             txtNombre.TabIndex = 1;
             // 
             // txtDescripcion
             // 
-            txtDescripcion.Location = new Point(120, 42);
+            txtDescripcion.Location = new Point(150, 41);
             txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(200, 23);
+            txtDescripcion.Size = new Size(200, 27);
             txtDescripcion.TabIndex = 2;
             // 
             // txtCodigo
             // 
-            txtCodigo.Location = new Point(120, 72);
+            txtCodigo.Location = new Point(150, 71);
             txtCodigo.Name = "txtCodigo";
-            txtCodigo.Size = new Size(200, 23);
+            txtCodigo.Size = new Size(200, 27);
             txtCodigo.TabIndex = 3;
             // 
             // txtStock
             // 
-            txtStock.Location = new Point(120, 132);
+            txtStock.Location = new Point(150, 132);
             txtStock.Name = "txtStock";
-            txtStock.Size = new Size(100, 23);
+            txtStock.Size = new Size(100, 27);
             txtStock.TabIndex = 4;
             // 
             // txtPrecioFabricacion
             // 
-            txtPrecioFabricacion.Location = new Point(120, 162);
+            txtPrecioFabricacion.Location = new Point(150, 162);
             txtPrecioFabricacion.Name = "txtPrecioFabricacion";
-            txtPrecioFabricacion.Size = new Size(100, 23);
+            txtPrecioFabricacion.Size = new Size(100, 27);
             txtPrecioFabricacion.TabIndex = 5;
             // 
             // txtPrecioVenta
             // 
-            txtPrecioVenta.Location = new Point(120, 192);
+            txtPrecioVenta.Location = new Point(150, 192);
             txtPrecioVenta.Name = "txtPrecioVenta";
-            txtPrecioVenta.Size = new Size(100, 23);
+            txtPrecioVenta.Size = new Size(100, 27);
             txtPrecioVenta.TabIndex = 6;
             // 
             // cmbCategoria
             // 
-            cmbCategoria.Location = new Point(120, 102);
+            cmbCategoria.Location = new Point(150, 102);
             cmbCategoria.Name = "cmbCategoria";
-            cmbCategoria.Size = new Size(200, 23);
+            cmbCategoria.Size = new Size(200, 28);
             cmbCategoria.TabIndex = 7;
             // 
             // chkEstado
             // 
-            chkEstado.Location = new Point(375, 12);
+            chkEstado.Location = new Point(495, 10);
             chkEstado.Name = "chkEstado";
             chkEstado.Size = new Size(104, 24);
             chkEstado.TabIndex = 8;
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(280, 135);
+            btnGuardar.Location = new Point(377, 42);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(100, 30);
             btnGuardar.TabIndex = 9;
@@ -121,7 +120,7 @@
             // 
             // btnEliminar
             // 
-            btnEliminar.Location = new Point(280, 188);
+            btnEliminar.Location = new Point(377, 88);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(100, 30);
             btnEliminar.TabIndex = 10;
@@ -130,7 +129,7 @@
             // 
             // lblNombre
             // 
-            lblNombre.Location = new Point(12, 15);
+            lblNombre.Location = new Point(30, 14);
             lblNombre.Name = "lblNombre";
             lblNombre.Size = new Size(100, 23);
             lblNombre.TabIndex = 11;
@@ -138,7 +137,7 @@
             // 
             // lblDescripcion
             // 
-            lblDescripcion.Location = new Point(12, 45);
+            lblDescripcion.Location = new Point(30, 44);
             lblDescripcion.Name = "lblDescripcion";
             lblDescripcion.Size = new Size(100, 23);
             lblDescripcion.TabIndex = 12;
@@ -146,7 +145,7 @@
             // 
             // lblCodigo
             // 
-            lblCodigo.Location = new Point(12, 75);
+            lblCodigo.Location = new Point(30, 74);
             lblCodigo.Name = "lblCodigo";
             lblCodigo.Size = new Size(100, 23);
             lblCodigo.TabIndex = 13;
@@ -154,7 +153,7 @@
             // 
             // lblCategoria
             // 
-            lblCategoria.Location = new Point(12, 105);
+            lblCategoria.Location = new Point(30, 105);
             lblCategoria.Name = "lblCategoria";
             lblCategoria.Size = new Size(100, 23);
             lblCategoria.TabIndex = 14;
@@ -162,7 +161,7 @@
             // 
             // lblStock
             // 
-            lblStock.Location = new Point(12, 135);
+            lblStock.Location = new Point(30, 135);
             lblStock.Name = "lblStock";
             lblStock.Size = new Size(100, 23);
             lblStock.TabIndex = 15;
@@ -170,7 +169,7 @@
             // 
             // lblPrecioFabricacion
             // 
-            lblPrecioFabricacion.Location = new Point(12, 165);
+            lblPrecioFabricacion.Location = new Point(30, 165);
             lblPrecioFabricacion.Name = "lblPrecioFabricacion";
             lblPrecioFabricacion.Size = new Size(100, 23);
             lblPrecioFabricacion.TabIndex = 16;
@@ -178,7 +177,7 @@
             // 
             // lblPrecioVenta
             // 
-            lblPrecioVenta.Location = new Point(12, 195);
+            lblPrecioVenta.Location = new Point(30, 192);
             lblPrecioVenta.Name = "lblPrecioVenta";
             lblPrecioVenta.Size = new Size(100, 23);
             lblPrecioVenta.TabIndex = 17;
@@ -186,16 +185,11 @@
             // 
             // lblEstado
             // 
-            lblEstado.Location = new Point(326, 15);
+            lblEstado.Location = new Point(377, 11);
             lblEstado.Name = "lblEstado";
             lblEstado.Size = new Size(100, 23);
             lblEstado.TabIndex = 18;
             lblEstado.Text = "Estado:";
-            // 
-            // sqlCommand1
-            // 
-            sqlCommand1.CommandTimeout = 30;
-            sqlCommand1.EnableOptimizedParameterBinding = false;
             // 
             // frmProducto
             // 
