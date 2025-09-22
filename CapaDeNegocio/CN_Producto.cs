@@ -2,7 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Microsoft.Data.SqlClient; 
+using Microsoft.Data.SqlClient;
+using CapaDeDatos;
 
 namespace BeanDesktop.CapaDeNegocio
 {
@@ -10,6 +11,7 @@ namespace BeanDesktop.CapaDeNegocio
     {
         private string connectionString ="Server=Franco-Laptop\\SQLEXPRESS;Database=DB_BEAN;Trusted_Connection=True;Encrypt=False;";
 
+        private CD_Producto objProducto = new CD_Producto();
 
         // Listar todos los productos
         public List<Producto> Listar()
@@ -160,5 +162,17 @@ namespace BeanDesktop.CapaDeNegocio
                 return "Error: " + ex.Message;
             }
         }
+
+        public DataTable BuscarPorNombre(string nombre)
+        {
+            return objProducto.BuscarPorNombre(nombre);
+        }
+
+        public DataTable ListarPorCategoria(int idCategoria)
+        {
+            return objProducto.ListarPorCategoria(idCategoria);
+        }
+
+
     }
 }

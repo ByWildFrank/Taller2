@@ -21,87 +21,102 @@
 
         private void InitializeComponent()
         {
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.chartVentas = new OxyPlot.WindowsForms.PlotView();
-            this.chartGanancias = new OxyPlot.WindowsForms.PlotView();
-            this.chartClientes = new OxyPlot.WindowsForms.PlotView();
-            this.chartUsuarios = new OxyPlot.WindowsForms.PlotView();
-
-            this.tableLayoutPanel1.SuspendLayout();
-            this.SuspendLayout();
-
+            tableLayoutPanel1 = new TableLayoutPanel();
+            chartVentas = new OxyPlot.WindowsForms.PlotView();
+            chartGanancias = new OxyPlot.WindowsForms.PlotView();
+            chartClientes = new OxyPlot.WindowsForms.PlotView();
+            chartUsuarios = new OxyPlot.WindowsForms.PlotView();
+            tableLayoutPanel1.SuspendLayout();
+            SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Controls.Add(this.chartVentas, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.chartGanancias, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.chartClientes, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.chartUsuarios, 1, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 600);
-            this.tableLayoutPanel1.TabIndex = 0;
-
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Controls.Add(chartVentas, 0, 0);
+            tableLayoutPanel1.Controls.Add(chartGanancias, 1, 0);
+            tableLayoutPanel1.Controls.Add(chartClientes, 0, 1);
+            tableLayoutPanel1.Controls.Add(chartUsuarios, 1, 1);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Margin = new Padding(3, 4, 3, 4);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Size = new Size(800, 750);
+            tableLayoutPanel1.TabIndex = 0;
             // 
             // chartVentas
             // 
-            this.chartVentas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartVentas.Location = new System.Drawing.Point(3, 3);
-            this.chartVentas.Name = "chartVentas";
-            this.chartVentas.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.chartVentas.Size = new System.Drawing.Size(394, 294);
-            this.chartVentas.TabIndex = 0;
-
+            chartVentas.BackColor = SystemColors.AppWorkspace;
+            chartVentas.Dock = DockStyle.Fill;
+            chartVentas.Location = new Point(3, 4);
+            chartVentas.Margin = new Padding(3, 4, 3, 4);
+            chartVentas.Name = "chartVentas";
+            chartVentas.PanCursor = Cursors.Hand;
+            chartVentas.Size = new Size(394, 367);
+            chartVentas.TabIndex = 0;
+            chartVentas.ZoomHorizontalCursor = Cursors.SizeWE;
+            chartVentas.ZoomRectangleCursor = Cursors.SizeNWSE;
+            chartVentas.ZoomVerticalCursor = Cursors.SizeNS;
             // 
             // chartGanancias
             // 
-            this.chartGanancias.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartGanancias.Location = new System.Drawing.Point(403, 3);
-            this.chartGanancias.Name = "chartGanancias";
-            this.chartGanancias.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.chartGanancias.Size = new System.Drawing.Size(394, 294);
-            this.chartGanancias.TabIndex = 1;
-
+            chartGanancias.BackColor = SystemColors.AppWorkspace;
+            chartGanancias.Dock = DockStyle.Fill;
+            chartGanancias.Location = new Point(403, 4);
+            chartGanancias.Margin = new Padding(3, 4, 3, 4);
+            chartGanancias.Name = "chartGanancias";
+            chartGanancias.PanCursor = Cursors.Hand;
+            chartGanancias.Size = new Size(394, 367);
+            chartGanancias.TabIndex = 1;
+            chartGanancias.ZoomHorizontalCursor = Cursors.SizeWE;
+            chartGanancias.ZoomRectangleCursor = Cursors.SizeNWSE;
+            chartGanancias.ZoomVerticalCursor = Cursors.SizeNS;
             // 
             // chartClientes
             // 
-            this.chartClientes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartClientes.Location = new System.Drawing.Point(3, 303);
-            this.chartClientes.Name = "chartClientes";
-            this.chartClientes.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.chartClientes.Size = new System.Drawing.Size(394, 294);
-            this.chartClientes.TabIndex = 2;
-
+            chartClientes.BackColor = SystemColors.AppWorkspace;
+            chartClientes.Dock = DockStyle.Fill;
+            chartClientes.Location = new Point(3, 379);
+            chartClientes.Margin = new Padding(3, 4, 3, 4);
+            chartClientes.Name = "chartClientes";
+            chartClientes.PanCursor = Cursors.Hand;
+            chartClientes.Size = new Size(394, 367);
+            chartClientes.TabIndex = 2;
+            chartClientes.ZoomHorizontalCursor = Cursors.SizeWE;
+            chartClientes.ZoomRectangleCursor = Cursors.SizeNWSE;
+            chartClientes.ZoomVerticalCursor = Cursors.SizeNS;
             // 
             // chartUsuarios
             // 
-            this.chartUsuarios.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartUsuarios.Location = new System.Drawing.Point(403, 303);
-            this.chartUsuarios.Name = "chartUsuarios";
-            this.chartUsuarios.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.chartUsuarios.Size = new System.Drawing.Size(394, 294);
-            this.chartUsuarios.TabIndex = 3;
-
+            chartUsuarios.BackColor = SystemColors.AppWorkspace;
+            chartUsuarios.Dock = DockStyle.Fill;
+            chartUsuarios.ForeColor = SystemColors.ControlText;
+            chartUsuarios.Location = new Point(403, 379);
+            chartUsuarios.Margin = new Padding(3, 4, 3, 4);
+            chartUsuarios.Name = "chartUsuarios";
+            chartUsuarios.PanCursor = Cursors.Hand;
+            chartUsuarios.Size = new Size(394, 367);
+            chartUsuarios.TabIndex = 3;
+            chartUsuarios.ZoomHorizontalCursor = Cursors.SizeWE;
+            chartUsuarios.ZoomRectangleCursor = Cursors.SizeNWSE;
+            chartUsuarios.ZoomVerticalCursor = Cursors.SizeNS;
             // 
-            // FrmDashboard
+            // FrmReportes
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 600);
-            this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "FrmDashboard";
-            this.Text = "Dashboard";
-            this.Load += new System.EventHandler(this.FrmDashboard_Load);
-
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 750);
+            Controls.Add(tableLayoutPanel1);
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "FrmReportes";
+            Text = "Dashboard";
+            Load += FrmDashboard_Load;
+            tableLayoutPanel1.ResumeLayout(false);
+            ResumeLayout(false);
         }
     }
 }

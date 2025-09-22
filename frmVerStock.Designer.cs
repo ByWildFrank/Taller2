@@ -21,94 +21,99 @@
 
         private void InitializeComponent()
         {
-            this.dgvStock = new System.Windows.Forms.DataGridView();
-            this.cmbCategoria = new System.Windows.Forms.ComboBox();
-            this.txtBuscar = new System.Windows.Forms.TextBox();
-            this.btnBuscar = new System.Windows.Forms.Button();
-            this.lblCategoria = new System.Windows.Forms.Label();
-            this.lblBuscar = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStock)).BeginInit();
-            this.SuspendLayout();
+            dgvStock = new DataGridView();
+            cmbCategoria = new ComboBox();
+            txtBuscar = new TextBox();
+            btnBuscar = new Button();
+            lblCategoria = new Label();
+            lblBuscar = new Label();
+            ((System.ComponentModel.ISupportInitialize)dgvStock).BeginInit();
+            SuspendLayout();
             // 
             // dgvStock
             // 
-            this.dgvStock.AllowUserToAddRows = false;
-            this.dgvStock.AllowUserToDeleteRows = false;
-            this.dgvStock.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                    | System.Windows.Forms.AnchorStyles.Left)
-                                    | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvStock.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvStock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStock.Location = new System.Drawing.Point(12, 70);
-            this.dgvStock.MultiSelect = false;
-            this.dgvStock.Name = "dgvStock";
-            this.dgvStock.ReadOnly = true;
-            this.dgvStock.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvStock.Size = new System.Drawing.Size(760, 380);
-            this.dgvStock.TabIndex = 0;
+            dgvStock.AllowUserToAddRows = false;
+            dgvStock.AllowUserToDeleteRows = false;
+            dgvStock.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvStock.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvStock.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvStock.Location = new Point(14, 93);
+            dgvStock.Margin = new Padding(3, 4, 3, 4);
+            dgvStock.MultiSelect = false;
+            dgvStock.Name = "dgvStock";
+            dgvStock.ReadOnly = true;
+            dgvStock.RowHeadersWidth = 51;
+            dgvStock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvStock.Size = new Size(869, 507);
+            dgvStock.TabIndex = 0;
             // 
             // cmbCategoria
             // 
-            this.cmbCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCategoria.FormattingEnabled = true;
-            this.cmbCategoria.Location = new System.Drawing.Point(90, 15);
-            this.cmbCategoria.Name = "cmbCategoria";
-            this.cmbCategoria.Size = new System.Drawing.Size(180, 23);
-            this.cmbCategoria.TabIndex = 1;
-            this.cmbCategoria.SelectedIndexChanged += new System.EventHandler(this.cmbCategoria_SelectedIndexChanged);
+            cmbCategoria.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbCategoria.FormattingEnabled = true;
+            cmbCategoria.Location = new Point(155, 19);
+            cmbCategoria.Margin = new Padding(3, 4, 3, 4);
+            cmbCategoria.Name = "cmbCategoria";
+            cmbCategoria.Size = new Size(205, 28);
+            cmbCategoria.TabIndex = 1;
+            cmbCategoria.SelectedIndexChanged += cmbCategoria_SelectedIndexChanged;
             // 
             // txtBuscar
             // 
-            this.txtBuscar.Location = new System.Drawing.Point(380, 15);
-            this.txtBuscar.Name = "txtBuscar";
-            this.txtBuscar.Size = new System.Drawing.Size(180, 23);
-            this.txtBuscar.TabIndex = 2;
+            txtBuscar.Location = new Point(434, 20);
+            txtBuscar.Margin = new Padding(3, 4, 3, 4);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.Size = new Size(205, 27);
+            txtBuscar.TabIndex = 2;
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(580, 14);
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(75, 25);
-            this.btnBuscar.TabIndex = 3;
-            this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = true;
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            btnBuscar.Location = new Point(663, 19);
+            btnBuscar.Margin = new Padding(3, 4, 3, 4);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(86, 33);
+            btnBuscar.TabIndex = 3;
+            btnBuscar.Text = "Buscar";
+            btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // lblCategoria
             // 
-            this.lblCategoria.AutoSize = true;
-            this.lblCategoria.Location = new System.Drawing.Point(12, 18);
-            this.lblCategoria.Name = "lblCategoria";
-            this.lblCategoria.Size = new System.Drawing.Size(59, 15);
-            this.lblCategoria.TabIndex = 4;
-            this.lblCategoria.Text = "Categoría:";
+            lblCategoria.AutoSize = true;
+            lblCategoria.Location = new Point(72, 24);
+            lblCategoria.Name = "lblCategoria";
+            lblCategoria.Size = new Size(77, 20);
+            lblCategoria.TabIndex = 4;
+            lblCategoria.Text = "Categoría:";
             // 
             // lblBuscar
             // 
-            this.lblBuscar.AutoSize = true;
-            this.lblBuscar.Location = new System.Drawing.Point(320, 18);
-            this.lblBuscar.Name = "lblBuscar";
-            this.lblBuscar.Size = new System.Drawing.Size(44, 15);
-            this.lblBuscar.TabIndex = 5;
-            this.lblBuscar.Text = "Nombre:";
+            lblBuscar.AutoSize = true;
+            lblBuscar.Location = new Point(366, 24);
+            lblBuscar.Name = "lblBuscar";
+            lblBuscar.Size = new Size(67, 20);
+            lblBuscar.TabIndex = 5;
+            lblBuscar.Text = "Nombre:";
             // 
             // frmVerStock
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 461);
-            this.Controls.Add(this.lblBuscar);
-            this.Controls.Add(this.lblCategoria);
-            this.Controls.Add(this.btnBuscar);
-            this.Controls.Add(this.txtBuscar);
-            this.Controls.Add(this.cmbCategoria);
-            this.Controls.Add(this.dgvStock);
-            this.Name = "frmVerStock";
-            this.Text = "Ver Stock de Productos";
-            this.Load += new System.EventHandler(this.frmStock_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStock)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ButtonFace;
+            ClientSize = new Size(896, 615);
+            Controls.Add(lblBuscar);
+            Controls.Add(lblCategoria);
+            Controls.Add(btnBuscar);
+            Controls.Add(txtBuscar);
+            Controls.Add(cmbCategoria);
+            Controls.Add(dgvStock);
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "frmVerStock";
+            Text = "Ver Stock de Productos";
+            Load += frmStock_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvStock).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
     }

@@ -141,7 +141,7 @@ namespace BeanDesktop
 
         private void subMenuVerDetalles_Click(object sender, EventArgs e)
         {
-            AbrirFormulario((menuCajaRegistradora), new frmDetralleVenta());
+            AbrirFormulario((menuCajaRegistradora), new frmDetalleVenta());
         }
 
         private void menuClientes_Click(object sender, EventArgs e)
