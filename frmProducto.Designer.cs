@@ -17,130 +17,214 @@
 
         private void InitializeComponent()
         {
-            this.dgvProductos = new System.Windows.Forms.DataGridView();
-            this.txtNombre = new System.Windows.Forms.TextBox();
-            this.txtDescripcion = new System.Windows.Forms.TextBox();
-            this.txtCodigo = new System.Windows.Forms.TextBox();
-            this.txtStock = new System.Windows.Forms.TextBox();
-            this.txtPrecioFabricacion = new System.Windows.Forms.TextBox();
-            this.txtPrecioVenta = new System.Windows.Forms.TextBox();
-            this.cmbCategoria = new System.Windows.Forms.ComboBox();
-            this.chkEstado = new System.Windows.Forms.CheckBox();
-            this.btnGuardar = new System.Windows.Forms.Button();
-            this.btnEliminar = new System.Windows.Forms.Button();
-            this.lblNombre = new System.Windows.Forms.Label();
-            this.lblDescripcion = new System.Windows.Forms.Label();
-            this.lblCodigo = new System.Windows.Forms.Label();
-            this.lblCategoria = new System.Windows.Forms.Label();
-            this.lblStock = new System.Windows.Forms.Label();
-            this.lblPrecioFabricacion = new System.Windows.Forms.Label();
-            this.lblPrecioVenta = new System.Windows.Forms.Label();
-            this.lblEstado = new System.Windows.Forms.Label();
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).BeginInit();
-            this.SuspendLayout();
-
+            dgvProductos = new DataGridView();
+            txtNombre = new TextBox();
+            txtDescripcion = new TextBox();
+            txtCodigo = new TextBox();
+            txtStock = new TextBox();
+            txtPrecioFabricacion = new TextBox();
+            txtPrecioVenta = new TextBox();
+            cmbCategoria = new ComboBox();
+            chkEstado = new CheckBox();
+            btnGuardar = new Button();
+            btnEliminar = new Button();
+            lblNombre = new Label();
+            lblDescripcion = new Label();
+            lblCodigo = new Label();
+            lblCategoria = new Label();
+            lblStock = new Label();
+            lblPrecioFabricacion = new Label();
+            lblPrecioVenta = new Label();
+            lblEstado = new Label();
+            sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
+            SuspendLayout();
             // 
             // dgvProductos
             // 
-            this.dgvProductos.AllowUserToAddRows = false;
-            this.dgvProductos.AllowUserToDeleteRows = false;
-            this.dgvProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProductos.Location = new System.Drawing.Point(12, 250);
-            this.dgvProductos.Name = "dgvProductos";
-            this.dgvProductos.ReadOnly = true;
-            this.dgvProductos.RowHeadersWidth = 51;
-            this.dgvProductos.RowTemplate.Height = 24;
-            this.dgvProductos.Size = new System.Drawing.Size(950, 300);
-            this.dgvProductos.TabIndex = 0;
-            this.dgvProductos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProductos_CellClick);
-
+            dgvProductos.AllowUserToAddRows = false;
+            dgvProductos.AllowUserToDeleteRows = false;
+            dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProductos.Location = new Point(12, 250);
+            dgvProductos.Name = "dgvProductos";
+            dgvProductos.ReadOnly = true;
+            dgvProductos.RowHeadersWidth = 51;
+            dgvProductos.RowTemplate.Height = 24;
+            dgvProductos.Size = new Size(950, 300);
+            dgvProductos.TabIndex = 0;
+            dgvProductos.CellClick += dgvProductos_CellClick;
             // 
-            // Labels y TextBoxes
+            // txtNombre
             // 
-            this.lblNombre.Text = "Nombre:";
-            this.lblNombre.Location = new System.Drawing.Point(12, 15);
-            this.txtNombre.Location = new System.Drawing.Point(120, 12);
-            this.txtNombre.Size = new System.Drawing.Size(200, 22);
-
-            this.lblDescripcion.Text = "Descripción:";
-            this.lblDescripcion.Location = new System.Drawing.Point(12, 45);
-            this.txtDescripcion.Location = new System.Drawing.Point(120, 42);
-            this.txtDescripcion.Size = new System.Drawing.Size(200, 22);
-
-            this.lblCodigo.Text = "Código:";
-            this.lblCodigo.Location = new System.Drawing.Point(12, 75);
-            this.txtCodigo.Location = new System.Drawing.Point(120, 72);
-            this.txtCodigo.Size = new System.Drawing.Size(200, 22);
-
-            this.lblCategoria.Text = "Categoría:";
-            this.lblCategoria.Location = new System.Drawing.Point(12, 105);
-            this.cmbCategoria.Location = new System.Drawing.Point(120, 102);
-            this.cmbCategoria.Size = new System.Drawing.Size(200, 24);
-
-            this.lblStock.Text = "Stock:";
-            this.lblStock.Location = new System.Drawing.Point(12, 135);
-            this.txtStock.Location = new System.Drawing.Point(120, 132);
-            this.txtStock.Size = new System.Drawing.Size(100, 22);
-
-            this.lblPrecioFabricacion.Text = "Precio Fabricación:";
-            this.lblPrecioFabricacion.Location = new System.Drawing.Point(12, 165);
-            this.txtPrecioFabricacion.Location = new System.Drawing.Point(150, 162);
-            this.txtPrecioFabricacion.Size = new System.Drawing.Size(100, 22);
-
-            this.lblPrecioVenta.Text = "Precio Venta:";
-            this.lblPrecioVenta.Location = new System.Drawing.Point(12, 195);
-            this.txtPrecioVenta.Location = new System.Drawing.Point(120, 192);
-            this.txtPrecioVenta.Size = new System.Drawing.Size(100, 22);
-
-            this.lblEstado.Text = "Estado:";
-            this.lblEstado.Location = new System.Drawing.Point(300, 12);
-            this.chkEstado.Location = new System.Drawing.Point(350, 10);
-
+            txtNombre.Location = new Point(120, 12);
+            txtNombre.Name = "txtNombre";
+            txtNombre.Size = new Size(200, 23);
+            txtNombre.TabIndex = 1;
             // 
-            // Buttons
+            // txtDescripcion
             // 
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.Location = new System.Drawing.Point(300, 50);
-            this.btnGuardar.Size = new System.Drawing.Size(100, 30);
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
-
-            this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.Location = new System.Drawing.Point(300, 90);
-            this.btnEliminar.Size = new System.Drawing.Size(100, 30);
-            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
-
+            txtDescripcion.Location = new Point(120, 42);
+            txtDescripcion.Name = "txtDescripcion";
+            txtDescripcion.Size = new Size(200, 23);
+            txtDescripcion.TabIndex = 2;
+            // 
+            // txtCodigo
+            // 
+            txtCodigo.Location = new Point(120, 72);
+            txtCodigo.Name = "txtCodigo";
+            txtCodigo.Size = new Size(200, 23);
+            txtCodigo.TabIndex = 3;
+            // 
+            // txtStock
+            // 
+            txtStock.Location = new Point(120, 132);
+            txtStock.Name = "txtStock";
+            txtStock.Size = new Size(100, 23);
+            txtStock.TabIndex = 4;
+            // 
+            // txtPrecioFabricacion
+            // 
+            txtPrecioFabricacion.Location = new Point(120, 162);
+            txtPrecioFabricacion.Name = "txtPrecioFabricacion";
+            txtPrecioFabricacion.Size = new Size(100, 23);
+            txtPrecioFabricacion.TabIndex = 5;
+            // 
+            // txtPrecioVenta
+            // 
+            txtPrecioVenta.Location = new Point(120, 192);
+            txtPrecioVenta.Name = "txtPrecioVenta";
+            txtPrecioVenta.Size = new Size(100, 23);
+            txtPrecioVenta.TabIndex = 6;
+            // 
+            // cmbCategoria
+            // 
+            cmbCategoria.Location = new Point(120, 102);
+            cmbCategoria.Name = "cmbCategoria";
+            cmbCategoria.Size = new Size(200, 23);
+            cmbCategoria.TabIndex = 7;
+            // 
+            // chkEstado
+            // 
+            chkEstado.Location = new Point(375, 12);
+            chkEstado.Name = "chkEstado";
+            chkEstado.Size = new Size(104, 24);
+            chkEstado.TabIndex = 8;
+            // 
+            // btnGuardar
+            // 
+            btnGuardar.Location = new Point(280, 135);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(100, 30);
+            btnGuardar.TabIndex = 9;
+            btnGuardar.Text = "Guardar";
+            btnGuardar.Click += btnGuardar_Click;
+            // 
+            // btnEliminar
+            // 
+            btnEliminar.Location = new Point(280, 188);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(100, 30);
+            btnEliminar.TabIndex = 10;
+            btnEliminar.Text = "Eliminar";
+            btnEliminar.Click += btnEliminar_Click;
+            // 
+            // lblNombre
+            // 
+            lblNombre.Location = new Point(12, 15);
+            lblNombre.Name = "lblNombre";
+            lblNombre.Size = new Size(100, 23);
+            lblNombre.TabIndex = 11;
+            lblNombre.Text = "Nombre:";
+            // 
+            // lblDescripcion
+            // 
+            lblDescripcion.Location = new Point(12, 45);
+            lblDescripcion.Name = "lblDescripcion";
+            lblDescripcion.Size = new Size(100, 23);
+            lblDescripcion.TabIndex = 12;
+            lblDescripcion.Text = "Descripción:";
+            // 
+            // lblCodigo
+            // 
+            lblCodigo.Location = new Point(12, 75);
+            lblCodigo.Name = "lblCodigo";
+            lblCodigo.Size = new Size(100, 23);
+            lblCodigo.TabIndex = 13;
+            lblCodigo.Text = "Código:";
+            // 
+            // lblCategoria
+            // 
+            lblCategoria.Location = new Point(12, 105);
+            lblCategoria.Name = "lblCategoria";
+            lblCategoria.Size = new Size(100, 23);
+            lblCategoria.TabIndex = 14;
+            lblCategoria.Text = "Categoría:";
+            // 
+            // lblStock
+            // 
+            lblStock.Location = new Point(12, 135);
+            lblStock.Name = "lblStock";
+            lblStock.Size = new Size(100, 23);
+            lblStock.TabIndex = 15;
+            lblStock.Text = "Stock:";
+            // 
+            // lblPrecioFabricacion
+            // 
+            lblPrecioFabricacion.Location = new Point(12, 165);
+            lblPrecioFabricacion.Name = "lblPrecioFabricacion";
+            lblPrecioFabricacion.Size = new Size(100, 23);
+            lblPrecioFabricacion.TabIndex = 16;
+            lblPrecioFabricacion.Text = "Precio Fabricación:";
+            // 
+            // lblPrecioVenta
+            // 
+            lblPrecioVenta.Location = new Point(12, 195);
+            lblPrecioVenta.Name = "lblPrecioVenta";
+            lblPrecioVenta.Size = new Size(100, 23);
+            lblPrecioVenta.TabIndex = 17;
+            lblPrecioVenta.Text = "Precio Venta:";
+            // 
+            // lblEstado
+            // 
+            lblEstado.Location = new Point(326, 15);
+            lblEstado.Name = "lblEstado";
+            lblEstado.Size = new Size(100, 23);
+            lblEstado.TabIndex = 18;
+            lblEstado.Text = "Estado:";
+            // 
+            // sqlCommand1
+            // 
+            sqlCommand1.CommandTimeout = 30;
+            sqlCommand1.EnableOptimizedParameterBinding = false;
             // 
             // frmProducto
             // 
-            this.ClientSize = new System.Drawing.Size(974, 562);
-            this.Controls.Add(this.dgvProductos);
-            this.Controls.Add(this.txtNombre);
-            this.Controls.Add(this.txtDescripcion);
-            this.Controls.Add(this.txtCodigo);
-            this.Controls.Add(this.txtStock);
-            this.Controls.Add(this.txtPrecioFabricacion);
-            this.Controls.Add(this.txtPrecioVenta);
-            this.Controls.Add(this.cmbCategoria);
-            this.Controls.Add(this.chkEstado);
-            this.Controls.Add(this.btnGuardar);
-            this.Controls.Add(this.btnEliminar);
-            this.Controls.Add(this.lblNombre);
-            this.Controls.Add(this.lblDescripcion);
-            this.Controls.Add(this.lblCodigo);
-            this.Controls.Add(this.lblCategoria);
-            this.Controls.Add(this.lblStock);
-            this.Controls.Add(this.lblPrecioFabricacion);
-            this.Controls.Add(this.lblPrecioVenta);
-            this.Controls.Add(this.lblEstado);
-
-            this.Name = "frmProducto";
-            this.Text = "Gestión de Productos";
-            this.Load += new System.EventHandler(this.frmProducto_Load);
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            ClientSize = new Size(974, 562);
+            Controls.Add(dgvProductos);
+            Controls.Add(txtNombre);
+            Controls.Add(txtDescripcion);
+            Controls.Add(txtCodigo);
+            Controls.Add(txtStock);
+            Controls.Add(txtPrecioFabricacion);
+            Controls.Add(txtPrecioVenta);
+            Controls.Add(cmbCategoria);
+            Controls.Add(chkEstado);
+            Controls.Add(btnGuardar);
+            Controls.Add(btnEliminar);
+            Controls.Add(lblNombre);
+            Controls.Add(lblDescripcion);
+            Controls.Add(lblCodigo);
+            Controls.Add(lblCategoria);
+            Controls.Add(lblStock);
+            Controls.Add(lblPrecioFabricacion);
+            Controls.Add(lblPrecioVenta);
+            Controls.Add(lblEstado);
+            Name = "frmProducto";
+            Text = "Gestión de Productos";
+            Load += frmProducto_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -165,5 +249,6 @@
         private System.Windows.Forms.Label lblPrecioFabricacion;
         private System.Windows.Forms.Label lblPrecioVenta;
         private System.Windows.Forms.Label lblEstado;
+        private Microsoft.Data.SqlClient.SqlCommand sqlCommand1;
     }
 }

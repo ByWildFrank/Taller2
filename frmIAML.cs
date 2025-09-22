@@ -16,5 +16,10 @@ namespace BeanDesktop
         {
             InitializeComponent();
         }
+
+        private void frmIAML_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

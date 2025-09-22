@@ -288,7 +288,7 @@
             // 
             contenedor.Location = new Point(241, 0);
             contenedor.Name = "contenedor";
-            contenedor.Size = new Size(1150, 700);
+            contenedor.Size = new Size(1150, 800);
             contenedor.TabIndex = 1;
             // 
             // panel3
