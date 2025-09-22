@@ -46,15 +46,22 @@
             FrecuenciaDeCompra = new DataGridViewTextBoxColumn();
             Segmento = new DataGridViewTextBoxColumn();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
+            dataGridView2 = new DataGridView();
+            Nombre = new DataGridViewTextBoxColumn();
+            Stock = new DataGridViewTextBoxColumn();
+            Precio = new DataGridViewTextBoxColumn();
+            plotViewRecomendacion = new OxyPlot.WindowsForms.PlotView();
+            plotViewSegmentacion = new OxyPlot.WindowsForms.PlotView();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = SystemColors.ControlLightLight;
-            label1.Location = new Point(480, 9);
+            label1.ForeColor = SystemColors.ActiveCaptionText;
+            label1.Location = new Point(614, 24);
             label1.Name = "label1";
             label1.Size = new Size(259, 30);
             label1.TabIndex = 2;
@@ -150,8 +157,8 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.ForeColor = SystemColors.ControlLightLight;
-            label4.Location = new Point(480, 365);
+            label4.ForeColor = SystemColors.ActiveCaptionText;
+            label4.Location = new Point(715, 417);
             label4.Name = "label4";
             label4.Size = new Size(299, 30);
             label4.TabIndex = 12;
@@ -163,7 +170,7 @@
             iconButton5.IconColor = Color.Black;
             iconButton5.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconButton5.IconSize = 25;
-            iconButton5.Location = new Point(712, 324);
+            iconButton5.Location = new Point(1007, 358);
             iconButton5.Name = "iconButton5";
             iconButton5.Size = new Size(115, 38);
             iconButton5.TabIndex = 13;
@@ -177,7 +184,7 @@
             iconButton6.IconColor = Color.Black;
             iconButton6.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconButton6.IconSize = 25;
-            iconButton6.Location = new Point(712, 611);
+            iconButton6.Location = new Point(1007, 711);
             iconButton6.Name = "iconButton6";
             iconButton6.Size = new Size(115, 38);
             iconButton6.TabIndex = 14;
@@ -219,12 +226,63 @@
             sqlCommand1.CommandTimeout = 30;
             sqlCommand1.EnableOptimizedParameterBinding = false;
             // 
+            // dataGridView2
+            // 
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView2.Columns.AddRange(new DataGridViewColumn[] { Nombre, Stock, Precio });
+            dataGridView2.Location = new Point(12, 482);
+            dataGridView2.Name = "dataGridView2";
+            dataGridView2.Size = new Size(343, 223);
+            dataGridView2.TabIndex = 18;
+            // 
+            // Nombre
+            // 
+            Nombre.HeaderText = "Nombre";
+            Nombre.Name = "Nombre";
+            // 
+            // Stock
+            // 
+            Stock.HeaderText = "Stock";
+            Stock.Name = "Stock";
+            // 
+            // Precio
+            // 
+            Precio.HeaderText = "Precio";
+            Precio.Name = "Precio";
+            // 
+            // plotViewRecomendacion
+            // 
+            plotViewRecomendacion.Location = new Point(578, 450);
+            plotViewRecomendacion.Name = "plotViewRecomendacion";
+            plotViewRecomendacion.PanCursor = Cursors.Hand;
+            plotViewRecomendacion.Size = new Size(544, 255);
+            plotViewRecomendacion.TabIndex = 19;
+            plotViewRecomendacion.Text = "plotView1";
+            plotViewRecomendacion.ZoomHorizontalCursor = Cursors.SizeWE;
+            plotViewRecomendacion.ZoomRectangleCursor = Cursors.SizeNWSE;
+            plotViewRecomendacion.ZoomVerticalCursor = Cursors.SizeNS;
+            // 
+            // plotViewSegmentacion
+            // 
+            plotViewSegmentacion.Location = new Point(578, 57);
+            plotViewSegmentacion.Name = "plotViewSegmentacion";
+            plotViewSegmentacion.PanCursor = Cursors.Hand;
+            plotViewSegmentacion.Size = new Size(544, 295);
+            plotViewSegmentacion.TabIndex = 20;
+            plotViewSegmentacion.Text = "plotView1";
+            plotViewSegmentacion.ZoomHorizontalCursor = Cursors.SizeWE;
+            plotViewSegmentacion.ZoomRectangleCursor = Cursors.SizeNWSE;
+            plotViewSegmentacion.ZoomVerticalCursor = Cursors.SizeNS;
+            // 
             // frmIAML
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightGray;
-            ClientSize = new Size(839, 661);
+            ClientSize = new Size(1134, 761);
+            Controls.Add(plotViewSegmentacion);
+            Controls.Add(plotViewRecomendacion);
+            Controls.Add(dataGridView2);
             Controls.Add(dataGridView1);
             Controls.Add(iconButton6);
             Controls.Add(iconButton5);
@@ -242,6 +300,7 @@
             Text = "frmIAML";
             Load += frmIAML_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -266,5 +325,11 @@
         private DataGridViewTextBoxColumn FrecuenciaDeCompra;
         private DataGridViewTextBoxColumn Segmento;
         private Microsoft.Data.SqlClient.SqlCommand sqlCommand1;
+        private DataGridView dataGridView2;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn Stock;
+        private DataGridViewTextBoxColumn Precio;
+        private OxyPlot.WindowsForms.PlotView plotViewRecomendacion;
+        private OxyPlot.WindowsForms.PlotView plotViewSegmentacion;
     }
 }

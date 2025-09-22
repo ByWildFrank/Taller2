@@ -63,5 +63,10 @@ namespace BeanDesktop
                 });
             }
         }
+
+        private void frmDetalleVenta_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

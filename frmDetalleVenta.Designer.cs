@@ -13,103 +13,184 @@
 
         private void InitializeComponent()
         {
-            this.lblTitulo = new System.Windows.Forms.Label();
-            this.txtNumeroDocumento = new System.Windows.Forms.TextBox();
-            this.btnBuscarVenta = new System.Windows.Forms.Button();
-            this.dgvDetalleVenta = new System.Windows.Forms.DataGridView();
-
-            this.txtIdVenta = new System.Windows.Forms.TextBox();
-            this.txtCliente = new System.Windows.Forms.TextBox();
-            this.txtDocumentoCliente = new System.Windows.Forms.TextBox();
-            this.txtTipoDocumento = new System.Windows.Forms.TextBox();
-            this.txtNumeroDocumentoMostrar = new System.Windows.Forms.TextBox();
-            this.txtMontoTotal = new System.Windows.Forms.TextBox();
-            this.txtDescuento = new System.Windows.Forms.TextBox();
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDetalleVenta)).BeginInit();
-            this.SuspendLayout();
-
+            lblTitulo = new Label();
+            txtNumeroDocumento = new TextBox();
+            btnBuscarVenta = new Button();
+            dgvDetalleVenta = new DataGridView();
+            txtIdVenta = new TextBox();
+            txtCliente = new TextBox();
+            txtDocumentoCliente = new TextBox();
+            txtTipoDocumento = new TextBox();
+            txtNumeroDocumentoMostrar = new TextBox();
+            txtMontoTotal = new TextBox();
+            txtDescuento = new TextBox();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)dgvDetalleVenta).BeginInit();
+            SuspendLayout();
+            // 
             // lblTitulo
-            this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTitulo.Location = new System.Drawing.Point(20, 20);
-            this.lblTitulo.Text = "Detalle de Venta";
-
+            // 
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblTitulo.Location = new Point(20, 20);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(156, 25);
+            lblTitulo.TabIndex = 0;
+            lblTitulo.Text = "Detalle de Venta";
+            // 
             // txtNumeroDocumento
-            this.txtNumeroDocumento.Location = new System.Drawing.Point(25, 60);
-            this.txtNumeroDocumento.PlaceholderText = "Número de documento...";
-
+            // 
+            txtNumeroDocumento.Location = new Point(25, 60);
+            txtNumeroDocumento.Name = "txtNumeroDocumento";
+            txtNumeroDocumento.PlaceholderText = "Número de documento...";
+            txtNumeroDocumento.Size = new Size(100, 23);
+            txtNumeroDocumento.TabIndex = 1;
+            // 
             // btnBuscarVenta
-            this.btnBuscarVenta.Location = new System.Drawing.Point(250, 58);
-            this.btnBuscarVenta.Text = "Buscar";
-            this.btnBuscarVenta.Click += new System.EventHandler(this.btnBuscarVenta_Click);
-
+            // 
+            btnBuscarVenta.Location = new Point(250, 58);
+            btnBuscarVenta.Name = "btnBuscarVenta";
+            btnBuscarVenta.Size = new Size(75, 23);
+            btnBuscarVenta.TabIndex = 2;
+            btnBuscarVenta.Text = "Buscar";
+            btnBuscarVenta.Click += btnBuscarVenta_Click;
+            // 
             // dgvDetalleVenta
-            this.dgvDetalleVenta.AllowUserToAddRows = false;
-            this.dgvDetalleVenta.AllowUserToDeleteRows = false;
-            this.dgvDetalleVenta.ReadOnly = true;
-            this.dgvDetalleVenta.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvDetalleVenta.Location = new System.Drawing.Point(25, 220);
-            this.dgvDetalleVenta.Size = new System.Drawing.Size(750, 250);
-
-            this.dgvDetalleVenta.Columns.Add("IdDetalleVenta", "Id Detalle");
-            this.dgvDetalleVenta.Columns.Add("IdProducto", "Producto");
-            this.dgvDetalleVenta.Columns.Add("PrecioVenta", "Precio");
-            this.dgvDetalleVenta.Columns.Add("Cantidad", "Cantidad");
-            this.dgvDetalleVenta.Columns.Add("SubTotal", "Subtotal");
-            this.dgvDetalleVenta.Columns.Add("FechaRegistro", "Fecha");
-
-            // Datos cabecera
-            int y = 100;
-            int offset = 30;
-
-            this.txtIdVenta.Location = new System.Drawing.Point(25, y);
-            this.txtIdVenta.ReadOnly = true;
-            this.txtIdVenta.PlaceholderText = "IdVenta";
-
-            this.txtCliente.Location = new System.Drawing.Point(25, y + offset);
-            this.txtCliente.ReadOnly = true;
-            this.txtCliente.PlaceholderText = "Cliente";
-
-            this.txtDocumentoCliente.Location = new System.Drawing.Point(200, y + offset);
-            this.txtDocumentoCliente.ReadOnly = true;
-            this.txtDocumentoCliente.PlaceholderText = "Documento Cliente";
-
-            this.txtTipoDocumento.Location = new System.Drawing.Point(25, y + offset * 2);
-            this.txtTipoDocumento.ReadOnly = true;
-            this.txtTipoDocumento.PlaceholderText = "Tipo Documento";
-
-            this.txtNumeroDocumentoMostrar.Location = new System.Drawing.Point(200, y + offset * 2);
-            this.txtNumeroDocumentoMostrar.ReadOnly = true;
-            this.txtNumeroDocumentoMostrar.PlaceholderText = "Número Documento";
-
-            this.txtMontoTotal.Location = new System.Drawing.Point(25, y + offset * 3);
-            this.txtMontoTotal.ReadOnly = true;
-            this.txtMontoTotal.PlaceholderText = "Monto Total";
-
-            this.txtDescuento.Location = new System.Drawing.Point(200, y + offset * 3);
-            this.txtDescuento.ReadOnly = true;
-            this.txtDescuento.PlaceholderText = "Descuento";
-
+            // 
+            dgvDetalleVenta.AllowUserToAddRows = false;
+            dgvDetalleVenta.AllowUserToDeleteRows = false;
+            dgvDetalleVenta.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDetalleVenta.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn6 });
+            dgvDetalleVenta.Location = new Point(25, 220);
+            dgvDetalleVenta.Name = "dgvDetalleVenta";
+            dgvDetalleVenta.ReadOnly = true;
+            dgvDetalleVenta.Size = new Size(750, 250);
+            dgvDetalleVenta.TabIndex = 3;
+            // 
+            // txtIdVenta
+            // 
+            txtIdVenta.Location = new Point(25, 100);
+            txtIdVenta.Name = "txtIdVenta";
+            txtIdVenta.PlaceholderText = "IdVenta";
+            txtIdVenta.ReadOnly = true;
+            txtIdVenta.Size = new Size(100, 23);
+            txtIdVenta.TabIndex = 4;
+            // 
+            // txtCliente
+            // 
+            txtCliente.Location = new Point(25, 100);
+            txtCliente.Name = "txtCliente";
+            txtCliente.PlaceholderText = "Cliente";
+            txtCliente.ReadOnly = true;
+            txtCliente.Size = new Size(100, 23);
+            txtCliente.TabIndex = 5;
+            // 
+            // txtDocumentoCliente
+            // 
+            txtDocumentoCliente.Location = new Point(200, 100);
+            txtDocumentoCliente.Name = "txtDocumentoCliente";
+            txtDocumentoCliente.PlaceholderText = "Documento Cliente";
+            txtDocumentoCliente.ReadOnly = true;
+            txtDocumentoCliente.Size = new Size(100, 23);
+            txtDocumentoCliente.TabIndex = 6;
+            // 
+            // txtTipoDocumento
+            // 
+            txtTipoDocumento.Location = new Point(25, 100);
+            txtTipoDocumento.Name = "txtTipoDocumento";
+            txtTipoDocumento.PlaceholderText = "Tipo Documento";
+            txtTipoDocumento.ReadOnly = true;
+            txtTipoDocumento.Size = new Size(100, 23);
+            txtTipoDocumento.TabIndex = 7;
+            // 
+            // txtNumeroDocumentoMostrar
+            // 
+            txtNumeroDocumentoMostrar.Location = new Point(200, 100);
+            txtNumeroDocumentoMostrar.Name = "txtNumeroDocumentoMostrar";
+            txtNumeroDocumentoMostrar.PlaceholderText = "Número Documento";
+            txtNumeroDocumentoMostrar.ReadOnly = true;
+            txtNumeroDocumentoMostrar.Size = new Size(100, 23);
+            txtNumeroDocumentoMostrar.TabIndex = 8;
+            // 
+            // txtMontoTotal
+            // 
+            txtMontoTotal.Location = new Point(25, 100);
+            txtMontoTotal.Name = "txtMontoTotal";
+            txtMontoTotal.PlaceholderText = "Monto Total";
+            txtMontoTotal.ReadOnly = true;
+            txtMontoTotal.Size = new Size(100, 23);
+            txtMontoTotal.TabIndex = 9;
+            // 
+            // txtDescuento
+            // 
+            txtDescuento.Location = new Point(200, 100);
+            txtDescuento.Name = "txtDescuento";
+            txtDescuento.PlaceholderText = "Descuento";
+            txtDescuento.ReadOnly = true;
+            txtDescuento.Size = new Size(100, 23);
+            txtDescuento.TabIndex = 10;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.HeaderText = "Id Detalle";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "Producto";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.HeaderText = "Precio";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.HeaderText = "Cantidad";
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            dataGridViewTextBoxColumn5.HeaderText = "Subtotal";
+            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            dataGridViewTextBoxColumn5.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            dataGridViewTextBoxColumn6.HeaderText = "Fecha";
+            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
             // frmDetalleVenta
-            this.ClientSize = new System.Drawing.Size(800, 500);
-            this.Controls.Add(this.lblTitulo);
-            this.Controls.Add(this.txtNumeroDocumento);
-            this.Controls.Add(this.btnBuscarVenta);
-            this.Controls.Add(this.dgvDetalleVenta);
-
-            this.Controls.Add(this.txtIdVenta);
-            this.Controls.Add(this.txtCliente);
-            this.Controls.Add(this.txtDocumentoCliente);
-            this.Controls.Add(this.txtTipoDocumento);
-            this.Controls.Add(this.txtNumeroDocumentoMostrar);
-            this.Controls.Add(this.txtMontoTotal);
-            this.Controls.Add(this.txtDescuento);
-
-            this.Text = "Detalle de Venta";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDetalleVenta)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            // 
+            ClientSize = new Size(800, 500);
+            Controls.Add(lblTitulo);
+            Controls.Add(txtNumeroDocumento);
+            Controls.Add(btnBuscarVenta);
+            Controls.Add(dgvDetalleVenta);
+            Controls.Add(txtIdVenta);
+            Controls.Add(txtCliente);
+            Controls.Add(txtDocumentoCliente);
+            Controls.Add(txtTipoDocumento);
+            Controls.Add(txtNumeroDocumentoMostrar);
+            Controls.Add(txtMontoTotal);
+            Controls.Add(txtDescuento);
+            Name = "frmDetalleVenta";
+            Text = "Detalle de Venta";
+            Load += frmDetalleVenta_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvDetalleVenta).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         private System.Windows.Forms.Label lblTitulo;
@@ -124,5 +205,11 @@
         private System.Windows.Forms.TextBox txtNumeroDocumentoMostrar;
         private System.Windows.Forms.TextBox txtMontoTotal;
         private System.Windows.Forms.TextBox txtDescuento;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
     }
 }
