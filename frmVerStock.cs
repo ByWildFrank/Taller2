@@ -22,6 +22,8 @@ namespace BeanDesktop
         {
             CargarComboCategorias();
             ListarStock();
+            this.BackColor = Color.LightGray;
+            this.Refresh(); // fuerza el redibujado
         }
 
         private void CargarComboCategorias()

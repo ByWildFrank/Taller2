@@ -1,0 +1,419 @@
+USE [DB_BEAN]
+GO
+/****** Object:  Table [dbo].[CATEGORIA]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CATEGORIA](
+	[IdCategoria] [int] IDENTITY(1,1) NOT NULL,
+	[Descripcion] [varchar](100) NULL,
+	[Estado] [bit] NULL,
+	[FechaRegistro] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[IdCategoria] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CLIENTE]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CLIENTE](
+	[IdCliente] [int] IDENTITY(1,1) NOT NULL,
+	[Documento] [varchar](50) NULL,
+	[NombreCompleto] [varchar](50) NULL,
+	[Correo] [varchar](50) NULL,
+	[Telefono] [varchar](50) NULL,
+	[Estado] [bit] NULL,
+	[FechaRegistro] [datetime] NULL,
+	[UltimaCompra] [datetime] NULL,
+	[TotalGastado] [decimal](10, 2) NULL,
+	[FrecuenciaCompras] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[IdCliente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CLIENTE_SEGMENTO]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CLIENTE_SEGMENTO](
+	[IdClienteSegmento] [int] IDENTITY(1,1) NOT NULL,
+	[IdCliente] [int] NULL,
+	[Segmento] [varchar](50) NULL,
+	[FechaSegmentacion] [datetime] NULL,
+	[DescuentoPorcent] [decimal](10, 2) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[IdClienteSegmento] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[DETALLE_VENTA]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DETALLE_VENTA](
+	[IdDetalleVenta] [int] IDENTITY(1,1) NOT NULL,
+	[IdVenta] [int] NULL,
+	[IdProducto] [int] NULL,
+	[PrecioVenta] [decimal](10, 2) NULL,
+	[Cantidad] [int] NULL,
+	[SubTotal] [decimal](10, 2) NULL,
+	[FechaRegistro] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[IdDetalleVenta] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PERMISO]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PERMISO](
+	[IdPermiso] [int] IDENTITY(1,1) NOT NULL,
+	[IdRol] [int] NULL,
+	[NombreMenu] [varchar](100) NULL,
+	[FechaRegistro] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[IdPermiso] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PRODUCTO]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PRODUCTO](
+	[IdProducto] [int] IDENTITY(1,1) NOT NULL,
+	[Codigo] [varchar](50) NULL,
+	[Nombre] [varchar](50) NULL,
+	[Descripcion] [varchar](50) NULL,
+	[IdCategoria] [int] NULL,
+	[Stock] [int] NOT NULL,
+	[PrecioVenta] [decimal](10, 2) NULL,
+	[Estado] [bit] NULL,
+	[Imagen] [varchar](100) NULL,
+	[FechaRegistro] [datetime] NULL,
+	[PrecioFabricacion] [decimal](10, 2) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[IdProducto] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ROL]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ROL](
+	[IdRol] [int] IDENTITY(1,1) NOT NULL,
+	[Descripcion] [varchar](50) NULL,
+	[FechaRegistro] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[IdRol] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[USUARIO]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[USUARIO](
+	[IdUsuario] [int] IDENTITY(1,1) NOT NULL,
+	[Documento] [varchar](50) NULL,
+	[NombreCompleto] [varchar](50) NULL,
+	[Correo] [varchar](50) NULL,
+	[Clave] [varchar](50) NULL,
+	[IdRol] [int] NULL,
+	[Estado] [bit] NULL,
+	[FechaRegistro] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[IdUsuario] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[VENTA]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[VENTA](
+	[IdVenta] [int] IDENTITY(1,1) NOT NULL,
+	[IdUsuario] [int] NULL,
+	[TipoDocumento] [varchar](50) NULL,
+	[NumeroDocumento] [varchar](50) NULL,
+	[DocumentoCliente] [varchar](50) NULL,
+	[NombreCliente] [varchar](100) NULL,
+	[MontoPago] [decimal](10, 2) NULL,
+	[MontoCambio] [decimal](10, 2) NULL,
+	[MontoTotal] [decimal](10, 2) NULL,
+	[FechaRegistro] [datetime] NULL,
+	[DescuentoAplicado] [decimal](10, 2) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[IdVenta] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[CATEGORIA] ADD  DEFAULT (getdate()) FOR [FechaRegistro]
+GO
+ALTER TABLE [dbo].[CLIENTE] ADD  DEFAULT (getdate()) FOR [FechaRegistro]
+GO
+ALTER TABLE [dbo].[CLIENTE] ADD  DEFAULT ((0)) FOR [TotalGastado]
+GO
+ALTER TABLE [dbo].[CLIENTE] ADD  DEFAULT ((0)) FOR [FrecuenciaCompras]
+GO
+ALTER TABLE [dbo].[CLIENTE_SEGMENTO] ADD  DEFAULT (getdate()) FOR [FechaSegmentacion]
+GO
+ALTER TABLE [dbo].[CLIENTE_SEGMENTO] ADD  DEFAULT ((0)) FOR [DescuentoPorcent]
+GO
+ALTER TABLE [dbo].[DETALLE_VENTA] ADD  DEFAULT ((0)) FOR [PrecioVenta]
+GO
+ALTER TABLE [dbo].[DETALLE_VENTA] ADD  DEFAULT (getdate()) FOR [FechaRegistro]
+GO
+ALTER TABLE [dbo].[PERMISO] ADD  DEFAULT (getdate()) FOR [FechaRegistro]
+GO
+ALTER TABLE [dbo].[PRODUCTO] ADD  DEFAULT ((0)) FOR [Stock]
+GO
+ALTER TABLE [dbo].[PRODUCTO] ADD  DEFAULT ((0)) FOR [PrecioVenta]
+GO
+ALTER TABLE [dbo].[PRODUCTO] ADD  DEFAULT (getdate()) FOR [FechaRegistro]
+GO
+ALTER TABLE [dbo].[PRODUCTO] ADD  DEFAULT ((0)) FOR [PrecioFabricacion]
+GO
+ALTER TABLE [dbo].[ROL] ADD  DEFAULT (getdate()) FOR [FechaRegistro]
+GO
+ALTER TABLE [dbo].[USUARIO] ADD  DEFAULT (getdate()) FOR [FechaRegistro]
+GO
+ALTER TABLE [dbo].[VENTA] ADD  DEFAULT (getdate()) FOR [FechaRegistro]
+GO
+ALTER TABLE [dbo].[VENTA] ADD  DEFAULT ((0)) FOR [DescuentoAplicado]
+GO
+ALTER TABLE [dbo].[CLIENTE_SEGMENTO]  WITH CHECK ADD  CONSTRAINT [FK_CLIENTE_SEGMENTO_CLIENTE] FOREIGN KEY([IdCliente])
+REFERENCES [dbo].[CLIENTE] ([IdCliente])
+GO
+ALTER TABLE [dbo].[CLIENTE_SEGMENTO] CHECK CONSTRAINT [FK_CLIENTE_SEGMENTO_CLIENTE]
+GO
+ALTER TABLE [dbo].[DETALLE_VENTA]  WITH CHECK ADD FOREIGN KEY([IdProducto])
+REFERENCES [dbo].[PRODUCTO] ([IdProducto])
+GO
+ALTER TABLE [dbo].[DETALLE_VENTA]  WITH CHECK ADD FOREIGN KEY([IdProducto])
+REFERENCES [dbo].[PRODUCTO] ([IdProducto])
+GO
+ALTER TABLE [dbo].[DETALLE_VENTA]  WITH CHECK ADD FOREIGN KEY([IdVenta])
+REFERENCES [dbo].[VENTA] ([IdVenta])
+GO
+ALTER TABLE [dbo].[DETALLE_VENTA]  WITH CHECK ADD FOREIGN KEY([IdVenta])
+REFERENCES [dbo].[VENTA] ([IdVenta])
+GO
+ALTER TABLE [dbo].[PRODUCTO]  WITH CHECK ADD FOREIGN KEY([IdCategoria])
+REFERENCES [dbo].[CATEGORIA] ([IdCategoria])
+GO
+ALTER TABLE [dbo].[PRODUCTO]  WITH CHECK ADD FOREIGN KEY([IdCategoria])
+REFERENCES [dbo].[CATEGORIA] ([IdCategoria])
+GO
+ALTER TABLE [dbo].[USUARIO]  WITH CHECK ADD FOREIGN KEY([IdRol])
+REFERENCES [dbo].[ROL] ([IdRol])
+GO
+ALTER TABLE [dbo].[USUARIO]  WITH CHECK ADD FOREIGN KEY([IdRol])
+REFERENCES [dbo].[ROL] ([IdRol])
+GO
+ALTER TABLE [dbo].[VENTA]  WITH CHECK ADD FOREIGN KEY([IdUsuario])
+REFERENCES [dbo].[USUARIO] ([IdUsuario])
+GO
+ALTER TABLE [dbo].[VENTA]  WITH CHECK ADD FOREIGN KEY([IdUsuario])
+REFERENCES [dbo].[USUARIO] ([IdUsuario])
+GO
+/****** Object:  StoredProcedure [dbo].[SP_EDITARUSUARIO]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- Crear procedimiento EDITAR
+CREATE  PROC [dbo].[SP_EDITARUSUARIO](
+@IdUsuario int,
+@Documento varchar(50),
+@NombreCompleto varchar(100),
+@Correo varchar(100),
+@Clave varchar(100),
+@IdRol int,
+@Estado bit,
+@Respuesta bit output,
+@Mensaje varchar(500) output
+)
+as
+begin
+	set @Respuesta = 0
+	set @Mensaje = ''
+	if not exists(select * from USUARIO where Documento = @Documento and IdUsuario != @IdUsuario)
+	begin 
+		update usuario set
+		Documento = @Documento,
+		NombreCompleto = @NombreCompleto,
+		Correo = @Correo,
+		Clave = @Clave,
+		IdRol = @IdRol,
+		Estado = @Estado
+		where IdUsuario = @IdUsuario
+		set @Respuesta = 1
+		set @Mensaje = 'Usuario actualizado correctamente'
+	end
+	else
+		set @Mensaje = 'No se puede repetir el documento de más de un usuario'
+end
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ELIMINARSUARIO]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- Crear procedimiento ELIMINAR
+CREATE  PROC [dbo].[SP_ELIMINARSUARIO](
+@IdUsuario int,
+@Respuesta bit output,
+@Mensaje varchar(500) output
+)
+as
+begin
+	set @Respuesta = 0
+	set @Mensaje = ''
+	declare @pasoreglas bit = 1
+
+	IF exists (SELECT * FROM VENTA C
+	INNER JOIN USUARIO U ON U.IdUsuario = C.IdUsuario 
+	WHERE U.IdUsuario = @IdUsuario
+	)
+	BEGIN
+		set @pasoreglas = 0
+		SET @Respuesta = 0
+		set @Mensaje = 'No se puede eliminar el usuario se encuentra relacionado a una VENTA'
+	END
+
+	if(@pasoreglas = 1)
+	begin
+		delete from USUARIO where IdUsuario = @IdUsuario
+		SET @Respuesta = 1
+	end
+
+end
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ELIMINARUSUARIO]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- Crear procedimiento ELIMINAR
+CREATE  PROC [dbo].[SP_ELIMINARUSUARIO](
+@IdUsuario int,
+@Respuesta bit output,
+@Mensaje varchar(500) output
+)
+as
+begin
+	set @Respuesta = 0
+	set @Mensaje = ''
+	declare @pasoreglas bit = 1
+
+	IF exists (SELECT * FROM VENTA V
+	INNER JOIN USUARIO U ON U.IdUsuario = V.IdUsuario 
+	WHERE U.IdUsuario = @IdUsuario
+	)
+	BEGIN
+		set @pasoreglas = 0
+		SET @Respuesta = 0
+		set @Mensaje = 'No se puede eliminar el usuario se encuentra relacionado a una VENTA'
+	END
+
+	if(@pasoreglas = 1)
+	begin
+		delete from USUARIO where IdUsuario = @IdUsuario
+		SET @Respuesta = 1
+		set @Mensaje = 'Usuario eliminado correctamente'
+	end
+
+end
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_RegistrarCliente]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_RegistrarCliente]
+    @Documento NVARCHAR(50),
+    @NombreCompleto NVARCHAR(100),
+    @Correo NVARCHAR(100),
+    @Telefono NVARCHAR(20),
+    @Estado BIT,
+    @IdClienteResultado INT OUTPUT,
+    @Mensaje NVARCHAR(500) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        INSERT INTO Cliente (Documento, NombreCompleto, Correo, Telefono, Estado, FechaRegistro)
+        VALUES (@Documento, @NombreCompleto, @Correo, @Telefono, @Estado, GETDATE());
+
+        SET @IdClienteResultado = SCOPE_IDENTITY();
+        SET @Mensaje = 'Cliente registrado correctamente';
+    END TRY
+    BEGIN CATCH
+        SET @IdClienteResultado = 0;
+        SET @Mensaje = ERROR_MESSAGE();
+    END CATCH
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_REGISTRARUSUARIO]    Script Date: 22/9/2025 14:18:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC  [dbo].[SP_REGISTRARUSUARIO](
+@Documento varchar(50),
+@NombreCompleto varchar(100),
+@Correo varchar(100),
+@Clave varchar(100),
+@IdRol int,
+@Estado bit,
+@IdUsuarioResultado int output,
+@Mensaje varchar(500) output
+)
+as
+begin
+	set @IdUsuarioResultado = 0
+	set @Mensaje = ''
+
+	if not exists(select * from USUARIO where Documento = @Documento)
+	begin 
+		insert into usuario(Documento,NombreCompleto,Correo,Clave,IdRol,Estado)values
+		(@Documento,@NombreCompleto,@Correo,@Clave,@IdRol,@Estado)
+		set @IdUsuarioResultado = SCOPE_IDENTITY()
+		set @Mensaje = ''
+	end
+	else
+		set @Mensaje = 'No se puede repetir el documento de más de un usuario'
+
+end
+
+GO

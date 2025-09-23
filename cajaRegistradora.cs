@@ -45,6 +45,8 @@ namespace BeanDesktop
             cboCategoria.DataSource = objCategoria.Listar();
             cboCategoria.DisplayMember = "Descripcion";
             cboCategoria.ValueMember = "IdCategoria";
+            this.BackColor = Color.LightGray;
+            this.Refresh(); // fuerza el redibujado
         }
 
 

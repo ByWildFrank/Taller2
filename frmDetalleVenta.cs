@@ -66,7 +66,8 @@ namespace BeanDesktop
 
         private void frmDetalleVenta_Load(object sender, EventArgs e)
         {
-
+            this.BackColor = Color.LightGray;
+            this.Refresh(); // fuerza el redibujado
         }
     }
 }

@@ -20,6 +20,8 @@ namespace BeanDesktop
         private void frmCategoria_Load(object sender, EventArgs e)
         {
             ListarCategorias();
+            this.BackColor = Color.LightGray;
+            this.Refresh(); // fuerza el redibujado
         }
 
         private void ListarCategorias()

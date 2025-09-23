@@ -52,6 +52,8 @@ namespace BeanDesktop
             item.Estado == true ? "Activo" : "No Activo"
                 });
             }
+            this.BackColor = Color.LightGray;
+            this.Refresh(); // fuerza el redibujado
         }
 
 

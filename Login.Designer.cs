@@ -46,7 +46,7 @@
             label1.Dock = DockStyle.Left;
             label1.Location = new Point(0, 0);
             label1.Name = "label1";
-            label1.Size = new Size(177, 324);
+            label1.Size = new Size(202, 432);
             label1.TabIndex = 0;
             // 
             // label2
@@ -54,9 +54,9 @@
             label2.AutoSize = true;
             label2.BackColor = Color.SteelBlue;
             label2.ForeColor = Color.White;
-            label2.Location = new Point(22, 129);
+            label2.Location = new Point(25, 172);
             label2.Name = "label2";
-            label2.Size = new Size(134, 15);
+            label2.Size = new Size(171, 20);
             label2.TabIndex = 1;
             label2.Text = "Sistema de Ventas BEAN";
             // 
@@ -66,43 +66,47 @@
             iconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.Store;
             iconPictureBox1.IconColor = Color.White;
             iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconPictureBox1.IconSize = 85;
-            iconPictureBox1.Location = new Point(48, 41);
+            iconPictureBox1.IconSize = 97;
+            iconPictureBox1.Location = new Point(55, 55);
+            iconPictureBox1.Margin = new Padding(3, 4, 3, 4);
             iconPictureBox1.Name = "iconPictureBox1";
-            iconPictureBox1.Size = new Size(85, 85);
+            iconPictureBox1.Size = new Size(97, 113);
             iconPictureBox1.TabIndex = 2;
             iconPictureBox1.TabStop = false;
             // 
             // txtDocumento
             // 
-            txtDocumento.Location = new Point(201, 60);
+            txtDocumento.Location = new Point(230, 80);
+            txtDocumento.Margin = new Padding(3, 4, 3, 4);
             txtDocumento.Name = "txtDocumento";
-            txtDocumento.Size = new Size(211, 23);
+            txtDocumento.Size = new Size(241, 27);
             txtDocumento.TabIndex = 3;
+            txtDocumento.KeyPress += txtDocumento_KeyPress;
             // 
             // txtClave
             // 
-            txtClave.Location = new Point(201, 129);
+            txtClave.Location = new Point(230, 172);
+            txtClave.Margin = new Padding(3, 4, 3, 4);
             txtClave.Name = "txtClave";
             txtClave.PasswordChar = '*';
-            txtClave.Size = new Size(211, 23);
+            txtClave.Size = new Size(241, 27);
             txtClave.TabIndex = 4;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(201, 42);
+            label3.Location = new Point(230, 56);
             label3.Name = "label3";
-            label3.Size = new Size(93, 15);
+            label3.Size = new Size(116, 20);
             label3.TabIndex = 5;
             label3.Text = "Nro Documento";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(201, 111);
+            label4.Location = new Point(230, 148);
             label4.Name = "label4";
-            label4.Size = new Size(67, 15);
+            label4.Size = new Size(83, 20);
             label4.TabIndex = 6;
             label4.Text = "Contraseña";
             // 
@@ -117,9 +121,10 @@
             btnIngresar.IconColor = Color.White;
             btnIngresar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnIngresar.IconSize = 25;
-            btnIngresar.Location = new Point(201, 203);
+            btnIngresar.Location = new Point(230, 271);
+            btnIngresar.Margin = new Padding(3, 4, 3, 4);
             btnIngresar.Name = "btnIngresar";
-            btnIngresar.Size = new Size(89, 32);
+            btnIngresar.Size = new Size(102, 43);
             btnIngresar.TabIndex = 7;
             btnIngresar.Text = "Ingresar";
             btnIngresar.TextAlign = ContentAlignment.MiddleRight;
@@ -138,9 +143,10 @@
             btnCancelar.IconColor = Color.White;
             btnCancelar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnCancelar.IconSize = 25;
-            btnCancelar.Location = new Point(332, 203);
+            btnCancelar.Location = new Point(379, 271);
+            btnCancelar.Margin = new Padding(3, 4, 3, 4);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(95, 32);
+            btnCancelar.Size = new Size(109, 43);
             btnCancelar.TabIndex = 8;
             btnCancelar.Text = "Cancelar";
             btnCancelar.TextAlign = ContentAlignment.MiddleRight;
@@ -150,9 +156,9 @@
             // 
             // Login
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(475, 324);
+            ClientSize = new Size(543, 432);
             Controls.Add(btnCancelar);
             Controls.Add(btnIngresar);
             Controls.Add(label4);
@@ -163,6 +169,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Login";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";

@@ -23,6 +23,8 @@ namespace BeanDesktop
             CargarGananciasMes();
             CargarCantidadClientes();
             CargarUsuariosPorRol();
+            this.BackColor = Color.LightGray;
+            this.Refresh(); // fuerza el redibujado
         }
 
         private void CargarVentasPorProducto()
