@@ -24,6 +24,10 @@ namespace CapaDeDatos
         // Devuelve la conexión lista para usar
         public static SqlConnection GetConnection()
         {
+            if (string.IsNullOrEmpty(connectionString))
+                throw new Exception("❌ No se encontró la cadena de conexión en appsettings.json");
+
+            Console.WriteLine($"🔗 Usando conexión: {connectionString}");
             return new SqlConnection(connectionString);
         }
     }

@@ -8,7 +8,6 @@ namespace CapaDeDatos
 {
     public class CD_Venta
     {
-        private string connectionString = "Server=Franco-Laptop\\SQLEXPRESS;Database=DB_BEAN;Trusted_Connection=True;TrustServerCertificate=True;";
 
         // Registrar venta (ya explicado antes, TVP TipoDetalleVenta)
         public int Registrar(Venta objVenta, DataTable detalleVenta, out string mensaje)
@@ -18,7 +17,8 @@ namespace CapaDeDatos
 
             try
             {
-                using (SqlConnection cn = new SqlConnection(connectionString))
+                using (SqlConnection cn = Conexion.GetConnection())
+
                 using (SqlCommand cmd = new SqlCommand("SP_RegistrarVenta", cn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -64,7 +64,7 @@ namespace CapaDeDatos
 
             try
             {
-                using (SqlConnection cn = new SqlConnection(connectionString))
+                using (SqlConnection cn = Conexion.GetConnection())
                 {
                     string query = @"
                         SELECT TOP 1 IdVenta, IdUsuario, TipoDocumento, NumeroDocumento, DocumentoCliente, NombreCliente,
@@ -116,7 +116,7 @@ namespace CapaDeDatos
 
             try
             {
-                using (SqlConnection cn = new SqlConnection(connectionString))
+                using (SqlConnection cn = Conexion.GetConnection())
                 {
                     string query = @"
                         SELECT IdDetalleVenta, IdVenta, IdProducto, PrecioVenta, Cantidad, SubTotal, FechaRegistro
@@ -159,10 +159,10 @@ namespace CapaDeDatos
 
         public DataTable Listar()
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 SqlDataAdapter da = new SqlDataAdapter(
-                    "SELECT IdProducto, Descripcion, PrecioVenta, Stock, IdCategoria FROM PRODUCTO", con);
+                    "SELECT IdProducto, Descripcion, PrecioVenta, Stock, IdCategoria FROM PRODUCTO", cn);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 return dt;
@@ -171,10 +171,10 @@ namespace CapaDeDatos
 
         public DataTable BuscarPorNombre(string nombre)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 SqlDataAdapter da = new SqlDataAdapter(
-                    "SELECT IdProducto, Descripcion, PrecioVenta, Stock, IdCategoria FROM PRODUCTO WHERE Descripcion LIKE @nombre", con);
+                    "SELECT IdProducto, Descripcion, PrecioVenta, Stock, IdCategoria FROM PRODUCTO WHERE Descripcion LIKE @nombre", cn);
                 da.SelectCommand.Parameters.AddWithValue("@nombre", "%" + nombre + "%");
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -184,10 +184,10 @@ namespace CapaDeDatos
 
         public DataTable ListarPorCategoria(int idCategoria)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 SqlDataAdapter da = new SqlDataAdapter(
-                    "SELECT IdProducto, Descripcion, PrecioVenta, Stock, IdCategoria FROM PRODUCTO WHERE IdCategoria = @idCategoria", con);
+                    "SELECT IdProducto, Descripcion, PrecioVenta, Stock, IdCategoria FROM PRODUCTO WHERE IdCategoria = @idCategoria", cn);
                 da.SelectCommand.Parameters.AddWithValue("@idCategoria", idCategoria);
                 DataTable dt = new DataTable();
                 da.Fill(dt);

@@ -1,4 +1,4 @@
-﻿using BeanDesktop.CapaDeDatos; // si tu proyecto usa esa ruta; si no, ajustar el namespace
+﻿using BeanDesktop.CapaDeDatos;
 using CapaDeDatos;
 using CapaDeEntidades;
 using System;

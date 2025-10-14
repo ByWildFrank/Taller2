@@ -9,7 +9,6 @@ namespace BeanDesktop.CapaDeNegocio
 {
     public class CN_Producto
     {
-        private string connectionString ="Server=Franco-Laptop\\SQLEXPRESS;Database=DB_BEAN;Trusted_Connection=True;Encrypt=False;";
 
         private CD_Producto objProducto = new CD_Producto();
 
@@ -18,7 +17,7 @@ namespace BeanDesktop.CapaDeNegocio
         {
             List<Producto> lista = new List<Producto>();
 
-            using (SqlConnection cn = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 string query = @"SELECT P.IdProducto, P.Codigo, P.Nombre, P.Descripcion, P.IdCategoria, 
                                         P.Stock, P.PrecioFabricacion, P.PrecioVenta, P.Estado, P.FechaRegistro,
@@ -60,7 +59,7 @@ namespace BeanDesktop.CapaDeNegocio
         {
             try
             {
-                using (SqlConnection cn = new SqlConnection(connectionString))
+                using (SqlConnection cn = Conexion.GetConnection())
                 {
                     SqlCommand cmd;
                     cn.Open();
@@ -103,7 +102,7 @@ namespace BeanDesktop.CapaDeNegocio
         {
             Producto obj = null;
 
-            using (SqlConnection cn = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 string query = @"SELECT P.IdProducto, P.Codigo, P.Nombre, P.Descripcion, P.IdCategoria, 
                                         P.Stock, P.PrecioFabricacion, P.PrecioVenta, P.Estado, P.FechaRegistro,
@@ -147,7 +146,7 @@ namespace BeanDesktop.CapaDeNegocio
         {
             try
             {
-                using (SqlConnection cn = new SqlConnection(connectionString))
+                using (SqlConnection cn = Conexion.GetConnection())
                 {
                     SqlCommand cmd = new SqlCommand("DELETE FROM PRODUCTO WHERE IdProducto=@IdProducto", cn);
                     cmd.Parameters.AddWithValue("@IdProducto", idProducto);

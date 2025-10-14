@@ -8,14 +8,13 @@ namespace CapaDeDatos
 {
     public class CD_Clientes
     {
-        private string connectionString = "Server=Franco-Laptop\\SQLEXPRESS;Database=DB_BEAN;Trusted_Connection=True;TrustServerCertificate=True;";
 
         // Listar todos los clientes
         public List<Cliente> Listar()
         {
             List<Cliente> lista = new List<Cliente>();
 
-            using (SqlConnection cn = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 string query = "SELECT IdCliente, Documento, NombreCompleto, Correo, Telefono, Estado, FechaRegistro FROM Cliente";
                 SqlCommand cmd = new SqlCommand(query, cn);
@@ -49,35 +48,33 @@ namespace CapaDeDatos
 
             try
             {
-                using (SqlConnection cn = new SqlConnection(connectionString))
+                using SqlConnection cn = Conexion.GetConnection();
+                SqlCommand cmd = new SqlCommand("SP_RegistrarCliente", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Documento", obj.Documento);
+                cmd.Parameters.AddWithValue("@NombreCompleto", obj.NombreCompleto);
+                cmd.Parameters.AddWithValue("@Correo", obj.Correo);
+                cmd.Parameters.AddWithValue("@Telefono", obj.Telefono);
+                cmd.Parameters.AddWithValue("@Estado", obj.Estado);
+
+                SqlParameter outputId = new SqlParameter("@IdClienteResultado", SqlDbType.Int)
                 {
-                    SqlCommand cmd = new SqlCommand("SP_RegistrarCliente", cn);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    Direction = ParameterDirection.Output
+                };
+                SqlParameter outputMensaje = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
 
-                    cmd.Parameters.AddWithValue("@Documento", obj.Documento);
-                    cmd.Parameters.AddWithValue("@NombreCompleto", obj.NombreCompleto);
-                    cmd.Parameters.AddWithValue("@Correo", obj.Correo);
-                    cmd.Parameters.AddWithValue("@Telefono", obj.Telefono);
-                    cmd.Parameters.AddWithValue("@Estado", obj.Estado);
+                cmd.Parameters.Add(outputId);
+                cmd.Parameters.Add(outputMensaje);
 
-                    SqlParameter outputId = new SqlParameter("@IdClienteResultado", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    SqlParameter outputMensaje = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
+                cn.Open();
+                cmd.ExecuteNonQuery();
 
-                    cmd.Parameters.Add(outputId);
-                    cmd.Parameters.Add(outputMensaje);
-
-                    cn.Open();
-                    cmd.ExecuteNonQuery();
-
-                    idClienteGenerado = Convert.ToInt32(outputId.Value);
-                    mensaje = outputMensaje.Value.ToString();
-                }
+                idClienteGenerado = Convert.ToInt32(outputId.Value);
+                mensaje = outputMensaje.Value.ToString();
             }
             catch (Exception ex)
             {
@@ -96,7 +93,7 @@ namespace CapaDeDatos
 
             try
             {
-                using (SqlConnection cn = new SqlConnection(connectionString))
+                using (SqlConnection cn = Conexion.GetConnection())
                 {
                     string query = @"UPDATE Cliente 
                                      SET Documento = @Documento, 
@@ -137,7 +134,7 @@ namespace CapaDeDatos
 
             try
             {
-                using (SqlConnection cn = new SqlConnection(connectionString))
+                using (SqlConnection cn = Conexion.GetConnection())
                 {
                     SqlCommand cmd = new SqlCommand("DELETE FROM Cliente WHERE IdCliente = @IdCliente", cn);
                     cmd.CommandType = CommandType.Text;

@@ -46,216 +46,355 @@
 
         private void InitializeComponent()
         {
-            this.lblTitulo = new System.Windows.Forms.Label();
-            this.gbCliente = new System.Windows.Forms.GroupBox();
-            this.lblDocumentoCliente = new System.Windows.Forms.Label();
-            this.txtDocumentoCliente = new System.Windows.Forms.TextBox();
-            this.lblNombreCliente = new System.Windows.Forms.Label();
-            this.txtNombreCliente = new System.Windows.Forms.TextBox();
-
-            this.gbProducto = new System.Windows.Forms.GroupBox();
-            this.txtIdProducto = new System.Windows.Forms.TextBox();
-            this.txtDescripcion = new System.Windows.Forms.TextBox();
-            this.txtPrecio = new System.Windows.Forms.TextBox();
-            this.txtCantidad = new System.Windows.Forms.TextBox();
-            this.btnAgregarProducto = new System.Windows.Forms.Button();
-            this.btnEliminarProducto = new System.Windows.Forms.Button();
-
-            this.dgvCarrito = new System.Windows.Forms.DataGridView();
-
-            this.lblTipoDocumento = new System.Windows.Forms.Label();
-            this.cboTipoDocumento = new System.Windows.Forms.ComboBox();
-
-            this.lblPago = new System.Windows.Forms.Label();
-            this.txtPago = new System.Windows.Forms.TextBox();
-            this.lblCambio = new System.Windows.Forms.Label();
-            this.txtCambio = new System.Windows.Forms.TextBox();
-            this.lblTotal = new System.Windows.Forms.Label();
-            this.txtTotal = new System.Windows.Forms.TextBox();
-            this.lblDescuento = new System.Windows.Forms.Label();
-            this.txtDescuento = new System.Windows.Forms.TextBox();
-            this.lblDescuentoAplicado = new System.Windows.Forms.Label();
-            this.txtDescuentoAplicado = new System.Windows.Forms.TextBox();
-            this.lblTotalFinal = new System.Windows.Forms.Label();
-            this.txtTotalFinal = new System.Windows.Forms.TextBox();
-
-            this.btnRegistrarVenta = new System.Windows.Forms.Button();
-
+            lblTitulo = new Label();
+            gbCliente = new GroupBox();
+            lblDocumentoCliente = new Label();
+            txtDocumentoCliente = new TextBox();
+            lblNombreCliente = new Label();
+            txtNombreCliente = new TextBox();
+            gbProducto = new GroupBox();
+            txtIdProducto = new TextBox();
+            txtDescripcion = new TextBox();
+            txtPrecio = new TextBox();
+            txtCantidad = new TextBox();
+            btnAgregarProducto = new Button();
+            btnEliminarProducto = new Button();
+            dgvCarrito = new DataGridView();
+            lblTipoDocumento = new Label();
+            cboTipoDocumento = new ComboBox();
+            lblPago = new Label();
+            txtPago = new TextBox();
+            lblCambio = new Label();
+            txtCambio = new TextBox();
+            lblTotal = new Label();
+            txtTotal = new TextBox();
+            lblDescuento = new Label();
+            txtDescuento = new TextBox();
+            lblDescuentoAplicado = new Label();
+            txtDescuentoAplicado = new TextBox();
+            lblTotalFinal = new Label();
+            txtTotalFinal = new TextBox();
+            btnRegistrarVenta = new Button();
+            dgvProductos = new DataGridView();
+            txtBuscarProducto = new TextBox();
+            cboCategoria = new ComboBox();
+            btnBuscar = new Button();
+            gbCliente.SuspendLayout();
+            gbProducto.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvCarrito).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
+            SuspendLayout();
             // 
             // lblTitulo
             // 
-            this.lblTitulo.Text = "Caja Registradora";
-            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Location = new System.Drawing.Point(20, 20);
-
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblTitulo.Location = new Point(20, 20);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(196, 30);
+            lblTitulo.TabIndex = 0;
+            lblTitulo.Text = "Caja Registradora";
             // 
             // gbCliente
             // 
-            this.gbCliente.Text = "Datos del Cliente";
-            this.gbCliente.Location = new System.Drawing.Point(20, 70);
-            this.gbCliente.Size = new System.Drawing.Size(400, 100);
-
-            this.lblDocumentoCliente.Text = "Documento:";
-            this.lblDocumentoCliente.Location = new System.Drawing.Point(20, 30);
-            this.txtDocumentoCliente.Location = new System.Drawing.Point(120, 30);
-            this.txtDocumentoCliente.Width = 200;
-
-            this.lblNombreCliente.Text = "Nombre:";
-            this.lblNombreCliente.Location = new System.Drawing.Point(20, 60);
-            this.txtNombreCliente.Location = new System.Drawing.Point(120, 60);
-            this.txtNombreCliente.Width = 200;
-
-            this.gbCliente.Controls.Add(this.lblDocumentoCliente);
-            this.gbCliente.Controls.Add(this.txtDocumentoCliente);
-            this.gbCliente.Controls.Add(this.lblNombreCliente);
-            this.gbCliente.Controls.Add(this.txtNombreCliente);
-
+            gbCliente.Controls.Add(lblDocumentoCliente);
+            gbCliente.Controls.Add(txtDocumentoCliente);
+            gbCliente.Controls.Add(lblNombreCliente);
+            gbCliente.Controls.Add(txtNombreCliente);
+            gbCliente.Location = new Point(20, 70);
+            gbCliente.Name = "gbCliente";
+            gbCliente.Size = new Size(400, 100);
+            gbCliente.TabIndex = 1;
+            gbCliente.TabStop = false;
+            gbCliente.Text = "Datos del Cliente";
+            // 
+            // lblDocumentoCliente
+            // 
+            lblDocumentoCliente.Location = new Point(20, 30);
+            lblDocumentoCliente.Name = "lblDocumentoCliente";
+            lblDocumentoCliente.Size = new Size(100, 23);
+            lblDocumentoCliente.TabIndex = 0;
+            lblDocumentoCliente.Text = "Documento:";
+            // 
+            // txtDocumentoCliente
+            // 
+            txtDocumentoCliente.Location = new Point(120, 30);
+            txtDocumentoCliente.Name = "txtDocumentoCliente";
+            txtDocumentoCliente.Size = new Size(200, 23);
+            txtDocumentoCliente.TabIndex = 1;
+            // 
+            // lblNombreCliente
+            // 
+            lblNombreCliente.Location = new Point(20, 60);
+            lblNombreCliente.Name = "lblNombreCliente";
+            lblNombreCliente.Size = new Size(100, 23);
+            lblNombreCliente.TabIndex = 2;
+            lblNombreCliente.Text = "Nombre:";
+            // 
+            // txtNombreCliente
+            // 
+            txtNombreCliente.Location = new Point(120, 60);
+            txtNombreCliente.Name = "txtNombreCliente";
+            txtNombreCliente.Size = new Size(200, 23);
+            txtNombreCliente.TabIndex = 3;
             // 
             // gbProducto
             // 
-            this.gbProducto.Text = "Producto";
-            this.gbProducto.Location = new System.Drawing.Point(20, 180);
-            this.gbProducto.Size = new System.Drawing.Size(600, 120);
-
-            this.txtIdProducto.PlaceholderText = "ID";
-            this.txtIdProducto.Location = new System.Drawing.Point(20, 30);
-            this.txtIdProducto.Width = 50;
-
-            this.txtDescripcion.PlaceholderText = "Descripción";
-            this.txtDescripcion.Location = new System.Drawing.Point(80, 30);
-            this.txtDescripcion.Width = 150;
-
-            this.txtPrecio.PlaceholderText = "Precio";
-            this.txtPrecio.Location = new System.Drawing.Point(240, 30);
-            this.txtPrecio.Width = 80;
-
-            this.txtCantidad.PlaceholderText = "Cantidad";
-            this.txtCantidad.Location = new System.Drawing.Point(330, 30);
-            this.txtCantidad.Width = 80;
-
-            this.btnAgregarProducto.Text = "Agregar";
-            this.btnAgregarProducto.Location = new System.Drawing.Point(430, 30);
-
-            this.btnEliminarProducto.Text = "Eliminar";
-            this.btnEliminarProducto.Location = new System.Drawing.Point(510, 30);
-
-            this.gbProducto.Controls.Add(this.txtIdProducto);
-            this.gbProducto.Controls.Add(this.txtDescripcion);
-            this.gbProducto.Controls.Add(this.txtPrecio);
-            this.gbProducto.Controls.Add(this.txtCantidad);
-            this.gbProducto.Controls.Add(this.btnAgregarProducto);
-            this.gbProducto.Controls.Add(this.btnEliminarProducto);
-
+            gbProducto.Controls.Add(txtIdProducto);
+            gbProducto.Controls.Add(txtDescripcion);
+            gbProducto.Controls.Add(txtPrecio);
+            gbProducto.Controls.Add(txtCantidad);
+            gbProducto.Controls.Add(btnAgregarProducto);
+            gbProducto.Controls.Add(btnEliminarProducto);
+            gbProducto.Location = new Point(20, 180);
+            gbProducto.Name = "gbProducto";
+            gbProducto.Size = new Size(600, 120);
+            gbProducto.TabIndex = 2;
+            gbProducto.TabStop = false;
+            gbProducto.Text = "Producto";
+            // 
+            // txtIdProducto
+            // 
+            txtIdProducto.Location = new Point(20, 30);
+            txtIdProducto.Name = "txtIdProducto";
+            txtIdProducto.PlaceholderText = "ID";
+            txtIdProducto.Size = new Size(50, 23);
+            txtIdProducto.TabIndex = 0;
+            // 
+            // txtDescripcion
+            // 
+            txtDescripcion.Location = new Point(80, 30);
+            txtDescripcion.Name = "txtDescripcion";
+            txtDescripcion.PlaceholderText = "Descripción";
+            txtDescripcion.Size = new Size(150, 23);
+            txtDescripcion.TabIndex = 1;
+            // 
+            // txtPrecio
+            // 
+            txtPrecio.Location = new Point(240, 30);
+            txtPrecio.Name = "txtPrecio";
+            txtPrecio.PlaceholderText = "Precio";
+            txtPrecio.Size = new Size(80, 23);
+            txtPrecio.TabIndex = 2;
+            // 
+            // txtCantidad
+            // 
+            txtCantidad.Location = new Point(330, 30);
+            txtCantidad.Name = "txtCantidad";
+            txtCantidad.PlaceholderText = "Cantidad";
+            txtCantidad.Size = new Size(80, 23);
+            txtCantidad.TabIndex = 3;
+            // 
+            // btnAgregarProducto
+            // 
+            btnAgregarProducto.Location = new Point(430, 30);
+            btnAgregarProducto.Name = "btnAgregarProducto";
+            btnAgregarProducto.Size = new Size(75, 23);
+            btnAgregarProducto.TabIndex = 4;
+            btnAgregarProducto.Text = "Agregar";
+            // 
+            // btnEliminarProducto
+            // 
+            btnEliminarProducto.Location = new Point(510, 30);
+            btnEliminarProducto.Name = "btnEliminarProducto";
+            btnEliminarProducto.Size = new Size(75, 23);
+            btnEliminarProducto.TabIndex = 5;
+            btnEliminarProducto.Text = "Eliminar";
             // 
             // dgvCarrito
             // 
-            this.dgvCarrito.Location = new System.Drawing.Point(20, 310);
-            this.dgvCarrito.Size = new System.Drawing.Size(600, 200);
-            this.dgvCarrito.AllowUserToAddRows = false;
-
+            dgvCarrito.AllowUserToAddRows = false;
+            dgvCarrito.Location = new Point(20, 310);
+            dgvCarrito.Name = "dgvCarrito";
+            dgvCarrito.Size = new Size(600, 200);
+            dgvCarrito.TabIndex = 3;
             // 
-            // Totales
+            // lblTipoDocumento
             // 
-            this.lblTotal.Text = "Total:";
-            this.lblTotal.Location = new System.Drawing.Point(650, 310);
-            this.txtTotal.Location = new System.Drawing.Point(750, 310);
-            this.txtTotal.ReadOnly = true;
-
-            this.lblDescuento.Text = "Descuento:";
-            this.lblDescuento.Location = new System.Drawing.Point(650, 340);
-            this.txtDescuento.Location = new System.Drawing.Point(750, 340);
-
-            this.lblDescuentoAplicado.Text = "Desc. Aplicado:";
-            this.lblDescuentoAplicado.Location = new System.Drawing.Point(650, 370);
-            this.txtDescuentoAplicado.Location = new System.Drawing.Point(750, 370);
-            this.txtDescuentoAplicado.ReadOnly = true;
-
-            this.lblTotalFinal.Text = "Total Final:";
-            this.lblTotalFinal.Location = new System.Drawing.Point(650, 400);
-            this.txtTotalFinal.Location = new System.Drawing.Point(750, 400);
-            this.txtTotalFinal.ReadOnly = true;
-
-            this.lblPago.Text = "Pago:";
-            this.lblPago.Location = new System.Drawing.Point(650, 430);
-            this.txtPago.Location = new System.Drawing.Point(750, 430);
-
-            this.lblCambio.Text = "Cambio:";
-            this.lblCambio.Location = new System.Drawing.Point(650, 460);
-            this.txtCambio.Location = new System.Drawing.Point(750, 460);
-            this.txtCambio.ReadOnly = true;
-
+            lblTipoDocumento.Location = new Point(0, 0);
+            lblTipoDocumento.Name = "lblTipoDocumento";
+            lblTipoDocumento.Size = new Size(100, 23);
+            lblTipoDocumento.TabIndex = 0;
+            // 
+            // cboTipoDocumento
+            // 
+            cboTipoDocumento.Location = new Point(0, 0);
+            cboTipoDocumento.Name = "cboTipoDocumento";
+            cboTipoDocumento.Size = new Size(121, 23);
+            cboTipoDocumento.TabIndex = 0;
+            // 
+            // lblPago
+            // 
+            lblPago.Location = new Point(650, 430);
+            lblPago.Name = "lblPago";
+            lblPago.Size = new Size(100, 23);
+            lblPago.TabIndex = 12;
+            lblPago.Text = "Pago:";
+            // 
+            // txtPago
+            // 
+            txtPago.Location = new Point(750, 430);
+            txtPago.Name = "txtPago";
+            txtPago.Size = new Size(100, 23);
+            txtPago.TabIndex = 13;
+            // 
+            // lblCambio
+            // 
+            lblCambio.Location = new Point(650, 460);
+            lblCambio.Name = "lblCambio";
+            lblCambio.Size = new Size(100, 23);
+            lblCambio.TabIndex = 14;
+            lblCambio.Text = "Cambio:";
+            // 
+            // txtCambio
+            // 
+            txtCambio.Location = new Point(750, 460);
+            txtCambio.Name = "txtCambio";
+            txtCambio.ReadOnly = true;
+            txtCambio.Size = new Size(100, 23);
+            txtCambio.TabIndex = 15;
+            // 
+            // lblTotal
+            // 
+            lblTotal.Location = new Point(650, 310);
+            lblTotal.Name = "lblTotal";
+            lblTotal.Size = new Size(100, 23);
+            lblTotal.TabIndex = 4;
+            lblTotal.Text = "Total:";
+            // 
+            // txtTotal
+            // 
+            txtTotal.Location = new Point(750, 310);
+            txtTotal.Name = "txtTotal";
+            txtTotal.ReadOnly = true;
+            txtTotal.Size = new Size(100, 23);
+            txtTotal.TabIndex = 5;
+            // 
+            // lblDescuento
+            // 
+            lblDescuento.Location = new Point(650, 340);
+            lblDescuento.Name = "lblDescuento";
+            lblDescuento.Size = new Size(100, 23);
+            lblDescuento.TabIndex = 6;
+            lblDescuento.Text = "Descuento:";
+            // 
+            // txtDescuento
+            // 
+            txtDescuento.Location = new Point(750, 340);
+            txtDescuento.Name = "txtDescuento";
+            txtDescuento.Size = new Size(100, 23);
+            txtDescuento.TabIndex = 7;
+            // 
+            // lblDescuentoAplicado
+            // 
+            lblDescuentoAplicado.Location = new Point(650, 370);
+            lblDescuentoAplicado.Name = "lblDescuentoAplicado";
+            lblDescuentoAplicado.Size = new Size(100, 23);
+            lblDescuentoAplicado.TabIndex = 8;
+            lblDescuentoAplicado.Text = "Desc. Aplicado:";
+            // 
+            // txtDescuentoAplicado
+            // 
+            txtDescuentoAplicado.Location = new Point(750, 370);
+            txtDescuentoAplicado.Name = "txtDescuentoAplicado";
+            txtDescuentoAplicado.ReadOnly = true;
+            txtDescuentoAplicado.Size = new Size(100, 23);
+            txtDescuentoAplicado.TabIndex = 9;
+            // 
+            // lblTotalFinal
+            // 
+            lblTotalFinal.Location = new Point(650, 400);
+            lblTotalFinal.Name = "lblTotalFinal";
+            lblTotalFinal.Size = new Size(100, 23);
+            lblTotalFinal.TabIndex = 10;
+            lblTotalFinal.Text = "Total Final:";
+            // 
+            // txtTotalFinal
+            // 
+            txtTotalFinal.Location = new Point(750, 400);
+            txtTotalFinal.Name = "txtTotalFinal";
+            txtTotalFinal.ReadOnly = true;
+            txtTotalFinal.Size = new Size(100, 23);
+            txtTotalFinal.TabIndex = 11;
             // 
             // btnRegistrarVenta
             // 
-            this.btnRegistrarVenta.Text = "Registrar Venta";
-            this.btnRegistrarVenta.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnRegistrarVenta.Location = new System.Drawing.Point(650, 500);
-            this.btnRegistrarVenta.Size = new System.Drawing.Size(200, 40);
-
+            btnRegistrarVenta.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnRegistrarVenta.Location = new Point(650, 500);
+            btnRegistrarVenta.Name = "btnRegistrarVenta";
+            btnRegistrarVenta.Size = new Size(200, 40);
+            btnRegistrarVenta.TabIndex = 16;
+            btnRegistrarVenta.Text = "Registrar Venta";
+            // 
+            // dgvProductos
+            // 
+            dgvProductos.AllowUserToAddRows = false;
+            dgvProductos.Location = new Point(20, 520);
+            dgvProductos.Name = "dgvProductos";
+            dgvProductos.ReadOnly = true;
+            dgvProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvProductos.Size = new Size(600, 200);
+            dgvProductos.TabIndex = 17;
+            // 
+            // txtBuscarProducto
+            // 
+            txtBuscarProducto.Location = new Point(20, 730);
+            txtBuscarProducto.Name = "txtBuscarProducto";
+            txtBuscarProducto.PlaceholderText = "Buscar producto...";
+            txtBuscarProducto.Size = new Size(200, 23);
+            txtBuscarProducto.TabIndex = 18;
+            // 
+            // cboCategoria
+            // 
+            cboCategoria.Location = new Point(230, 730);
+            cboCategoria.Name = "cboCategoria";
+            cboCategoria.Size = new Size(150, 23);
+            cboCategoria.TabIndex = 19;
+            // 
+            // btnBuscar
+            // 
+            btnBuscar.Location = new Point(390, 730);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(75, 23);
+            btnBuscar.TabIndex = 20;
+            btnBuscar.Text = "Buscar";
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // cajaRegistradora
             // 
-            this.ClientSize = new System.Drawing.Size(900, 600);
-            this.Controls.Add(this.lblTitulo);
-            this.Controls.Add(this.gbCliente);
-            this.Controls.Add(this.gbProducto);
-            this.Controls.Add(this.dgvCarrito);
-            this.Controls.Add(this.lblTotal);
-            this.Controls.Add(this.txtTotal);
-            this.Controls.Add(this.lblDescuento);
-            this.Controls.Add(this.txtDescuento);
-            this.Controls.Add(this.lblDescuentoAplicado);
-            this.Controls.Add(this.txtDescuentoAplicado);
-            this.Controls.Add(this.lblTotalFinal);
-            this.Controls.Add(this.txtTotalFinal);
-            this.Controls.Add(this.lblPago);
-            this.Controls.Add(this.txtPago);
-            this.Controls.Add(this.lblCambio);
-            this.Controls.Add(this.txtCambio);
-            this.Controls.Add(this.btnRegistrarVenta);
-
-            this.Text = "Caja Registradora";
-            this.Load += new System.EventHandler(this.cajaRegistradora_Load);
-
-
-
-
-            // dgvProductos
-            this.dgvProductos = new System.Windows.Forms.DataGridView();
-            this.dgvProductos.Location = new System.Drawing.Point(20, 520);
-            this.dgvProductos.Size = new System.Drawing.Size(600, 200);
-            this.dgvProductos.ReadOnly = true;
-            this.dgvProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProductos.AllowUserToAddRows = false;
-
-            // txtBuscarProducto
-            this.txtBuscarProducto = new System.Windows.Forms.TextBox();
-            this.txtBuscarProducto.PlaceholderText = "Buscar producto...";
-            this.txtBuscarProducto.Location = new System.Drawing.Point(20, 730);
-            this.txtBuscarProducto.Width = 200;
-
-            // cboCategoria
-            this.cboCategoria = new System.Windows.Forms.ComboBox();
-            this.cboCategoria.Location = new System.Drawing.Point(230, 730);
-            this.cboCategoria.Width = 150;
-
-            // btnBuscar
-            this.btnBuscar = new System.Windows.Forms.Button();
-            this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.Location = new System.Drawing.Point(390, 730);
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
-
-            this.Controls.Add(this.dgvProductos);
-            this.Controls.Add(this.txtBuscarProducto);
-            this.Controls.Add(this.cboCategoria);
-            this.Controls.Add(this.btnBuscar);
-
+            ClientSize = new Size(997, 703);
+            Controls.Add(lblTitulo);
+            Controls.Add(gbCliente);
+            Controls.Add(gbProducto);
+            Controls.Add(dgvCarrito);
+            Controls.Add(lblTotal);
+            Controls.Add(txtTotal);
+            Controls.Add(lblDescuento);
+            Controls.Add(txtDescuento);
+            Controls.Add(lblDescuentoAplicado);
+            Controls.Add(txtDescuentoAplicado);
+            Controls.Add(lblTotalFinal);
+            Controls.Add(txtTotalFinal);
+            Controls.Add(lblPago);
+            Controls.Add(txtPago);
+            Controls.Add(lblCambio);
+            Controls.Add(txtCambio);
+            Controls.Add(btnRegistrarVenta);
+            Controls.Add(dgvProductos);
+            Controls.Add(txtBuscarProducto);
+            Controls.Add(cboCategoria);
+            Controls.Add(btnBuscar);
+            Name = "cajaRegistradora";
+            Text = "Caja Registradora";
+            Load += cajaRegistradora_Load;
+            gbCliente.ResumeLayout(false);
+            gbCliente.PerformLayout();
+            gbProducto.ResumeLayout(false);
+            gbProducto.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvCarrito).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
-
-
-
-
-
     }
 }

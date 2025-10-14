@@ -7,12 +7,11 @@ namespace CapaDeDatos
 {
     public class CD_Producto
     {
-        private string connectionString = "Server=Franco-Laptop\\SQLEXPRESS;Database=DB_BEAN;Trusted_Connection=True;TrustServerCertificate=True;";
 
         public DataTable Listar()
         {
             DataTable dt = new DataTable();
-            using (SqlConnection cn = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 string query = @"SELECT P.IdProducto, P.Codigo, P.Nombre, P.Descripcion, 
                                         P.IdCategoria, P.Stock, P.PrecioFabricacion, 
@@ -30,7 +29,7 @@ namespace CapaDeDatos
         public DataTable BuscarPorNombre(string nombre)
         {
             DataTable dt = new DataTable();
-            using (SqlConnection cn = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 string query = @"SELECT P.IdProducto, P.Codigo, P.Nombre, P.Descripcion, 
                                         P.IdCategoria, P.Stock, P.PrecioFabricacion, 
@@ -50,7 +49,7 @@ namespace CapaDeDatos
         public DataTable ListarPorCategoria(int idCategoria)
         {
             DataTable dt = new DataTable();
-            using (SqlConnection cn = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 string query = @"SELECT P.IdProducto, P.Codigo, P.Nombre, P.Descripcion, 
                                         P.IdCategoria, P.Stock, P.PrecioFabricacion, 
@@ -74,7 +73,7 @@ namespace CapaDeDatos
 
             try
             {
-                using (SqlConnection cn = new SqlConnection(connectionString))
+                using (SqlConnection cn = Conexion.GetConnection())
                 {
                     string query = @"INSERT INTO PRODUCTO(Codigo, Nombre, Descripcion, IdCategoria, Stock, 
                                                         PrecioFabricacion, PrecioVenta, Estado, FechaRegistro)
@@ -111,7 +110,7 @@ namespace CapaDeDatos
 
             try
             {
-                using (SqlConnection cn = new SqlConnection(connectionString))
+                using (SqlConnection cn = Conexion.GetConnection())
                 {
                     string query = @"UPDATE PRODUCTO
                                      SET Codigo = @Codigo,
@@ -155,7 +154,7 @@ namespace CapaDeDatos
 
             try
             {
-                using (SqlConnection cn = new SqlConnection(connectionString))
+                using (SqlConnection cn = Conexion.GetConnection())
                 {
                     string query = @"DELETE FROM PRODUCTO WHERE IdProducto = @IdProducto";
 

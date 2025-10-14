@@ -7,15 +7,12 @@ namespace CapaDeDatos
 {
     public class CD_Categoria
     {
-        // Cadena de conexión corregida: confiamos en el certificado local
-        private string connectionString = "Server=Franco-Laptop\\SQLEXPRESS;Database=DB_BEAN;Trusted_Connection=True;Encrypt=False;";
-
         // Listar todas las categorías
         public List<Categoria> Listar()
         {
             List<Categoria> lista = new List<Categoria>();
 
-            using (SqlConnection cn = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 string query = "SELECT IdCategoria, Descripcion, Estado, FechaRegistro FROM Categoria";
                 SqlCommand cmd = new SqlCommand(query, cn);
@@ -42,7 +39,7 @@ namespace CapaDeDatos
         {
             Categoria oCategoria = null;
 
-            using (SqlConnection cn = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 string query = "SELECT IdCategoria, Descripcion, Estado, FechaRegistro FROM Categoria WHERE IdCategoria = @Id";
                 SqlCommand cmd = new SqlCommand(query, cn);
@@ -68,7 +65,7 @@ namespace CapaDeDatos
         // Insertar una nueva categoría
         public string Insertar(Categoria oCategoria)
         {
-            using (SqlConnection cn = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 string query = "INSERT INTO Categoria (Descripcion, Estado, FechaRegistro) VALUES (@Descripcion, @Estado, @FechaRegistro)";
                 SqlCommand cmd = new SqlCommand(query, cn);
@@ -86,7 +83,7 @@ namespace CapaDeDatos
         // Actualizar una categoría existente
         public string Actualizar(Categoria oCategoria)
         {
-            using (SqlConnection cn = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 string query = "UPDATE Categoria SET Descripcion = @Descripcion, Estado = @Estado, FechaRegistro = @FechaRegistro WHERE IdCategoria = @Id";
                 SqlCommand cmd = new SqlCommand(query, cn);
@@ -105,7 +102,7 @@ namespace CapaDeDatos
         // Eliminar una categoría
         public string Eliminar(int idCategoria)
         {
-            using (SqlConnection cn = new SqlConnection(connectionString))
+            using (SqlConnection cn = Conexion.GetConnection())
             {
                 string query = "DELETE FROM Categoria WHERE IdCategoria = @Id";
                 SqlCommand cmd = new SqlCommand(query, cn);

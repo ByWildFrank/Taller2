@@ -56,6 +56,7 @@
             verStockToolStripMenuItem = new ToolStripMenuItem();
             menuClientes = new FontAwesome.Sharp.IconMenuItem();
             menuIAML = new FontAwesome.Sharp.IconMenuItem();
+            menuBackUp = new FontAwesome.Sharp.IconMenuItem();
             menuAcercaDe = new FontAwesome.Sharp.IconMenuItem();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -297,17 +298,19 @@
             panel3.ImeMode = ImeMode.NoControl;
             panel3.Location = new Point(0, 184);
             panel3.Name = "panel3";
-            panel3.Size = new Size(233, 405);
+            panel3.Size = new Size(233, 605);
             panel3.TabIndex = 2;
             // 
             // menu
             // 
             menu.BackColor = Color.FromArgb(24, 30, 54);
-            menu.Items.AddRange(new ToolStripItem[] { menuUsuarios, menuReporte, menuCajaRegistradora, menuStock, menuClientes, menuIAML, menuAcercaDe });
+            menu.Dock = DockStyle.None;
+            menu.ImeMode = ImeMode.NoControl;
+            menu.Items.AddRange(new ToolStripItem[] { menuUsuarios, menuReporte, menuCajaRegistradora, menuStock, menuClientes, menuIAML, menuBackUp, menuAcercaDe });
             menu.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
             menu.Location = new Point(0, 0);
             menu.Name = "menu";
-            menu.Size = new Size(233, 286);
+            menu.Size = new Size(241, 486);
             menu.TabIndex = 0;
             menu.Text = "menuStrip1";
             // 
@@ -319,10 +322,10 @@
             menuUsuarios.IconChar = FontAwesome.Sharp.IconChar.User;
             menuUsuarios.IconColor = Color.White;
             menuUsuarios.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            menuUsuarios.IconSize = 35;
+            menuUsuarios.IconSize = 40;
             menuUsuarios.ImageScaling = ToolStripItemImageScaling.None;
             menuUsuarios.Name = "menuUsuarios";
-            menuUsuarios.Size = new Size(200, 40);
+            menuUsuarios.Size = new Size(235, 60);
             menuUsuarios.Text = "Usuarios";
             menuUsuarios.Click += iconMenuItem4_Click;
             // 
@@ -334,10 +337,10 @@
             menuReporte.IconChar = FontAwesome.Sharp.IconChar.ChartColumn;
             menuReporte.IconColor = Color.White;
             menuReporte.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            menuReporte.IconSize = 35;
+            menuReporte.IconSize = 40;
             menuReporte.ImageScaling = ToolStripItemImageScaling.None;
             menuReporte.Name = "menuReporte";
-            menuReporte.Size = new Size(200, 40);
+            menuReporte.Size = new Size(235, 60);
             menuReporte.Text = "Dashboard";
             menuReporte.Click += menuReporte_Click;
             // 
@@ -350,10 +353,10 @@
             menuCajaRegistradora.IconChar = FontAwesome.Sharp.IconChar.CartShopping;
             menuCajaRegistradora.IconColor = Color.White;
             menuCajaRegistradora.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            menuCajaRegistradora.IconSize = 35;
+            menuCajaRegistradora.IconSize = 40;
             menuCajaRegistradora.ImageScaling = ToolStripItemImageScaling.None;
             menuCajaRegistradora.Name = "menuCajaRegistradora";
-            menuCajaRegistradora.Size = new Size(200, 40);
+            menuCajaRegistradora.Size = new Size(235, 60);
             menuCajaRegistradora.Text = "CajaRegistradora";
             // 
             // subMenuRegistrarVenta
@@ -379,10 +382,10 @@
             menuStock.IconChar = FontAwesome.Sharp.IconChar.BoxesPacking;
             menuStock.IconColor = Color.White;
             menuStock.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            menuStock.IconSize = 35;
+            menuStock.IconSize = 40;
             menuStock.ImageScaling = ToolStripItemImageScaling.None;
             menuStock.Name = "menuStock";
-            menuStock.Size = new Size(200, 40);
+            menuStock.Size = new Size(235, 60);
             menuStock.Text = "Gestión de Stock";
             // 
             // agregarProductoToolStripMenuItem
@@ -414,10 +417,10 @@
             menuClientes.IconChar = FontAwesome.Sharp.IconChar.UserFriends;
             menuClientes.IconColor = Color.White;
             menuClientes.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            menuClientes.IconSize = 35;
+            menuClientes.IconSize = 40;
             menuClientes.ImageScaling = ToolStripItemImageScaling.None;
             menuClientes.Name = "menuClientes";
-            menuClientes.Size = new Size(200, 40);
+            menuClientes.Size = new Size(235, 60);
             menuClientes.Text = "Clientes";
             menuClientes.Click += menuClientes_Click;
             // 
@@ -429,12 +432,27 @@
             menuIAML.IconChar = FontAwesome.Sharp.IconChar.Brain;
             menuIAML.IconColor = Color.White;
             menuIAML.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            menuIAML.IconSize = 35;
+            menuIAML.IconSize = 40;
             menuIAML.ImageScaling = ToolStripItemImageScaling.None;
             menuIAML.Name = "menuIAML";
-            menuIAML.Size = new Size(200, 40);
+            menuIAML.Size = new Size(235, 60);
             menuIAML.Text = "IA/ML";
             menuIAML.Click += menuIAML_Click;
+            // 
+            // menuBackUp
+            // 
+            menuBackUp.AutoSize = false;
+            menuBackUp.Font = new Font("Segoe UI", 12F);
+            menuBackUp.ForeColor = Color.WhiteSmoke;
+            menuBackUp.IconChar = FontAwesome.Sharp.IconChar.Save;
+            menuBackUp.IconColor = Color.White;
+            menuBackUp.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            menuBackUp.IconSize = 40;
+            menuBackUp.ImageScaling = ToolStripItemImageScaling.None;
+            menuBackUp.Name = "menuBackUp";
+            menuBackUp.Size = new Size(235, 60);
+            menuBackUp.Text = "BackUp";
+            menuBackUp.Click += menuBackUp_Click;
             // 
             // menuAcercaDe
             // 
@@ -444,10 +462,10 @@
             menuAcercaDe.IconChar = FontAwesome.Sharp.IconChar.Info;
             menuAcercaDe.IconColor = Color.White;
             menuAcercaDe.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            menuAcercaDe.IconSize = 35;
+            menuAcercaDe.IconSize = 40;
             menuAcercaDe.ImageScaling = ToolStripItemImageScaling.None;
             menuAcercaDe.Name = "menuAcercaDe";
-            menuAcercaDe.Size = new Size(200, 40);
+            menuAcercaDe.Size = new Size(235, 60);
             menuAcercaDe.Text = "Acerca De";
             menuAcercaDe.Click += menuAcercaDe_Click;
             // 
@@ -506,6 +524,6 @@
         private ToolStripMenuItem subMenuRegistrarVenta;
         private ToolStripMenuItem subMenuVerDetalles;
         private FontAwesome.Sharp.IconMenuItem menuAcercaDe;
-
+        private FontAwesome.Sharp.IconMenuItem menuBackUp;
     }
 }

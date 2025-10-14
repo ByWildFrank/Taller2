@@ -201,7 +201,5 @@ namespace BeanDesktop
                 CargarProductos();
             }
         }
-
-
     }
 }

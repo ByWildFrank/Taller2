@@ -45,7 +45,7 @@ namespace BeanDesktop
 
         private void Inicio_Load(object sender, EventArgs e)
         {
-            
+
             if (BtnDashboard != null && PnlNav != null)
             {
                 PnlNav.Height = BtnDashboard.Height;
@@ -167,6 +167,11 @@ namespace BeanDesktop
         private void menuAcercaDe_Click(object sender, EventArgs e)
         {
             AbrirFormulario((IconMenuItem)sender, new frmAcercaDe());
+        }
+
+        private void menuBackUp_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((IconMenuItem)sender, new frmBackUp());
         }
     }
 }

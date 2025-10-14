@@ -62,9 +62,9 @@ namespace CapaDeNegocio
             {
                 Mensaje += "Debe seleccionar un rol\n";
             }
-            if (obj.Correo == "")
+            if (obj.Correo == "" && obj.Correo.Contains("@") && obj.Correo.Contains(".com"))
             {
-                Mensaje += "El correo del usuario no puede estar vacio\n";
+                Mensaje += "El correo del usuario no puede estar vacio y debe ser válido\n";
             }
             if (obj.Clave == "")
             {

@@ -1,4 +1,4 @@
-namespace BeanDesktop
+﻿namespace BeanDesktop
 {
     internal static class Program
     {
