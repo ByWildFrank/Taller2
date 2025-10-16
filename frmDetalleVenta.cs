@@ -39,8 +39,17 @@ namespace BeanDesktop
         {
             // Mostrar cabecera
             txtIdVenta.Text = venta.IdVenta.ToString();
-            txtCliente.Text = venta.NombreCliente;
-            txtDocumentoCliente.Text = venta.DocumentoCliente;
+            // ✅ CAMBIO: Accedemos a través del objeto anidado oCliente
+            if (venta.oCliente != null)
+            {
+                txtCliente.Text = venta.oCliente.NombreCompleto;
+                txtDocumentoCliente.Text = venta.oCliente.Documento;
+            }
+            else // Para ventas sin cliente asociado (consumidor final)
+            {
+                txtCliente.Text = "Consumidor Final";
+                txtDocumentoCliente.Text = "---";
+            }
             txtTipoDocumento.Text = venta.TipoDocumento;
             txtNumeroDocumentoMostrar.Text = venta.NumeroDocumento;
             txtMontoTotal.Text = venta.MontoTotal.ToString("0.00");
@@ -48,7 +57,7 @@ namespace BeanDesktop
 
             // Cargar detalles
             dgvDetalleVenta.Rows.Clear();
-            List<DetalleVenta> detalles = new CN_Venta().ListarDetallePorVenta(venta.IdVenta);
+            List<Detalle_Venta> detalles = new CN_Venta().ListarDetallePorVenta(venta.IdVenta);
 
             foreach (var d in detalles)
             {

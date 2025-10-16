@@ -27,7 +27,7 @@ namespace BeanDesktop
 
         private void ListarProductos()
         {
-            dgvProductos.DataSource = CN_Producto.Listar(); // Debes crear este método en tu CN_Producto
+            dgvProductos.DataSource = CN_Producto.Listar();
         }
 
         private void CargarComboCategorias()

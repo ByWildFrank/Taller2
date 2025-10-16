@@ -89,11 +89,6 @@ namespace BeanDesktop
         {
 
         }
-
-        private void productoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
         //A PARTIR DE ACA LO MÁS IMPORTANTE
         private void AbrirFormulario(IconMenuItem menu, Form formulario)
         {
@@ -154,10 +149,7 @@ namespace BeanDesktop
             AbrirFormulario((IconMenuItem)sender, new frmIAML());
         }
 
-        private void menuReporte_Click(object sender, EventArgs e)
-        {
-            AbrirFormulario((IconMenuItem)sender, new FrmReportes());
-        }
+
 
         private void verStockToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -173,5 +165,16 @@ namespace BeanDesktop
         {
             AbrirFormulario((IconMenuItem)sender, new frmBackUp());
         }
+
+        private void reporteEstadisticasSubMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario(menuReporte, new FrmReportes());
+        }
+
+        private void reporteVentasSubMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario(menuReporte, new frmReporteVentas());
+        }
+
     }
 }

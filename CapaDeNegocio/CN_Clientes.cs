@@ -63,5 +63,9 @@ namespace BeanDesktop.CapaDeNegocio
         {
             return objCD.Eliminar(obj, out mensaje);
         }
+        public Cliente ObtenerPorDocumento(string documento)
+        {
+            return objCD.ObtenerPorDocumento(documento);
+        }
     }
 }

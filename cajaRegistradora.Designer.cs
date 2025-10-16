@@ -48,6 +48,7 @@
         {
             lblTitulo = new Label();
             gbCliente = new GroupBox();
+            btnBuscarCliente = new FontAwesome.Sharp.IconButton();
             lblDocumentoCliente = new Label();
             txtDocumentoCliente = new TextBox();
             lblNombreCliente = new Label();
@@ -97,16 +98,32 @@
             // 
             // gbCliente
             // 
+            gbCliente.Controls.Add(btnBuscarCliente);
             gbCliente.Controls.Add(lblDocumentoCliente);
             gbCliente.Controls.Add(txtDocumentoCliente);
             gbCliente.Controls.Add(lblNombreCliente);
             gbCliente.Controls.Add(txtNombreCliente);
             gbCliente.Location = new Point(20, 70);
             gbCliente.Name = "gbCliente";
-            gbCliente.Size = new Size(400, 100);
+            gbCliente.Size = new Size(428, 100);
             gbCliente.TabIndex = 1;
             gbCliente.TabStop = false;
             gbCliente.Text = "Datos del Cliente";
+            // 
+            // btnBuscarCliente
+            // 
+            btnBuscarCliente.IconChar = FontAwesome.Sharp.IconChar.Search;
+            btnBuscarCliente.IconColor = Color.Black;
+            btnBuscarCliente.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnBuscarCliente.IconSize = 18;
+            btnBuscarCliente.Location = new Point(335, 30);
+            btnBuscarCliente.Name = "btnBuscarCliente";
+            btnBuscarCliente.Size = new Size(75, 23);
+            btnBuscarCliente.TabIndex = 4;
+            btnBuscarCliente.Text = "Buscar";
+            btnBuscarCliente.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnBuscarCliente.UseVisualStyleBackColor = true;
+            btnBuscarCliente.Click += btnBuscarCliente_Click;
             // 
             // lblDocumentoCliente
             // 
@@ -396,5 +413,7 @@
             ResumeLayout(false);
             PerformLayout();
         }
+
+        private FontAwesome.Sharp.IconButton btnBuscarCliente;
     }
 }

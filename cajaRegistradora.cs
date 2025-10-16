@@ -3,6 +3,7 @@ using BeanDesktop.Utilidades;
 using CapaDeDatos;
 using CapaDeEntidades;
 using CapaDeNegocio;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Data;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace BeanDesktop
     public partial class cajaRegistradora : Form
     {
         private DataTable detalleVenta;
+        private int idClienteSeleccionado = 0;// NUEVO: Para guardar el ID del cliente
 
         public cajaRegistradora()
         {
@@ -94,19 +96,32 @@ namespace BeanDesktop
         // Registrar venta
         private void btnRegistrarVenta_Click(object sender, EventArgs e)
         {
-            if (detalleVenta.Rows.Count == 0)
+            if (dgvCarrito.Rows.Count == 0)
             {
-                MessageBox.Show("Debe agregar productos al carrito", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Debe agregar productos al carrito.", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // ✅ CAMBIO: Usamos el ID del cliente que buscamos
+            if (idClienteSeleccionado == 0 && !string.IsNullOrWhiteSpace(txtDocumentoCliente.Text))
+            {
+                MessageBox.Show("Por favor, busque y valide el cliente antes de registrar la venta.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             Venta objVenta = new Venta()
             {
-                IdUsuario = 1, // ⚠️ Deberías traerlo de la sesión
-                TipoDocumento = ((OpcionCombo)cboTipoDocumento.SelectedItem).Valor.ToString(),
-                NumeroDocumento = "0001", // ⚠️ Podrías generar correlativo
-                DocumentoCliente = txtDocumentoCliente.Text,
-                NombreCliente = txtNombreCliente.Text,
+                IdUsuario = 1, // ⚠️ cambiar esto por el usuario logueado
+                TipoDocumento = ((OpcionCombo)cboTipoDocumento.SelectedItem).Texto,
+                NumeroDocumento = "0001", // ⚠️ Lógica de correlativo pendiente
+
+                // ✅ CAMBIO: Usamos el IdCliente guardado
+                IdCliente = this.idClienteSeleccionado,
+
+                // ❌ CAMBIO: Estas líneas ya no son necesarias en el objeto Venta
+                // DocumentoCliente = txtDocumentoCliente.Text,
+                // NombreCliente = txtNombreCliente.Text,
+
                 MontoPago = Convert.ToDecimal(txtPago.Text),
                 MontoCambio = Convert.ToDecimal(txtCambio.Text),
                 MontoTotal = Convert.ToDecimal(txtTotalFinal.Text),
@@ -120,6 +135,7 @@ namespace BeanDesktop
             {
                 MessageBox.Show("Venta registrada correctamente. ID Venta: " + idVentaGenerada, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LimpiarFormulario();
+                idClienteSeleccionado = 0; // Limpiamos el ID del cliente para la siguiente venta
             }
             else
             {
@@ -199,6 +215,28 @@ namespace BeanDesktop
             else
             {
                 CargarProductos();
+            }
+        }
+
+        private void btnBuscarCliente_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtDocumentoCliente.Text))
+            {
+                return;
+            }
+
+            Cliente cliente = new CN_Cliente().ObtenerPorDocumento(txtDocumentoCliente.Text);
+
+            if (cliente != null)
+            {
+                idClienteSeleccionado = cliente.IdCliente; // Guardamos el ID
+                txtNombreCliente.Text = cliente.NombreCompleto; // Autocompletamos el nombre
+            }
+            else
+            {
+                idClienteSeleccionado = 0; // Reseteamos si no se encuentra
+                txtNombreCliente.Text = "Cliente no encontrado";
+                MessageBox.Show("Cliente no registrado. Puede continuar la venta como consumidor final o registrarlo en el módulo de clientes.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

@@ -47,6 +47,8 @@
             menu = new MenuStrip();
             menuUsuarios = new FontAwesome.Sharp.IconMenuItem();
             menuReporte = new FontAwesome.Sharp.IconMenuItem();
+            reporteVentasSubMenuItem = new ToolStripMenuItem();
+            reporteEstadisticasSubMenuItem = new ToolStripMenuItem();
             menuCajaRegistradora = new FontAwesome.Sharp.IconMenuItem();
             subMenuRegistrarVenta = new ToolStripMenuItem();
             subMenuVerDetalles = new ToolStripMenuItem();
@@ -332,6 +334,7 @@
             // menuReporte
             // 
             menuReporte.AutoSize = false;
+            menuReporte.DropDownItems.AddRange(new ToolStripItem[] { reporteVentasSubMenuItem, reporteEstadisticasSubMenuItem });
             menuReporte.Font = new Font("Segoe UI", 12F);
             menuReporte.ForeColor = Color.WhiteSmoke;
             menuReporte.IconChar = FontAwesome.Sharp.IconChar.ChartColumn;
@@ -342,7 +345,20 @@
             menuReporte.Name = "menuReporte";
             menuReporte.Size = new Size(235, 60);
             menuReporte.Text = "Dashboard";
-            menuReporte.Click += menuReporte_Click;
+            // 
+            // reporteVentasSubMenuItem
+            // 
+            reporteVentasSubMenuItem.Name = "reporteVentasSubMenuItem";
+            reporteVentasSubMenuItem.Size = new Size(180, 26);
+            reporteVentasSubMenuItem.Text = "Ventas";
+            reporteVentasSubMenuItem.Click += reporteVentasSubMenuItem_Click;
+            // 
+            // reporteEstadisticasSubMenuItem
+            // 
+            reporteEstadisticasSubMenuItem.Name = "reporteEstadisticasSubMenuItem";
+            reporteEstadisticasSubMenuItem.Size = new Size(180, 26);
+            reporteEstadisticasSubMenuItem.Text = "Estadísticas";
+            reporteEstadisticasSubMenuItem.Click += reporteEstadisticasSubMenuItem_Click;
             // 
             // menuCajaRegistradora
             // 
@@ -525,5 +541,7 @@
         private ToolStripMenuItem subMenuVerDetalles;
         private FontAwesome.Sharp.IconMenuItem menuAcercaDe;
         private FontAwesome.Sharp.IconMenuItem menuBackUp;
+        private ToolStripMenuItem reporteVentasSubMenuItem;
+        private ToolStripMenuItem reporteEstadisticasSubMenuItem;
     }
 }

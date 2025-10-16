@@ -152,5 +152,30 @@ namespace CapaDeDatos
 
             return resultado;
         }
+        public Cliente ObtenerPorDocumento(string documento)
+        {
+            Cliente cliente = null;
+            using (SqlConnection cn = Conexion.GetConnection())
+            {
+                string query = "SELECT IdCliente, Documento, NombreCompleto, Correo, Telefono, Estado FROM Cliente WHERE Documento = @documento";
+                SqlCommand cmd = new SqlCommand(query, cn);
+                cmd.Parameters.AddWithValue("@documento", documento);
+                cn.Open();
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.Read())
+                    {
+                        cliente = new Cliente()
+                        {
+                            IdCliente = Convert.ToInt32(dr["IdCliente"]),
+                            Documento = dr["Documento"].ToString(),
+                            NombreCompleto = dr["NombreCompleto"].ToString(),
+                            // ... Llenar las demás propiedades
+                        };
+                    }
+                }
+            }
+            return cliente;
+        }
     }
 }

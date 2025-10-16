@@ -24,10 +24,16 @@ namespace CapaDeDatos
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@IdUsuario", objVenta.IdUsuario);
-                    cmd.Parameters.AddWithValue("@TipoDocumento", (object)objVenta.TipoDocumento ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@NumeroDocumento", (object)objVenta.NumeroDocumento ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@DocumentoCliente", (object)objVenta.DocumentoCliente ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@NombreCliente", (object)objVenta.NombreCliente ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@TipoDocumento", objVenta.TipoDocumento);
+                    cmd.Parameters.AddWithValue("@NumeroDocumento", objVenta.NumeroDocumento);
+
+                    // ✅ CAMBIO: Enviamos el nuevo parámetro IdCliente
+                    cmd.Parameters.AddWithValue("@IdCliente", objVenta.IdCliente);
+
+                    // ❌ CAMBIO: Eliminamos los parámetros viejos
+                    // cmd.Parameters.AddWithValue("@DocumentoCliente", objVenta.DocumentoCliente);
+                    // cmd.Parameters.AddWithValue("@NombreCliente", objVenta.NombreCliente);
+
                     cmd.Parameters.AddWithValue("@MontoPago", objVenta.MontoPago);
                     cmd.Parameters.AddWithValue("@MontoCambio", objVenta.MontoCambio);
                     cmd.Parameters.AddWithValue("@MontoTotal", objVenta.MontoTotal);
@@ -83,17 +89,23 @@ namespace CapaDeDatos
                             {
                                 venta = new Venta
                                 {
-                                    IdVenta = dr["IdVenta"] != DBNull.Value ? Convert.ToInt32(dr["IdVenta"]) : 0,
-                                    IdUsuario = dr["IdUsuario"] != DBNull.Value ? Convert.ToInt32(dr["IdUsuario"]) : 0,
-                                    TipoDocumento = dr["TipoDocumento"] != DBNull.Value ? dr["TipoDocumento"].ToString() : "",
-                                    NumeroDocumento = dr["NumeroDocumento"] != DBNull.Value ? dr["NumeroDocumento"].ToString() : "",
-                                    DocumentoCliente = dr["DocumentoCliente"] != DBNull.Value ? dr["DocumentoCliente"].ToString() : "",
-                                    NombreCliente = dr["NombreCliente"] != DBNull.Value ? dr["NombreCliente"].ToString() : "",
-                                    MontoPago = dr["MontoPago"] != DBNull.Value ? Convert.ToDecimal(dr["MontoPago"]) : 0m,
-                                    MontoCambio = dr["MontoCambio"] != DBNull.Value ? Convert.ToDecimal(dr["MontoCambio"]) : 0m,
-                                    MontoTotal = dr["MontoTotal"] != DBNull.Value ? Convert.ToDecimal(dr["MontoTotal"]) : 0m,
-                                    DescuentoAplicado = dr["DescuentoAplicado"] != DBNull.Value ? Convert.ToDecimal(dr["DescuentoAplicado"]) : 0m,
-                                    FechaRegistro = dr["FechaRegistro"] != DBNull.Value ? dr["FechaRegistro"].ToString() : ""
+                                    IdVenta = Convert.ToInt32(dr["IdVenta"]),
+                                    IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
+                                    TipoDocumento = dr["TipoDocumento"].ToString(),
+                                    NumeroDocumento = dr["NumeroDocumento"].ToString(),
+                                    MontoPago = Convert.ToDecimal(dr["MontoPago"]),
+                                    MontoCambio = Convert.ToDecimal(dr["MontoCambio"]),
+                                    MontoTotal = Convert.ToDecimal(dr["MontoTotal"]),
+                                    DescuentoAplicado = Convert.ToDecimal(dr["DescuentoAplicado"]),
+                                    FechaRegistro = dr["FechaRegistro"].ToString(),
+                                    
+                                    IdCliente = dr["IdCliente"] != DBNull.Value ? Convert.ToInt32(dr["IdCliente"]) : 0,
+                                    // ✅ CAMBIO: Llenamos el IdCliente
+                                    oCliente = new Cliente()
+                                    {
+                                        NombreCompleto = dr["NombreCompleto"].ToString(),
+                                        Documento = dr["DocumentoCliente"].ToString()
+                                    }
                                 };
                             }
                         }
@@ -110,9 +122,9 @@ namespace CapaDeDatos
         }
 
         // Listar detalle por IdVenta
-        public List<DetalleVenta> ListarDetallePorVenta(int idVenta)
+        public List<Detalle_Venta> ListarDetallePorVenta(int idVenta)
         {
-            var lista = new List<DetalleVenta>();
+            var lista = new List<Detalle_Venta>();
 
             try
             {
@@ -133,7 +145,7 @@ namespace CapaDeDatos
                         {
                             while (dr.Read())
                             {
-                                lista.Add(new DetalleVenta
+                                lista.Add(new Detalle_Venta
                                 {
                                     IdDetalleVenta = dr["IdDetalleVenta"] != DBNull.Value ? Convert.ToInt32(dr["IdDetalleVenta"]) : 0,
                                     IdVenta = dr["IdVenta"] != DBNull.Value ? Convert.ToInt32(dr["IdVenta"]) : 0,
@@ -151,7 +163,7 @@ namespace CapaDeDatos
             catch
             {
                 // si querés loguear
-                lista = new List<DetalleVenta>();
+                lista = new List<Detalle_Venta>();
             }
 
             return lista;

@@ -30,9 +30,9 @@ namespace BeanDesktop.CapaDeNegocio
             return objCD.ObtenerPorNumeroDocumento(numeroDocumento);
         }
 
-        public List<DetalleVenta> ListarDetallePorVenta(int idVenta)
+        public List<Detalle_Venta> ListarDetallePorVenta(int idVenta)
         {
-            if (idVenta <= 0) return new List<DetalleVenta>();
+            if (idVenta <= 0) return new List<Detalle_Venta>();
             return objCD.ListarDetallePorVenta(idVenta);
         }
     }
