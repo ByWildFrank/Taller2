@@ -242,10 +242,10 @@
             // 
             // pltGraficos
             // 
-            pltGraficos.Location = new Point(301, 235);
+            pltGraficos.Location = new Point(222, 223);
             pltGraficos.Name = "pltGraficos";
             pltGraficos.PanCursor = Cursors.Hand;
-            pltGraficos.Size = new Size(831, 526);
+            pltGraficos.Size = new Size(902, 526);
             pltGraficos.TabIndex = 7;
             pltGraficos.Text = "plotView1";
             pltGraficos.ZoomHorizontalCursor = Cursors.SizeWE;
