@@ -276,6 +276,41 @@ namespace BeanDesktop.CapaDeDatos
             }
             return kpis;
         }
+        public List<ClienteData> ObtenerDatosParaClustering()
+        {
+            var lista = new List<ClienteData>();
+            using (var cn = Conexion.GetConnection())
+            {
+                try
+                {
+                    string query = "SELECT IdCliente, NombreCompleto, Recency, Frequency, Monetary, AverageTicket, ProductVariety FROM VW_DatosSegmentacion";
+                    var cmd = new SqlCommand(query, cn);
+                    cn.Open();
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new ClienteData
+                            {
+                                IdCliente = Convert.ToSingle(dr["IdCliente"]),
+                                NombreCompleto = dr["NombreCompleto"].ToString(),
+                                Recency = Convert.ToSingle(dr["Recency"]),
+                                Frequency = Convert.ToSingle(dr["Frequency"]),
+                                Monetary = Convert.ToSingle(dr["Monetary"]),
+                                AverageTicket = Convert.ToSingle(dr["AverageTicket"]),
+                                ProductVariety = Convert.ToSingle(dr["ProductVariety"])
+                            });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Manejar error si
+                    MessageBox.Show($"Error al obtener datos para clustering: {ex.Message}");
+                }
+            }
+            return lista;
+        }
     }
 
 }
