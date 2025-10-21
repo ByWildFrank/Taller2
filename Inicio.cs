@@ -131,7 +131,7 @@ namespace BeanDesktop
 
         private void subMenuRegistrarVenta_Click(object sender, EventArgs e)
         {
-            AbrirFormulario((menuCajaRegistradora), new cajaRegistradora());
+            AbrirFormulario((menuCajaRegistradora), new cajaRegistradora(usuarioActual));
         }
 
         private void subMenuVerDetalles_Click(object sender, EventArgs e)
@@ -176,5 +176,9 @@ namespace BeanDesktop
             AbrirFormulario(menuReporte, new frmReporteVentas());
         }
 
+        private void contenedor_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
