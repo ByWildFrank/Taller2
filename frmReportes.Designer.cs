@@ -42,6 +42,10 @@
             panel3 = new Panel();
             panel4 = new Panel();
             panel5 = new Panel();
+            dtpFechaInicio = new DateTimePicker();
+            dtpFechaFin = new DateTimePicker();
+            btnAplicarFiltro = new FontAwesome.Sharp.IconButton();
+            btnMesActual = new FontAwesome.Sharp.IconButton();
             pnlGanancias.SuspendLayout();
             pnlNuevosClientes.SuspendLayout();
             pnlBajoStock.SuspendLayout();
@@ -226,7 +230,7 @@
             // cboTipoGrafico
             // 
             cboTipoGrafico.FormattingEnabled = true;
-            cboTipoGrafico.Location = new Point(12, 287);
+            cboTipoGrafico.Location = new Point(12, 486);
             cboTipoGrafico.Name = "cboTipoGrafico";
             cboTipoGrafico.Size = new Size(204, 23);
             cboTipoGrafico.TabIndex = 4;
@@ -234,7 +238,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 269);
+            label1.Location = new Point(12, 468);
             label1.Name = "label1";
             label1.Size = new Size(113, 15);
             label1.TabIndex = 6;
@@ -242,10 +246,10 @@
             // 
             // pltGraficos
             // 
-            pltGraficos.Location = new Point(222, 223);
+            pltGraficos.Location = new Point(222, 243);
             pltGraficos.Name = "pltGraficos";
             pltGraficos.PanCursor = Cursors.Hand;
-            pltGraficos.Size = new Size(902, 526);
+            pltGraficos.Size = new Size(909, 514);
             pltGraficos.TabIndex = 7;
             pltGraficos.Text = "plotView1";
             pltGraficos.ZoomHorizontalCursor = Cursors.SizeWE;
@@ -303,11 +307,57 @@
             panel5.Size = new Size(272, 94);
             panel5.TabIndex = 12;
             // 
+            // dtpFechaInicio
+            // 
+            dtpFechaInicio.CustomFormat = "";
+            dtpFechaInicio.Format = DateTimePickerFormat.Short;
+            dtpFechaInicio.Location = new Point(12, 243);
+            dtpFechaInicio.Name = "dtpFechaInicio";
+            dtpFechaInicio.Size = new Size(153, 23);
+            dtpFechaInicio.TabIndex = 13;
+            // 
+            // dtpFechaFin
+            // 
+            dtpFechaFin.CustomFormat = "";
+            dtpFechaFin.Format = DateTimePickerFormat.Short;
+            dtpFechaFin.Location = new Point(12, 272);
+            dtpFechaFin.Name = "dtpFechaFin";
+            dtpFechaFin.Size = new Size(153, 23);
+            dtpFechaFin.TabIndex = 14;
+            // 
+            // btnAplicarFiltro
+            // 
+            btnAplicarFiltro.IconChar = FontAwesome.Sharp.IconChar.None;
+            btnAplicarFiltro.IconColor = Color.Black;
+            btnAplicarFiltro.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnAplicarFiltro.Location = new Point(25, 301);
+            btnAplicarFiltro.Name = "btnAplicarFiltro";
+            btnAplicarFiltro.Size = new Size(123, 28);
+            btnAplicarFiltro.TabIndex = 15;
+            btnAplicarFiltro.Text = "aplicar filtro";
+            btnAplicarFiltro.UseVisualStyleBackColor = true;
+            // 
+            // btnMesActual
+            // 
+            btnMesActual.IconChar = FontAwesome.Sharp.IconChar.None;
+            btnMesActual.IconColor = Color.Black;
+            btnMesActual.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnMesActual.Location = new Point(25, 335);
+            btnMesActual.Name = "btnMesActual";
+            btnMesActual.Size = new Size(123, 29);
+            btnMesActual.TabIndex = 16;
+            btnMesActual.Text = " volver al mes actual";
+            btnMesActual.UseVisualStyleBackColor = true;
+            // 
             // FrmReportes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1134, 761);
+            Controls.Add(btnMesActual);
+            Controls.Add(btnAplicarFiltro);
+            Controls.Add(dtpFechaFin);
+            Controls.Add(dtpFechaInicio);
             Controls.Add(pnlBajoStock);
             Controls.Add(pnlSegmento);
             Controls.Add(pltGraficos);
@@ -365,5 +415,9 @@
         private Panel panel3;
         private Panel panel4;
         private Panel panel5;
+        private DateTimePicker dtpFechaInicio;
+        private DateTimePicker dtpFechaFin;
+        private FontAwesome.Sharp.IconButton btnAplicarFiltro;
+        private FontAwesome.Sharp.IconButton btnMesActual;
     }
 }

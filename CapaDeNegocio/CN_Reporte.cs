@@ -54,5 +54,28 @@ namespace BeanDesktop.CapaDeNegocio
         {
             return objcd_reporte.ObtenerDatosDashboard();
         }
+        public Dictionary<string, decimal> ObtenerVentasPorVendedor(DateTime fechaInicio, DateTime fechaFin)
+        {
+            return objcd_reporte.ObtenerVentasPorVendedor(fechaInicio, fechaFin);
+        }
+        public DashboardKPIs ObtenerDatosDashboard(DateTime? fechaInicio = null, DateTime? fechaFin = null)
+        {
+            return objcd_reporte.ObtenerDatosDashboard(fechaInicio, fechaFin);
+        }
+
+        public Dictionary<string, int> ObtenerClientesPorSegmento(DateTime? fechaFin = null)
+        {
+            return objcd_reporte.ObtenerClientesPorSegmento(fechaFin);
+        }
+
+        public Dictionary<string, decimal> ObtenerVentasPorProducto(DateTime? fechaInicio = null, DateTime? fechaFin = null)
+        {
+            return objcd_reporte.ObtenerVentasPorProducto(fechaInicio, fechaFin);
+        }
+
+        public Dictionary<string, decimal> ObtenerGananciasMensuales(DateTime? fechaInicio = null, DateTime? fechaFin = null)
+        {
+            return objcd_reporte.ObtenerGananciasMensuales(fechaInicio, fechaFin);
+        }
     }
 }

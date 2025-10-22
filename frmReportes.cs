@@ -1,5 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using BeanDesktop.CapaDeEntidades;
+using BeanDesktop.CapaDeNegocio;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
+using OxyPlot.WindowsForms;
+using OxyPlot.Legends;
+
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using BeanDesktop.CapaDeEntidades;
@@ -7,14 +23,15 @@ using BeanDesktop.CapaDeNegocio;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using OxyPlot.WindowsForms;
+using OxyPlot.Legends;
 
 namespace BeanDesktop
 {
     public partial class FrmReportes : Form
     {
-        // Colores para los bordes de las cards
-        private readonly Color _colorBordePositivo = Color.FromArgb(223, 240, 216); // Verde claro
-        private readonly Color _colorBordeNegativo = Color.FromArgb(242, 222, 222); // Rojo claro
+        private readonly Color _colorBordePositivo = Color.FromArgb(223, 240, 216);
+        private readonly Color _colorBordeNegativo = Color.FromArgb(242, 222, 222);
         private readonly Color _colorBordeNeutro = Color.WhiteSmoke;
 
         public FrmReportes()
@@ -24,15 +41,59 @@ namespace BeanDesktop
 
         private void FrmReportes_Load(object sender, EventArgs e)
         {
+            // Configurar selectores de fecha
+            ConfigurarSelectoresFecha();
+
             // Configurar ComboBox
-            cboTipoGrafico.Items.AddRange(new string[] { "Clientes por Segmento", "Ganancias Mensuales", "Ventas por Producto" });
+            cboTipoGrafico.Items.AddRange(new string[] {
+                "Clientes por Segmento",
+                "Ganancias Mensuales",
+                "Ventas por Producto",
+                "Ventas por Vendedor"
+            });
             cboTipoGrafico.SelectedIndexChanged += CboTipoGrafico_SelectedIndexChanged;
-            cboTipoGrafico.SelectedIndex = 0; // Esto disparará el evento y cargará el primer gráfico
+            cboTipoGrafico.SelectedIndex = 0;
 
             this.BackColor = Color.FromArgb(245, 246, 250);
 
-            // Carga inicial de KPIs
+            // Carga inicial
             CargarDatosKPIs();
+        }
+
+        private void ConfigurarSelectoresFecha()
+        {
+            // Fecha inicio: primer día del mes actual
+            dtpFechaInicio.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            dtpFechaInicio.Format = DateTimePickerFormat.Short;
+
+            // Fecha fin: hoy
+            dtpFechaFin.Value = DateTime.Now;
+            dtpFechaFin.Format = DateTimePickerFormat.Short;
+
+            // Eventos de botones
+            btnAplicarFiltro.Click += BtnAplicarFiltro_Click;
+            btnMesActual.Click += BtnMesActual_Click;
+        }
+
+        private void BtnAplicarFiltro_Click(object sender, EventArgs e)
+        {
+            if (dtpFechaInicio.Value > dtpFechaFin.Value)
+            {
+                MessageBox.Show("La fecha de inicio no puede ser mayor a la fecha final.",
+                    "Fechas inválidas", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            CargarDatosKPIs();
+            CargarGraficoSeleccionado();
+        }
+
+        private void BtnMesActual_Click(object sender, EventArgs e)
+        {
+            dtpFechaInicio.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            dtpFechaFin.Value = DateTime.Now;
+            CargarDatosKPIs();
+            CargarGraficoSeleccionado();
         }
 
         private void CboTipoGrafico_SelectedIndexChanged(object sender, EventArgs e)
@@ -48,6 +109,7 @@ namespace BeanDesktop
                 case "Clientes por Segmento": CargarGraficoSegmentos_Oxy(); break;
                 case "Ganancias Mensuales": CargarGraficoGanancias_Oxy(); break;
                 case "Ventas por Producto": CargarGraficoVentasProducto_Oxy(); break;
+                case "Ventas por Vendedor": CargarGraficoVentasVendedor_Oxy(); break;
             }
         }
 
@@ -58,38 +120,55 @@ namespace BeanDesktop
 
             try
             {
-                kpis = cnReporte.ObtenerDatosDashboard();
+                // Pasar las fechas seleccionadas
+                kpis = cnReporte.ObtenerDatosDashboard(dtpFechaInicio.Value, dtpFechaFin.Value);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"No se pudieron cargar los indicadores: {ex.Message}", "Error de Conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"No se pudieron cargar los indicadores: {ex.Message}",
+                    "Error de Conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // --- Card 1: Ganancias del Mes ---
+            // Formatear período para mostrar en las tarjetas
+            string periodo = "";
+            if (dtpFechaInicio.Value.Month == DateTime.Now.Month &&
+                dtpFechaInicio.Value.Year == DateTime.Now.Year &&
+                dtpFechaFin.Value.Date == DateTime.Now.Date)
+            {
+                periodo = "(Mes Actual)";
+            }
+            else
+            {
+                periodo = $"({dtpFechaInicio.Value:dd/MM} - {dtpFechaFin.Value:dd/MM})";
+            }
+
+            // Card 1: Ganancias (SIEMPRE del mes actual)
             lblTituloGanancias.Text = "Ganancias (Mes Actual)";
             lblValorGanancias.Text = kpis.GananciasMesActual.ToString("C");
-            ConfigurarIndicador(lblPorcentajeGanancias, pnlGanancias, kpis.GananciasMesActual, kpis.GananciasMesAnterior, "vs mes anterior");
+            ConfigurarIndicador(lblPorcentajeGanancias, pnlGanancias,
+                kpis.GananciasMesActual, kpis.GananciasMesAnterior, "vs mes anterior");
 
-            // --- Card 2: Nuevos Clientes ---
-            lblTituloNuevosClientes.Text = "Nuevos Clientes (Mes Actual)";
+            // Card 2: Nuevos Clientes (del período seleccionado)
+            lblTituloNuevosClientes.Text = $"Nuevos Clientes {periodo}";
             lblValorNuevosClientes.Text = kpis.NuevosClientesActual.ToString();
-            ConfigurarIndicador(lblPorcentajeNuevosClientes, pnlNuevosClientes, kpis.NuevosClientesActual, kpis.NuevosClientesAnterior, "vs mes anterior");
+            ConfigurarIndicador(lblPorcentajeNuevosClientes, pnlNuevosClientes,
+                kpis.NuevosClientesActual, kpis.NuevosClientesAnterior, "vs período anterior");
 
-            // --- Card 3: Ticket Promedio ---
-            lblTituloTicketPromedio.Text = "Ticket Promedio (Mes Actual)";
+            // Card 3: Ticket Promedio (del período seleccionado)
+            lblTituloTicketPromedio.Text = $"Ticket Promedio {periodo}";
             lblValorTicketPromedio.Text = kpis.TicketPromedioActual.ToString("C");
-            ConfigurarIndicador(lblPorcentajeTicket, pnlTicketPromedio, kpis.TicketPromedioActual, kpis.TicketPromedioAnterior, "vs mes anterior");
+            ConfigurarIndicador(lblPorcentajeTicket, pnlTicketPromedio,
+                kpis.TicketPromedioActual, kpis.TicketPromedioAnterior, "vs período anterior");
 
-            // --- Card 4: Segmento Dominante ---
+            // Card 4: Segmento Dominante (hasta la fecha fin)
             lblTituloSegmento.Text = "Segmento Dominante";
-            lblValorSegmento.Text = "Grupo de clientes más común"; 
-            lblValorSegmento.Text = kpis.SegmentoDominante; // Asigna el valor (ej: "AltoValor")
+            lblValorSegmento.Text = kpis.SegmentoDominante;
             lblValorSegmento.ForeColor = Color.Gray;
             pnlSegmento.BackColor = Color.FromArgb(232, 243, 255);
 
-            // --- Alerta especial para Bajo Stock (puedes tener un panel dedicado para esto) ---
-            lblTituloBajoStock.Text = "Productos en Bajo Stock (<20)";
+            // Card 5: Bajo Stock (SIEMPRE actual)
+            lblTituloBajoStock.Text = "Productos en Bajo Stock (<10)";
             lblValorBajoStock.Text = kpis.ProductosBajoStock.ToString();
             if (kpis.ProductosBajoStock > 0)
             {
@@ -112,7 +191,7 @@ namespace BeanDesktop
             if (valorAnterior != 0)
             {
                 decimal cambio = ((valorActual - valorAnterior) / valorAnterior) * 100;
-                if (cambio > 0.1m) // Un pequeño umbral para no mostrar verde por cambios mínimos
+                if (cambio > 0.1m)
                 {
                     texto = $"▲ {cambio:F1}% {textoComparacion}";
                     colorTexto = Color.DarkGreen;
@@ -140,16 +219,18 @@ namespace BeanDesktop
         {
             try
             {
-                var datos = new CN_Reporte().ObtenerClientesPorSegmento();
+                // Pasar fecha fin para filtrar clientes registrados hasta esa fecha
+                var datos = new CN_Reporte().ObtenerClientesPorSegmento(dtpFechaFin.Value);
                 if (datos == null || datos.Count == 0)
                 {
                     MessageBox.Show("No hay datos de segmentos para mostrar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ResetearGrafico();
                     return;
                 }
 
                 var model = new PlotModel
                 {
-                    Title = "Distribución de Clientes por Segmento",
+                    Title = $"Distribución de Clientes por Segmento (hasta {dtpFechaFin.Value:dd/MM/yyyy})",
                     TitleFontSize = 18,
                     Background = OxyColors.White
                 };
@@ -187,27 +268,28 @@ namespace BeanDesktop
             }
         }
 
-        // ------------------- GRAFICO 2: GANANCIAS MENSUALES (Columnas Verticales) -------------------
+        // ------------------- GRAFICO 2: GANANCIAS MENSUALES -------------------
         private void CargarGraficoGanancias_Oxy()
         {
             try
             {
-                var datos = new CN_Reporte().ObtenerGananciasMensuales();
+                // Pasar rango de fechas
+                var datos = new CN_Reporte().ObtenerGananciasMensuales(dtpFechaInicio.Value, dtpFechaFin.Value);
                 if (datos == null || datos.Count == 0)
                 {
                     MessageBox.Show("No hay datos de ganancias mensuales para mostrar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ResetearGrafico();
                     return;
                 }
 
                 var model = new PlotModel
                 {
-                    Title = "Ganancias Mensuales",
+                    Title = $"Ganancias Mensuales ({dtpFechaInicio.Value:MMM yyyy} - {dtpFechaFin.Value:MMM yyyy})",
                     TitleFontSize = 18,
                     Background = OxyColors.White,
                     Padding = new OxyThickness(60, 10, 20, 60)
                 };
 
-                // Eje Y: Categorías (Meses) - Lo ponemos vertical para simular columnas
                 var categoryAxis = new CategoryAxis
                 {
                     Position = AxisPosition.Left,
@@ -222,7 +304,6 @@ namespace BeanDesktop
                 }
                 model.Axes.Add(categoryAxis);
 
-                // Eje X: Valores (Ganancias) - Lo ponemos horizontal
                 var valueAxis = new LinearAxis
                 {
                     Position = AxisPosition.Bottom,
@@ -233,12 +314,10 @@ namespace BeanDesktop
                     MajorGridlineColor = OxyColor.FromRgb(220, 220, 220),
                     MinorGridlineStyle = LineStyle.Dot,
                     MinorGridlineColor = OxyColor.FromRgb(240, 240, 240),
-                    FontSize = 12,
-                    Angle = -45
+                    FontSize = 12
                 };
                 model.Axes.Add(valueAxis);
 
-                // Usamos BarSeries horizontal (compatible con todas las versiones)
                 var barSeries = new BarSeries
                 {
                     Title = "Ganancias",
@@ -264,30 +343,30 @@ namespace BeanDesktop
             }
         }
 
-        // ------------------- GRAFICO 3: VENTAS POR PRODUCTO (Barras Horizontales, Top 5) -------------------
+        // ------------------- GRAFICO 3: VENTAS POR PRODUCTO -------------------
         private void CargarGraficoVentasProducto_Oxy()
         {
             try
             {
-                var datos = new CN_Reporte().ObtenerVentasPorProducto();
+                // Pasar rango de fechas
+                var datos = new CN_Reporte().ObtenerVentasPorProducto(dtpFechaInicio.Value, dtpFechaFin.Value);
                 if (datos == null || datos.Count == 0)
                 {
                     MessageBox.Show("No hay datos de ventas por producto para mostrar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ResetearGrafico();
                     return;
                 }
 
-                // Top 5 ordenado descendente
                 var top5 = datos.OrderByDescending(d => d.Value).Take(5).ToList();
 
                 var model = new PlotModel
                 {
-                    Title = "Ventas por Producto (Top 5)",
+                    Title = $"Ventas por Producto - Top 5 ({dtpFechaInicio.Value:dd/MM} - {dtpFechaFin.Value:dd/MM})",
                     TitleFontSize = 18,
                     Background = OxyColors.White,
                     Padding = new OxyThickness(120, 10, 60, 40)
                 };
 
-                // Eje Y: Categorías (Productos)
                 var categoryAxis = new CategoryAxis
                 {
                     Position = AxisPosition.Left,
@@ -296,14 +375,12 @@ namespace BeanDesktop
                     FontSize = 12
                 };
 
-                // Invertir orden para que el mayor quede arriba
                 foreach (var item in top5.AsEnumerable().Reverse())
                 {
                     categoryAxis.Labels.Add(item.Key);
                 }
                 model.Axes.Add(categoryAxis);
 
-                // Eje X: Valores (Total Vendido)
                 var valueAxis = new LinearAxis
                 {
                     Position = AxisPosition.Bottom,
@@ -316,7 +393,6 @@ namespace BeanDesktop
                 };
                 model.Axes.Add(valueAxis);
 
-                // Serie de Barras Horizontales - Usando sintaxis compatible
                 var barSeries = new BarSeries
                 {
                     Title = "Ventas",
@@ -328,7 +404,6 @@ namespace BeanDesktop
                     FontSize = 10
                 };
 
-                // Agregar items usando solo el valor (compatible con todas las versiones)
                 foreach (var item in top5.AsEnumerable().Reverse())
                 {
                     barSeries.Items.Add(new BarItem(Convert.ToDouble(item.Value)));
@@ -341,6 +416,90 @@ namespace BeanDesktop
             {
                 MessageBox.Show($"Error al cargar gráfico de ventas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        // ------------------- GRAFICO 4: VENTAS POR VENDEDOR -------------------
+        private void CargarGraficoVentasVendedor_Oxy()
+        {
+            try
+            {
+                // Usar las fechas del selector
+                var datos = new CN_Reporte().ObtenerVentasPorVendedor(dtpFechaInicio.Value, dtpFechaFin.Value);
+
+                if (datos == null || datos.Count == 0)
+                {
+                    MessageBox.Show("No hay datos de ventas por vendedor en el período seleccionado.",
+                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ResetearGrafico();
+                    return;
+                }
+
+                ResetearGrafico();
+
+                var model = new PlotModel
+                {
+                    Title = $"Ventas por Vendedor ({dtpFechaInicio.Value:dd/MM} - {dtpFechaFin.Value:dd/MM})",
+                    TitleFontSize = 18,
+                    Background = OxyColors.White,
+                    Padding = new OxyThickness(150, 10, 60, 40)
+                };
+
+                var categoryAxis = new CategoryAxis
+                {
+                    Position = AxisPosition.Left,
+                    Title = "Vendedor",
+                    TitleFontSize = 14,
+                    FontSize = 11
+                };
+
+                foreach (var item in datos)
+                {
+                    categoryAxis.Labels.Add(item.Key);
+                }
+                model.Axes.Add(categoryAxis);
+
+                var valueAxis = new LinearAxis
+                {
+                    Position = AxisPosition.Bottom,
+                    Title = "Total Vendido ($)",
+                    TitleFontSize = 14,
+                    StringFormat = "C0",
+                    MajorGridlineStyle = LineStyle.Solid,
+                    MajorGridlineColor = OxyColor.FromRgb(220, 220, 220),
+                    FontSize = 12
+                };
+                model.Axes.Add(valueAxis);
+
+                var barSeries = new BarSeries
+                {
+                    Title = "Ventas",
+                    FillColor = OxyColor.FromRgb(91, 155, 213),
+                    StrokeThickness = 1,
+                    StrokeColor = OxyColors.Black,
+                    LabelFormatString = "{0:C0}",
+                    LabelPlacement = LabelPlacement.Outside,
+                    FontSize = 10
+                };
+
+                foreach (var item in datos)
+                {
+                    barSeries.Items.Add(new BarItem(Convert.ToDouble(item.Value)));
+                }
+
+                model.Series.Add(barSeries);
+                pltGraficos.Model = model;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar gráfico de vendedores: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ResetearGrafico()
+        {
+            pltGraficos.Model = new PlotModel();
+            pltGraficos.InvalidatePlot(true);
         }
     }
 }

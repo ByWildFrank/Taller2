@@ -311,6 +311,172 @@ namespace BeanDesktop.CapaDeDatos
             }
             return lista;
         }
+
+        public Dictionary<string, decimal> ObtenerVentasPorVendedor(DateTime fechaInicio, DateTime fechaFin)
+        {
+            var resultado = new Dictionary<string, decimal>();
+            using (SqlConnection cn = Conexion.GetConnection())
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SP_ReporteVentasPorVendedor", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    // Pasamos las fechas como parámetros SQL seguros
+                    cmd.Parameters.Add(new SqlParameter("@FechaInicio", SqlDbType.Date) { Value = fechaInicio.Date });
+                    cmd.Parameters.Add(new SqlParameter("@FechaFin", SqlDbType.Date) { Value = fechaFin.Date });
+
+                    cn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            resultado.Add(dr["Vendedor"].ToString(), Convert.ToDecimal(dr["TotalVendido"]));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al obtener ventas por vendedor: {ex.Message}"); // O loggear el error
+                }
+            }
+            return resultado;
+        }
+        public DashboardKPIs ObtenerDatosDashboard(DateTime? fechaInicio = null, DateTime? fechaFin = null)
+        {
+            DashboardKPIs kpis = new DashboardKPIs();
+            using (SqlConnection cn = Conexion.GetConnection())
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SP_ReporteKPIsDashboard", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Agregar parámetros opcionales
+                    if (fechaInicio.HasValue)
+                        cmd.Parameters.Add(new SqlParameter("@FechaInicio", SqlDbType.Date) { Value = fechaInicio.Value });
+
+                    if (fechaFin.HasValue)
+                        cmd.Parameters.Add(new SqlParameter("@FechaFin", SqlDbType.Date) { Value = fechaFin.Value });
+
+                    cn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            kpis.GananciasMesActual = Convert.ToDecimal(dr["GananciasMesActual"]);
+                            kpis.GananciasMesAnterior = Convert.ToDecimal(dr["GananciasMesAnterior"]);
+                            kpis.TicketPromedioActual = Convert.ToDecimal(dr["TicketPromedioActual"]);
+                            kpis.TicketPromedioAnterior = Convert.ToDecimal(dr["TicketPromedioAnterior"]);
+                            kpis.NuevosClientesActual = Convert.ToInt32(dr["NuevosClientesActual"]);
+                            kpis.NuevosClientesAnterior = Convert.ToInt32(dr["NuevosClientesAnterior"]);
+                            kpis.ProductosBajoStock = Convert.ToInt32(dr["ProductosBajoStock"]);
+                            kpis.SegmentoDominante = dr["SegmentoDominante"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error al obtener datos del dashboard: {ex.Message}");
+                }
+            }
+            return kpis;
+        }
+
+        public Dictionary<string, int> ObtenerClientesPorSegmento(DateTime? fechaFin = null)
+        {
+            var resultado = new Dictionary<string, int>();
+            using (SqlConnection cn = Conexion.GetConnection())
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SP_ReporteClientesPorSegmento", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    if (fechaFin.HasValue)
+                        cmd.Parameters.Add(new SqlParameter("@FechaFin", SqlDbType.Date) { Value = fechaFin.Value });
+
+                    cn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            resultado.Add(dr["Segmento"].ToString(), Convert.ToInt32(dr["Total"]));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error al obtener clientes por segmento: {ex.Message}");
+                }
+            }
+            return resultado;
+        }
+
+        public Dictionary<string, decimal> ObtenerVentasPorProducto(DateTime? fechaInicio = null, DateTime? fechaFin = null)
+        {
+            var resultado = new Dictionary<string, decimal>();
+            using (SqlConnection cn = Conexion.GetConnection())
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SP_ReporteVentasPorProducto", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    if (fechaInicio.HasValue)
+                        cmd.Parameters.Add(new SqlParameter("@FechaInicio", SqlDbType.Date) { Value = fechaInicio.Value });
+
+                    if (fechaFin.HasValue)
+                        cmd.Parameters.Add(new SqlParameter("@FechaFin", SqlDbType.Date) { Value = fechaFin.Value });
+
+                    cn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            resultado.Add(dr["Nombre"].ToString(), Convert.ToDecimal(dr["TotalVendido"]));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error al obtener ventas por producto: {ex.Message}");
+                }
+            }
+            return resultado;
+        }
+
+        public Dictionary<string, decimal> ObtenerGananciasMensuales(DateTime? fechaInicio = null, DateTime? fechaFin = null)
+        {
+            var resultado = new SortedDictionary<string, decimal>();
+            using (SqlConnection cn = Conexion.GetConnection())
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SP_ReporteGananciasMensuales", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    if (fechaInicio.HasValue)
+                        cmd.Parameters.Add(new SqlParameter("@FechaInicio", SqlDbType.Date) { Value = fechaInicio.Value });
+
+                    if (fechaFin.HasValue)
+                        cmd.Parameters.Add(new SqlParameter("@FechaFin", SqlDbType.Date) { Value = fechaFin.Value });
+
+                    cn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            resultado.Add(dr["AnioMes"].ToString(), Convert.ToDecimal(dr["GananciaTotal"]));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error al obtener ganancias mensuales: {ex.Message}");
+                }
+            }
+            return resultado.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        }
     }
 
 }
