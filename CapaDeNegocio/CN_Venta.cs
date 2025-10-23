@@ -1,4 +1,5 @@
 ﻿using BeanDesktop.CapaDeDatos;
+using BeanDesktop.CapaDeEntidades;
 using CapaDeDatos;
 using CapaDeEntidades;
 using System;
@@ -34,6 +35,10 @@ namespace BeanDesktop.CapaDeNegocio
         {
             if (idVenta <= 0) return new List<Detalle_Venta>();
             return objCD.ListarDetallePorVenta(idVenta);
+        }
+        public List<VentaInfo> ListarVentas()
+        {
+            return objCD.ListarVentas();
         }
     }
 }

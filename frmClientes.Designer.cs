@@ -52,6 +52,7 @@
             txtBusqueda = new TextBox();
             btnBuscar = new Button();
             btnLimpiarBuscador = new Button();
+            btnLimpiar = new FontAwesome.Sharp.IconButton();
             ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
             groupBoxDatos.SuspendLayout();
             groupBoxBusqueda.SuspendLayout();
@@ -62,7 +63,7 @@
             lblDocumento.AutoSize = true;
             lblDocumento.Location = new Point(20, 33);
             lblDocumento.Name = "lblDocumento";
-            lblDocumento.Size = new Size(100, 20);
+            lblDocumento.Size = new Size(81, 15);
             lblDocumento.TabIndex = 0;
             lblDocumento.Text = "Documento *:";
             // 
@@ -71,7 +72,7 @@
             lblNombreCompleto.AutoSize = true;
             lblNombreCompleto.Location = new Point(6, 70);
             lblNombreCompleto.Name = "lblNombreCompleto";
-            lblNombreCompleto.Size = new Size(147, 20);
+            lblNombreCompleto.Size = new Size(118, 15);
             lblNombreCompleto.TabIndex = 2;
             lblNombreCompleto.Text = "Nombre Completo *:";
             // 
@@ -80,7 +81,7 @@
             lblCorreo.AutoSize = true;
             lblCorreo.Location = new Point(40, 110);
             lblCorreo.Name = "lblCorreo";
-            lblCorreo.Size = new Size(67, 20);
+            lblCorreo.Size = new Size(54, 15);
             lblCorreo.TabIndex = 4;
             lblCorreo.Text = "Correo *:";
             // 
@@ -89,7 +90,7 @@
             lblTelefono.AutoSize = true;
             lblTelefono.Location = new Point(40, 150);
             lblTelefono.Name = "lblTelefono";
-            lblTelefono.Size = new Size(80, 20);
+            lblTelefono.Size = new Size(63, 15);
             lblTelefono.TabIndex = 6;
             lblTelefono.Text = "Teléfono *:";
             // 
@@ -98,7 +99,7 @@
             lblEstado.AutoSize = true;
             lblEstado.Location = new Point(40, 190);
             lblEstado.Name = "lblEstado";
-            lblEstado.Size = new Size(57, 20);
+            lblEstado.Size = new Size(45, 15);
             lblEstado.TabIndex = 8;
             lblEstado.Text = "Estado:";
             // 
@@ -106,28 +107,28 @@
             // 
             txtDocumento.Location = new Point(158, 27);
             txtDocumento.Name = "txtDocumento";
-            txtDocumento.Size = new Size(200, 27);
+            txtDocumento.Size = new Size(200, 23);
             txtDocumento.TabIndex = 1;
             // 
             // txtNombreCompleto
             // 
             txtNombreCompleto.Location = new Point(158, 67);
             txtNombreCompleto.Name = "txtNombreCompleto";
-            txtNombreCompleto.Size = new Size(200, 27);
+            txtNombreCompleto.Size = new Size(200, 23);
             txtNombreCompleto.TabIndex = 3;
             // 
             // txtCorreo
             // 
             txtCorreo.Location = new Point(158, 103);
             txtCorreo.Name = "txtCorreo";
-            txtCorreo.Size = new Size(200, 27);
+            txtCorreo.Size = new Size(200, 23);
             txtCorreo.TabIndex = 5;
             // 
             // txtTelefono
             // 
             txtTelefono.Location = new Point(158, 147);
             txtTelefono.Name = "txtTelefono";
-            txtTelefono.Size = new Size(200, 27);
+            txtTelefono.Size = new Size(200, 23);
             txtTelefono.TabIndex = 7;
             // 
             // cboEstado
@@ -136,7 +137,7 @@
             cboEstado.FormattingEnabled = true;
             cboEstado.Location = new Point(158, 187);
             cboEstado.Name = "cboEstado";
-            cboEstado.Size = new Size(200, 28);
+            cboEstado.Size = new Size(200, 23);
             cboEstado.TabIndex = 9;
             // 
             // btnGuardar
@@ -176,7 +177,6 @@
             dgvClientes.Name = "dgvClientes";
             dgvClientes.ReadOnly = true;
             dgvClientes.RowHeadersWidth = 51;
-            dgvClientes.RowTemplate.Height = 25;
             dgvClientes.Size = new Size(700, 300);
             dgvClientes.TabIndex = 12;
             dgvClientes.CellContentClick += dgvClientes_CellContentClick;
@@ -275,7 +275,7 @@
             // 
             txtid.Location = new Point(0, 0);
             txtid.Name = "txtid";
-            txtid.Size = new Size(100, 27);
+            txtid.Size = new Size(100, 23);
             txtid.TabIndex = 14;
             txtid.Text = "0";
             txtid.Visible = false;
@@ -284,7 +284,7 @@
             // 
             txtindice.Location = new Point(0, 0);
             txtindice.Name = "txtindice";
-            txtindice.Size = new Size(100, 27);
+            txtindice.Size = new Size(100, 23);
             txtindice.TabIndex = 15;
             txtindice.Text = "-1";
             txtindice.Visible = false;
@@ -307,14 +307,14 @@
             cboBusqueda.DropDownStyle = ComboBoxStyle.DropDownList;
             cboBusqueda.Location = new Point(20, 30);
             cboBusqueda.Name = "cboBusqueda";
-            cboBusqueda.Size = new Size(150, 28);
+            cboBusqueda.Size = new Size(150, 23);
             cboBusqueda.TabIndex = 0;
             // 
             // txtBusqueda
             // 
             txtBusqueda.Location = new Point(180, 30);
             txtBusqueda.Name = "txtBusqueda";
-            txtBusqueda.Size = new Size(200, 27);
+            txtBusqueda.Size = new Size(200, 23);
             txtBusqueda.TabIndex = 1;
             // 
             // btnBuscar
@@ -337,9 +337,31 @@
             btnLimpiarBuscador.UseVisualStyleBackColor = true;
             btnLimpiarBuscador.Click += btnLimpiarBuscador_Click;
             // 
+            // btnLimpiar
+            // 
+            btnLimpiar.BackColor = Color.RoyalBlue;
+            btnLimpiar.Cursor = Cursors.Hand;
+            btnLimpiar.FlatAppearance.BorderColor = Color.Black;
+            btnLimpiar.FlatStyle = FlatStyle.Flat;
+            btnLimpiar.ForeColor = Color.White;
+            btnLimpiar.IconChar = FontAwesome.Sharp.IconChar.Eraser;
+            btnLimpiar.IconColor = Color.White;
+            btnLimpiar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnLimpiar.IconSize = 16;
+            btnLimpiar.Location = new Point(131, 326);
+            btnLimpiar.Name = "btnLimpiar";
+            btnLimpiar.Size = new Size(94, 26);
+            btnLimpiar.TabIndex = 17;
+            btnLimpiar.Text = "Limpiar";
+            btnLimpiar.TextAlign = ContentAlignment.MiddleRight;
+            btnLimpiar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnLimpiar.UseVisualStyleBackColor = false;
+            btnLimpiar.Click += btnLimpiar_Click;
+            // 
             // frmClientes
             // 
             ClientSize = new Size(1120, 420);
+            Controls.Add(btnLimpiar);
             Controls.Add(groupBoxDatos);
             Controls.Add(groupBoxBusqueda);
             Controls.Add(dgvClientes);
@@ -393,5 +415,6 @@
 
         private System.Windows.Forms.TextBox txtid;
         private System.Windows.Forms.TextBox txtindice;
+        private FontAwesome.Sharp.IconButton btnLimpiar;
     }
 }

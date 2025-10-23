@@ -79,19 +79,17 @@
             panel1.Controls.Add(BtnDashboard);
             panel1.Controls.Add(panel2);
             panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(269, 245);
+            panel1.Size = new Size(235, 184);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
             // PnlNav
             // 
             PnlNav.BackColor = Color.DodgerBlue;
-            PnlNav.Location = new Point(3, 253);
-            PnlNav.Margin = new Padding(3, 4, 3, 4);
+            PnlNav.Location = new Point(3, 190);
             PnlNav.Name = "PnlNav";
-            PnlNav.Size = new Size(5, 133);
+            PnlNav.Size = new Size(4, 100);
             PnlNav.TabIndex = 1;
             // 
             // btnConfig
@@ -104,12 +102,11 @@
             btnConfig.ForeColor = Color.FromArgb(64, 158, 255);
             btnConfig.Image = (Image)resources.GetObject("btnConfig.Image");
             btnConfig.ImageAlign = ContentAlignment.MiddleRight;
-            btnConfig.Location = new Point(0, 724);
-            btnConfig.Margin = new Padding(3, 4, 3, 4);
+            btnConfig.Location = new Point(0, 543);
             btnConfig.Name = "btnConfig";
-            btnConfig.Padding = new Padding(29, 3, 29, 3);
+            btnConfig.Padding = new Padding(25, 2, 25, 2);
             btnConfig.RightToLeft = RightToLeft.No;
-            btnConfig.Size = new Size(263, 61);
+            btnConfig.Size = new Size(230, 46);
             btnConfig.TabIndex = 6;
             btnConfig.Text = "Configuración";
             btnConfig.TextAlign = ContentAlignment.MiddleLeft;
@@ -128,12 +125,11 @@
             buttonAiMl.ForeColor = Color.FromArgb(64, 158, 255);
             buttonAiMl.Image = (Image)resources.GetObject("buttonAiMl.Image");
             buttonAiMl.ImageAlign = ContentAlignment.MiddleRight;
-            buttonAiMl.Location = new Point(0, 623);
-            buttonAiMl.Margin = new Padding(3, 4, 3, 4);
+            buttonAiMl.Location = new Point(0, 468);
             buttonAiMl.Name = "buttonAiMl";
-            buttonAiMl.Padding = new Padding(6, 3, 6, 3);
+            buttonAiMl.Padding = new Padding(5, 2, 5, 2);
             buttonAiMl.RightToLeft = RightToLeft.No;
-            buttonAiMl.Size = new Size(269, 72);
+            buttonAiMl.Size = new Size(235, 54);
             buttonAiMl.TabIndex = 5;
             buttonAiMl.Text = "IA / ML";
             buttonAiMl.TextAlign = ContentAlignment.MiddleLeft;
@@ -152,12 +148,11 @@
             buttonCaja.ForeColor = Color.FromArgb(64, 158, 255);
             buttonCaja.Image = (Image)resources.GetObject("buttonCaja.Image");
             buttonCaja.ImageAlign = ContentAlignment.MiddleRight;
-            buttonCaja.Location = new Point(0, 515);
-            buttonCaja.Margin = new Padding(3, 4, 3, 4);
+            buttonCaja.Location = new Point(0, 387);
             buttonCaja.Name = "buttonCaja";
-            buttonCaja.Padding = new Padding(6, 3, 6, 3);
+            buttonCaja.Padding = new Padding(5, 2, 5, 2);
             buttonCaja.RightToLeft = RightToLeft.No;
-            buttonCaja.Size = new Size(269, 108);
+            buttonCaja.Size = new Size(235, 81);
             buttonCaja.TabIndex = 4;
             buttonCaja.Text = "Caja Registradora";
             buttonCaja.TextAlign = ContentAlignment.MiddleLeft;
@@ -176,12 +171,11 @@
             buttonUsuarios.ForeColor = Color.FromArgb(64, 158, 255);
             buttonUsuarios.Image = (Image)resources.GetObject("buttonUsuarios.Image");
             buttonUsuarios.ImageAlign = ContentAlignment.MiddleRight;
-            buttonUsuarios.Location = new Point(0, 439);
-            buttonUsuarios.Margin = new Padding(3, 4, 3, 4);
+            buttonUsuarios.Location = new Point(0, 330);
             buttonUsuarios.Name = "buttonUsuarios";
-            buttonUsuarios.Padding = new Padding(6, 3, 6, 3);
+            buttonUsuarios.Padding = new Padding(5, 2, 5, 2);
             buttonUsuarios.RightToLeft = RightToLeft.No;
-            buttonUsuarios.Size = new Size(269, 76);
+            buttonUsuarios.Size = new Size(235, 57);
             buttonUsuarios.TabIndex = 3;
             buttonUsuarios.Text = "Gestión de Usuarios";
             buttonUsuarios.TextAlign = ContentAlignment.MiddleLeft;
@@ -200,12 +194,11 @@
             btnStock.ForeColor = Color.FromArgb(64, 158, 255);
             btnStock.Image = (Image)resources.GetObject("btnStock.Image");
             btnStock.ImageAlign = ContentAlignment.MiddleRight;
-            btnStock.Location = new Point(0, 342);
-            btnStock.Margin = new Padding(3, 4, 3, 4);
+            btnStock.Location = new Point(0, 257);
             btnStock.Name = "btnStock";
-            btnStock.Padding = new Padding(6, 3, 6, 3);
+            btnStock.Padding = new Padding(5, 2, 5, 2);
             btnStock.RightToLeft = RightToLeft.No;
-            btnStock.Size = new Size(269, 97);
+            btnStock.Size = new Size(235, 73);
             btnStock.TabIndex = 2;
             btnStock.Text = "Gestión de Stock";
             btnStock.TextAlign = ContentAlignment.MiddleLeft;
@@ -224,12 +217,11 @@
             BtnDashboard.ForeColor = Color.FromArgb(64, 158, 255);
             BtnDashboard.Image = (Image)resources.GetObject("BtnDashboard.Image");
             BtnDashboard.ImageAlign = ContentAlignment.MiddleRight;
-            BtnDashboard.Location = new Point(0, 245);
-            BtnDashboard.Margin = new Padding(3, 4, 3, 4);
+            BtnDashboard.Location = new Point(0, 184);
             BtnDashboard.Name = "BtnDashboard";
-            BtnDashboard.Padding = new Padding(6, 3, 6, 3);
+            BtnDashboard.Padding = new Padding(5, 2, 5, 2);
             BtnDashboard.RightToLeft = RightToLeft.No;
-            BtnDashboard.Size = new Size(269, 97);
+            BtnDashboard.Size = new Size(235, 73);
             BtnDashboard.TabIndex = 1;
             BtnDashboard.Text = "Dashboard";
             BtnDashboard.TextAlign = ContentAlignment.MiddleLeft;
@@ -245,9 +237,8 @@
             panel2.Controls.Add(pictureBox1);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
-            panel2.Margin = new Padding(3, 4, 3, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(269, 245);
+            panel2.Size = new Size(235, 184);
             panel2.TabIndex = 0;
             // 
             // button1
@@ -256,10 +247,9 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.Tomato;
-            button1.Location = new Point(14, 16);
-            button1.Margin = new Padding(3, 4, 3, 4);
+            button1.Location = new Point(12, 12);
             button1.Name = "button1";
-            button1.Size = new Size(33, 45);
+            button1.Size = new Size(29, 34);
             button1.TabIndex = 3;
             button1.Text = "X";
             button1.UseVisualStyleBackColor = true;
@@ -270,9 +260,9 @@
             LblTipoUser.AutoSize = true;
             LblTipoUser.Font = new Font("Microsoft Sans Serif", 6.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             LblTipoUser.ForeColor = Color.WhiteSmoke;
-            LblTipoUser.Location = new Point(24, 151);
+            LblTipoUser.Location = new Point(21, 113);
             LblTipoUser.Name = "LblTipoUser";
-            LblTipoUser.Size = new Size(109, 15);
+            LblTipoUser.Size = new Size(83, 12);
             LblTipoUser.TabIndex = 2;
             LblTipoUser.Text = "Tipo de Usuario";
             // 
@@ -281,19 +271,18 @@
             LblUserNameInicio.AutoSize = true;
             LblUserNameInicio.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             LblUserNameInicio.ForeColor = Color.FromArgb(64, 158, 255);
-            LblUserNameInicio.Location = new Point(79, 116);
+            LblUserNameInicio.Location = new Point(69, 87);
             LblUserNameInicio.Name = "LblUserNameInicio";
-            LblUserNameInicio.Size = new Size(103, 20);
+            LblUserNameInicio.Size = new Size(85, 16);
             LblUserNameInicio.TabIndex = 1;
             LblUserNameInicio.Text = "User Name";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(93, 16);
-            pictureBox1.Margin = new Padding(3, 4, 3, 4);
+            pictureBox1.Location = new Point(81, 12);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(72, 84);
+            pictureBox1.Size = new Size(63, 63);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -301,10 +290,9 @@
             // contenedor
             // 
             contenedor.BackColor = Color.FromArgb(24, 30, 54);
-            contenedor.Location = new Point(275, 0);
-            contenedor.Margin = new Padding(3, 4, 3, 4);
+            contenedor.Location = new Point(241, 0);
             contenedor.Name = "contenedor";
-            contenedor.Size = new Size(1314, 1067);
+            contenedor.Size = new Size(1150, 800);
             contenedor.TabIndex = 1;
             contenedor.Paint += contenedor_Paint;
             // 
@@ -313,10 +301,9 @@
             panel3.BackColor = Color.FromArgb(24, 30, 54);
             panel3.Controls.Add(menu);
             panel3.ImeMode = ImeMode.NoControl;
-            panel3.Location = new Point(0, 245);
-            panel3.Margin = new Padding(3, 4, 3, 4);
+            panel3.Location = new Point(0, 184);
             panel3.Name = "panel3";
-            panel3.Size = new Size(269, 822);
+            panel3.Size = new Size(235, 616);
             panel3.TabIndex = 2;
             // 
             // menu
@@ -329,8 +316,7 @@
             menu.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
             menu.Location = new Point(0, 0);
             menu.Name = "menu";
-            menu.Padding = new Padding(7, 3, 0, 3);
-            menu.Size = new Size(242, 488);
+            menu.Size = new Size(241, 486);
             menu.TabIndex = 0;
             menu.Text = "menuStrip1";
             // 
@@ -367,14 +353,14 @@
             // reporteVentasSubMenuItem
             // 
             reporteVentasSubMenuItem.Name = "reporteVentasSubMenuItem";
-            reporteVentasSubMenuItem.Size = new Size(197, 32);
+            reporteVentasSubMenuItem.Size = new Size(159, 26);
             reporteVentasSubMenuItem.Text = "Ventas";
             reporteVentasSubMenuItem.Click += reporteVentasSubMenuItem_Click;
             // 
             // reporteEstadisticasSubMenuItem
             // 
             reporteEstadisticasSubMenuItem.Name = "reporteEstadisticasSubMenuItem";
-            reporteEstadisticasSubMenuItem.Size = new Size(197, 32);
+            reporteEstadisticasSubMenuItem.Size = new Size(159, 26);
             reporteEstadisticasSubMenuItem.Text = "Estadísticas";
             reporteEstadisticasSubMenuItem.Click += reporteEstadisticasSubMenuItem_Click;
             // 
@@ -396,14 +382,14 @@
             // subMenuRegistrarVenta
             // 
             subMenuRegistrarVenta.Name = "subMenuRegistrarVenta";
-            subMenuRegistrarVenta.Size = new Size(289, 32);
+            subMenuRegistrarVenta.Size = new Size(233, 26);
             subMenuRegistrarVenta.Text = "Registrar";
             subMenuRegistrarVenta.Click += subMenuRegistrarVenta_Click;
             // 
             // subMenuVerDetalles
             // 
             subMenuVerDetalles.Name = "subMenuVerDetalles";
-            subMenuVerDetalles.Size = new Size(289, 32);
+            subMenuVerDetalles.Size = new Size(233, 26);
             subMenuVerDetalles.Text = "Ver Detalles de Ventas";
             subMenuVerDetalles.Click += subMenuVerDetalles_Click;
             // 
@@ -425,21 +411,21 @@
             // agregarProductoToolStripMenuItem
             // 
             agregarProductoToolStripMenuItem.Name = "agregarProductoToolStripMenuItem";
-            agregarProductoToolStripMenuItem.Size = new Size(255, 32);
+            agregarProductoToolStripMenuItem.Size = new Size(203, 26);
             agregarProductoToolStripMenuItem.Text = "Agregar Producto";
             agregarProductoToolStripMenuItem.Click += agregarProductoToolStripMenuItem_Click;
             // 
             // categoríasToolStripMenuItem
             // 
             categoríasToolStripMenuItem.Name = "categoríasToolStripMenuItem";
-            categoríasToolStripMenuItem.Size = new Size(255, 32);
+            categoríasToolStripMenuItem.Size = new Size(203, 26);
             categoríasToolStripMenuItem.Text = "Categorías";
             categoríasToolStripMenuItem.Click += categoríasToolStripMenuItem_Click;
             // 
             // verStockToolStripMenuItem
             // 
             verStockToolStripMenuItem.Name = "verStockToolStripMenuItem";
-            verStockToolStripMenuItem.Size = new Size(255, 32);
+            verStockToolStripMenuItem.Size = new Size(203, 26);
             verStockToolStripMenuItem.Text = "Ver Stock";
             verStockToolStripMenuItem.Click += verStockToolStripMenuItem_Click;
             // 
@@ -505,15 +491,14 @@
             // 
             // Inicio
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(1600, 1067);
+            ClientSize = new Size(1400, 800);
             Controls.Add(panel3);
             Controls.Add(panel1);
             Controls.Add(contenedor);
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Inicio";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";

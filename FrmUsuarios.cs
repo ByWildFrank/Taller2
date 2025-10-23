@@ -53,25 +53,36 @@ namespace BeanDesktop
             cboBusqueda.SelectedIndex = 0;
 
 
-            //Mostrar todos los usuarios
+            // --- Carga de Datos ---
+            dgvdata.Rows.Clear(); // Limpiamos por si acaso
             List<Usuario> listaUsuarios = new CN_Usuario().Listar();
             foreach (Usuario item in listaUsuarios)
             {
                 dgvdata.Rows.Add(new object[]
                 {
-                    "",
-                    item.IdUsuario,
-                    item.Documento,
-                    item.NombreCompleto,
-                    item.Correo,
-                    item.Clave,
-                    item.oRol.IdRol,
-                    item.oRol.Descripcion,
-                    item.Estado,
-                    item.Estado == true ? "Activo" : "No Activo"
+            "",
+            item.IdUsuario,
+            item.Documento,
+            item.NombreCompleto,
+            item.Correo,
+            item.Clave,
+            item.oRol.IdRol,
+            item.oRol.Descripcion,
+            item.Estado, // Esta es la columna 'EstadoValor'
+            item.Estado == true ? "Activo" : "No Activo" // Esta es la columna 'Estado'
                 });
             }
 
+            // ✅ CAMBIO CLAVE: Ocultar los 'No Activos' por defecto
+            foreach (DataGridViewRow row in dgvdata.Rows)
+            {
+                // Asumimos que la columna "EstadoValor" (la que tiene el 0 o 1) se llama 'EstadoValor'
+                // Si se llama 'Estado' en la grilla, usa row.Cells["Estado"].Value
+                if (row.Cells["EstadoValor"].Value != null && Convert.ToBoolean(row.Cells["EstadoValor"].Value) == false)
+                {
+                    row.Visible = false;
+                }
+            }
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -155,26 +166,6 @@ namespace BeanDesktop
             cboEstado.SelectedIndex = 0;
         }
 
-
-        // esto era para poder poner una imagen en el boton de la lista de los ususarios pero no me funciono, chequear como hacerlo
-        private void dgvdata_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            /*
-            if (e.RowIndex < 0)
-                return;
-            if (e.ColumnIndex == 0)
-            {
-                e.Paint(e.CellBounds, DataGridViewPaintParts.All);
-                var w = Properties.Resources.exclamation.Width;
-                var h = Properties.Resources.exclamation.Height;
-                var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
-                var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
-                e.Graphics.DrawImage(Properties.Resources.exclamation, new Rectangle(x, y, w, h));
-                e.Handled = true;
-            }
-            */
-        }
-
         private void dgvdata_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dgvdata.Columns[e.ColumnIndex].Name == "btnSeleccionar")
@@ -220,17 +211,24 @@ namespace BeanDesktop
         {
             if (Convert.ToInt32(txtid.Text) != 0)
             {
-                if (MessageBox.Show("¿Desea eliminar el usuario?", "Mensaje", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("¿Desea desactivar el usuario?", "Mensaje", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     string mensaje = string.Empty;
                     Usuario objUsuario = new Usuario()
                     {
                         IdUsuario = Convert.ToInt32(txtid.Text)
                     };
+
                     bool respuesta = new CN_Usuario().Eliminar(objUsuario, out mensaje);
+
                     if (respuesta)
                     {
-                        dgvdata.Rows.RemoveAt(Convert.ToInt32(txtindice.Text));
+                        int indice = Convert.ToInt32(txtindice.Text);
+                        if (indice >= 0)
+                        {
+                            dgvdata.Rows[indice].Cells["EstadoValor"].Value = 0;
+                            dgvdata.Rows[indice].Cells["Estado"].Value = "No Activo";
+                        }
                         Limpiar();
                     }
                     else
@@ -278,6 +276,41 @@ namespace BeanDesktop
             else
             {
                 e.Handled = true;
+            }
+        }
+
+        private void txtBusqueda_TextChanged(object sender, EventArgs e)
+        {
+            string columnaFiltro = ((OpcionCombo)cboBusqueda.SelectedItem).Valor.ToString();
+            string textoBusqueda = txtBusqueda.Text.Trim().ToUpper();
+
+            if (dgvdata.Rows.Count > 0)
+            {
+                foreach (DataGridViewRow row in dgvdata.Rows)
+                {
+                    // Si la barra de búsqueda está vacía...
+                    if (string.IsNullOrEmpty(textoBusqueda))
+                    {
+                        // ✅ CAMBIO: Solo mostrar los activos
+                        if (row.Cells["EstadoValor"].Value != null && Convert.ToBoolean(row.Cells["EstadoValor"].Value) == true)
+                            row.Visible = true;
+                        else
+                            row.Visible = false;
+                    }
+                    else
+                    {
+                        // Si hay texto, filtramos como antes
+                        if (row.Cells[columnaFiltro].Value != null &&
+                            row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(textoBusqueda))
+                        {
+                            row.Visible = true;
+                        }
+                        else
+                        {
+                            row.Visible = false;
+                        }
+                    }
+                }
             }
         }
     }

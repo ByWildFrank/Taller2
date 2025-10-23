@@ -6,31 +6,31 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace BeanDesktop
-
 {
     public partial class cajaRegistradora : Form
     {
         private DataTable detalleVenta;
         private int idClienteSeleccionado = 0;
+        private Usuario usuarioLogueado;
 
-        private Usuario usuarioLogueado; // propiedad para guardar el usuario
+        // ✅ Guardamos la lista completa de productos para filtrar en memoria
+        private List<Producto> _listaProductosCompleta;
 
         public cajaRegistradora(Usuario usuario)
         {
             InitializeComponent();
-            usuarioLogueado = usuario; // guardamos el usuario logueado
+            usuarioLogueado = usuario;
             pnlCliente.BackColor = Color.White;
             pnlProductos.BackColor = Color.White;
             pnlCarrito.BackColor = Color.White;
             pnlTotales.BackColor = Color.White;
         }
 
-
         private void cajaRegistradora_Load(object sender, EventArgs e)
         {
-            // Configurar fondo y estética
             this.BackColor = Color.WhiteSmoke;
             pnlCliente.BackColor = Color.White;
             pnlProductos.BackColor = Color.White;
@@ -40,16 +40,15 @@ namespace BeanDesktop
             // Inicializar DataTable para el carrito
             detalleVenta = new DataTable();
             detalleVenta.Columns.Add("IdProducto", typeof(int));
+            detalleVenta.Columns.Add("NombreProducto", typeof(string)); // ✅ Añadir nombre para la grilla
             detalleVenta.Columns.Add("PrecioVenta", typeof(decimal));
             detalleVenta.Columns.Add("Cantidad", typeof(int));
             detalleVenta.Columns.Add("SubTotal", typeof(decimal));
 
             dgvCarrito.DataSource = detalleVenta;
             dgvCarrito.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-
-            dgvCarrito.DataSource = detalleVenta;
-            dgvCarrito.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            // Ocultar IdProducto en el carrito
+            dgvCarrito.Columns["IdProducto"].Visible = false;
 
             // Cargar tipos de documento
             cboTipoDocumento.Items.Add(new OpcionCombo() { Valor = "Boleta", Texto = "Boleta" });
@@ -58,74 +57,116 @@ namespace BeanDesktop
             cboTipoDocumento.ValueMember = "Valor";
             cboTipoDocumento.SelectedIndex = 0;
 
-            // Cargar productos
-            CargarProductos();
+            CargarSugerenciasClientes();
+            CargarProductos(); // Carga la lista _listaProductosCompleta
 
             // Cargar categorías activas
             CN_Categoria objCategoria = new CN_Categoria();
-            var listaCategorias = objCategoria.Listar().Where(c => c.Estado).ToList(); // Solo activas
-
-            // Insertar opción “Todas” al inicio
+            var listaCategorias = objCategoria.Listar().Where(c => c.Estado).ToList();
             listaCategorias.Insert(0, new Categoria { IdCategoria = 0, Descripcion = "Todas" });
-
             cboCategoria.DataSource = listaCategorias;
             cboCategoria.DisplayMember = "Descripcion";
             cboCategoria.ValueMember = "IdCategoria";
             cboCategoria.SelectedIndex = 0;
+
+            // Conectar eventos para filtros dinámicos
             txtPago.TextChanged += txtPago_TextChanged;
+            txtBuscarProducto.TextChanged += txtBuscarProducto_TextChanged;
+            cboCategoria.SelectedIndexChanged += cboCategoria_SelectedIndexChanged;
         }
 
+        private void CargarSugerenciasClientes()
+        {
+            List<Cliente> listaClientes = new CN_Cliente().ListarActivos();
+            var autoCompleteCollection = new AutoCompleteStringCollection();
+            foreach (var cliente in listaClientes)
+            {
+                autoCompleteCollection.Add(cliente.Documento);
+                autoCompleteCollection.Add(cliente.NombreCompleto);
+            }
+            txtDocumentoCliente.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            txtDocumentoCliente.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            txtDocumentoCliente.AutoCompleteCustomSource = autoCompleteCollection;
+        }
 
         private void CargarProductos()
         {
             CN_Producto objProducto = new CN_Producto();
-            dgvProductos.DataSource = objProducto.Listar();
+            // Obtenemos la lista UNA SOLA VEZ y la guardamos
+            _listaProductosCompleta = objProducto.Listar();
+
+            // Filtramos solo los activos para mostrar en la venta
+            var productosActivos = _listaProductosCompleta.Where(p => p.Estado).ToList();
+
+            dgvProductos.DataSource = null; // Desenlazar primero
+            dgvProductos.DataSource = productosActivos;
             dgvProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Ocultar columnas que no interesan en la venta
+            dgvProductos.Columns["IdProducto"].Visible = false;
+            dgvProductos.Columns["oCategoria"].Visible = false;
+            dgvProductos.Columns["IdCategoria"].Visible = false;
+            dgvProductos.Columns["PrecioFabricacion"].Visible = false;
+            dgvProductos.Columns["Estado"].Visible = false;
         }
 
-        private void BuscarProducto(string texto)
+        // --- MÉTODOS DE FILTRADO DINÁMICO (NUEVOS) ---
+
+        private void FiltrarProductosGrid()
         {
-            CN_Producto objProducto = new CN_Producto();
+            if (_listaProductosCompleta == null) return;
 
-            // Buscar por cualquier campo (nombre, descripción o código)
-            DataTable tabla = objProducto.BuscarPorNombre(texto);
-            dgvProductos.DataSource = tabla;
+            // Empezamos con la lista de productos activos
+            IEnumerable<Producto> productosFiltrados = _listaProductosCompleta.Where(p => p.Estado);
+
+            // 1. Obtener valores de filtro
+            string textoBusqueda = txtBuscarProducto.Text.Trim().ToUpper();
+            int idCategoria = (cboCategoria.SelectedValue != null) ? Convert.ToInt32(cboCategoria.SelectedValue) : 0;
+
+            // 2. Aplicar filtro de categoría (si no es "Todas")
+            if (idCategoria > 0)
+            {
+                productosFiltrados = productosFiltrados.Where(p => p.oCategoria.IdCategoria == idCategoria);
+            }
+
+            // 3. Aplicar filtro de texto (si no está vacío)
+            if (!string.IsNullOrEmpty(textoBusqueda))
+            {
+                productosFiltrados = productosFiltrados.Where(p =>
+                    (p.Nombre != null && p.Nombre.ToUpper().Contains(textoBusqueda)) ||
+                    (p.codigo != null && p.codigo.ToUpper().Contains(textoBusqueda))
+                );
+            }
+
+            // 4. Asignar la nueva lista filtrada a la grilla
+            dgvProductos.DataSource = null;
+            dgvProductos.DataSource = productosFiltrados.ToList();
         }
 
-        private void FiltrarPorCategoria(int idCategoria)
+        private void txtBuscarProducto_TextChanged(object sender, EventArgs e)
         {
-            CN_Producto objProducto = new CN_Producto();
-            dgvProductos.DataSource = objProducto.ListarPorCategoria(idCategoria);
+            FiltrarProductosGrid();
         }
 
-        private void btnBuscarProducto_Click(object sender, EventArgs e)
+        private void cboCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtBuscarProducto.Text))
-            {
-                BuscarProducto(txtBuscarProducto.Text.Trim());
-            }
-            else if (cboCategoria.SelectedValue != null)
-            {
-                int idCategoria = Convert.ToInt32(cboCategoria.SelectedValue);
-                FiltrarPorCategoria(idCategoria);
-            }
-            else
-            {
-                CargarProductos();
-            }
+            FiltrarProductosGrid();
         }
+
+        // --- FIN DE MÉTODOS DE FILTRADO ---
+
 
         private void dgvProductos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                DataGridViewRow fila = dgvProductos.Rows[e.RowIndex];
+                // Obtenemos el producto directamente de la fuente de datos
+                var productoSeleccionado = (Producto)dgvProductos.Rows[e.RowIndex].DataBoundItem;
 
-                int idProducto = Convert.ToInt32(fila.Cells["IdProducto"].Value);
-                string codigo = fila.Cells["Codigo"].Value.ToString();
-                string nombre = fila.Cells["Nombre"].Value.ToString();
-                decimal precioVenta = Convert.ToDecimal(fila.Cells["PrecioVenta"].Value);
-                int stock = Convert.ToInt32(fila.Cells["Stock"].Value);
+                int idProducto = productoSeleccionado.IdProducto;
+                string nombreProducto = productoSeleccionado.Nombre;
+                decimal precioVenta = productoSeleccionado.PrecioVenta;
+                int stock = productoSeleccionado.stock;
 
                 if (stock <= 0)
                 {
@@ -133,26 +174,24 @@ namespace BeanDesktop
                     return;
                 }
 
-                // Si ya existe en el carrito, aumenta cantidad
                 DataRow filaExistente = detalleVenta.AsEnumerable()
                     .FirstOrDefault(r => r.Field<int>("IdProducto") == idProducto);
 
                 if (filaExistente != null)
                 {
                     int nuevaCantidad = filaExistente.Field<int>("Cantidad") + 1;
-
                     if (nuevaCantidad > stock)
                     {
                         MessageBox.Show("No hay suficiente stock disponible.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
-
                     filaExistente["Cantidad"] = nuevaCantidad;
                     filaExistente["SubTotal"] = precioVenta * nuevaCantidad;
                 }
                 else
                 {
-                    detalleVenta.Rows.Add(idProducto, precioVenta, 1, precioVenta);
+                    // ✅ Añadimos el nombre del producto al carrito
+                    detalleVenta.Rows.Add(idProducto, nombreProducto, precioVenta, 1, precioVenta);
                 }
 
                 CalcularTotales();
@@ -171,13 +210,12 @@ namespace BeanDesktop
         private void CalcularTotales()
         {
             decimal total = 0;
+            if (detalleVenta.Rows.Count > 0)
+            {
+                total = detalleVenta.AsEnumerable().Sum(r => r.Field<decimal>("SubTotal"));
+            }
 
-            foreach (DataRow row in detalleVenta.Rows)
-                total += row.Field<decimal>("SubTotal");
-
-            decimal descuento = 0;
-            decimal.TryParse(txtDescuento.Text, out descuento);
-
+            decimal.TryParse(txtDescuento.Text, out decimal descuento);
             txtTotal.Text = total.ToString("0.00");
             txtDescuentoAplicado.Text = descuento.ToString("0.00");
             txtTotalFinal.Text = (total - descuento).ToString("0.00");
@@ -186,86 +224,46 @@ namespace BeanDesktop
         private void btnBuscarCliente_Click(object sender, EventArgs e)
         {
             string textoBusqueda = txtDocumentoCliente.Text.Trim();
-
-            if (string.IsNullOrEmpty(textoBusqueda))
-            {
-                MessageBox.Show("Ingrese un documento o nombre para buscar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            if (string.IsNullOrEmpty(textoBusqueda)) { /* ... mensaje ... */ return; }
 
             CN_Cliente objCliente = new CN_Cliente();
-            Cliente cliente = objCliente.Listar()
+            Cliente clienteEncontrado = objCliente.ListarActivos()
                 .FirstOrDefault(c =>
                     c.Documento.Equals(textoBusqueda, StringComparison.OrdinalIgnoreCase) ||
-                    c.NombreCompleto.IndexOf(textoBusqueda, StringComparison.OrdinalIgnoreCase) >= 0);
+                    c.NombreCompleto.Equals(textoBusqueda, StringComparison.OrdinalIgnoreCase)
+                );
 
-            if (cliente != null)
+            if (clienteEncontrado != null)
             {
-                idClienteSeleccionado = cliente.IdCliente;
-                txtNombreCliente.Text = cliente.NombreCompleto;
+                idClienteSeleccionado = clienteEncontrado.IdCliente;
+                txtDocumentoCliente.Text = clienteEncontrado.Documento;
+                txtNombreCliente.Text = clienteEncontrado.NombreCompleto;
             }
             else
             {
                 idClienteSeleccionado = 0;
                 txtNombreCliente.Text = "Cliente no encontrado";
-                MessageBox.Show("Cliente no registrado. Puede continuar la venta como consumidor final o registrarlo en el módulo de clientes.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Cliente no registrado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        private void btnBuscar_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(txtBuscarProducto.Text))
-            {
-                BuscarProducto(txtBuscarProducto.Text.Trim());
-            }
-            else if (cboCategoria.SelectedValue != null)
-            {
-                int idCategoria = Convert.ToInt32(cboCategoria.SelectedValue);
-                FiltrarPorCategoria(idCategoria);
-            }
-            else
-            {
-                CargarProductos();
-            }
-        }
-
 
         private void btnRegistrarVenta_Click(object sender, EventArgs e)
         {
-            if (detalleVenta.Rows.Count == 0)
-            {
-                MessageBox.Show("Debe agregar productos al carrito.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            if (detalleVenta.Rows.Count == 0) { /* ... mensaje ... */ return; }
+            if (idClienteSeleccionado == 0) { /* ... mensaje ... */ return; }
 
-            if (idClienteSeleccionado == 0)
-            {
-                MessageBox.Show("Busque y seleccione un cliente válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            decimal.TryParse(txtPago.Text, out decimal montoPago);
+            decimal.TryParse(txtTotalFinal.Text, out decimal montoTotal);
+            decimal.TryParse(txtDescuentoAplicado.Text, out decimal descuentoAplicado);
 
-            // --- Validaciones y conversiones seguras ---
-            decimal montoPago = 0;
-            decimal montoTotal = 0;
-            decimal descuentoAplicado = 0;
-
-            decimal.TryParse(txtPago.Text, out montoPago);
-            decimal.TryParse(txtTotalFinal.Text, out montoTotal);
-            decimal.TryParse(txtDescuentoAplicado.Text, out descuentoAplicado);
-
-            // --- Cálculo automático del cambio ---
             decimal montoCambio = montoPago - montoTotal;
-            if (montoCambio < 0)
-            {
-                MessageBox.Show("El pago es insuficiente para cubrir el total.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            if (montoCambio < 0) { /* ... mensaje ... */ return; }
 
-            // --- Crear objeto venta ---
             Venta objVenta = new Venta()
             {
                 IdUsuario = usuarioLogueado.IdUsuario,
                 TipoDocumento = ((OpcionCombo)cboTipoDocumento.SelectedItem)?.Texto ?? "Boleta",
-                NumeroDocumento = txtDocumentoCliente.Text.Trim(),
+                NumeroDocumento = txtDocumentoCliente.Text.Trim(), // Considera generar un correlativo
                 IdCliente = idClienteSeleccionado,
                 MontoPago = montoPago,
                 MontoCambio = montoCambio,
@@ -281,13 +279,13 @@ namespace BeanDesktop
             {
                 MessageBox.Show("Venta registrada correctamente. ID Venta: " + idVentaGenerada, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LimpiarFormulario();
+                CargarProductos(); // Recargar productos para actualizar stock
             }
             else
             {
                 MessageBox.Show(mensaje, "Error al registrar venta", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void LimpiarFormulario()
         {
@@ -301,16 +299,20 @@ namespace BeanDesktop
             txtTotalFinal.Clear();
             detalleVenta.Rows.Clear();
             idClienteSeleccionado = 0;
+            cboTipoDocumento.SelectedIndex = 0;
+
+            // Limpiar filtros de producto
+            txtBuscarProducto.Clear();
+            cboCategoria.SelectedIndex = 0;
+            FiltrarProductosGrid(); // Recarga la grilla
         }
+
         private void txtPago_TextChanged(object sender, EventArgs e)
         {
-            decimal montoPago, montoTotal;
-            decimal.TryParse(txtPago.Text, out montoPago);
-            decimal.TryParse(txtTotalFinal.Text, out montoTotal);
-
+            decimal.TryParse(txtPago.Text, out decimal montoPago);
+            decimal.TryParse(txtTotalFinal.Text, out decimal montoTotal);
             decimal cambio = montoPago - montoTotal;
             txtCambio.Text = cambio >= 0 ? cambio.ToString("0.00") : "0.00";
         }
-
     }
 }

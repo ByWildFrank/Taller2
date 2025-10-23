@@ -17,6 +17,12 @@
             txtNumeroDocumento = new TextBox();
             btnBuscarVenta = new Button();
             dgvDetalleVenta = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
             txtIdVenta = new TextBox();
             txtCliente = new TextBox();
             txtDocumentoCliente = new TextBox();
@@ -24,12 +30,6 @@
             txtNumeroDocumentoMostrar = new TextBox();
             txtMontoTotal = new TextBox();
             txtDescuento = new TextBox();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvDetalleVenta).BeginInit();
             SuspendLayout();
             // 
@@ -48,12 +48,12 @@
             txtNumeroDocumento.Location = new Point(25, 60);
             txtNumeroDocumento.Name = "txtNumeroDocumento";
             txtNumeroDocumento.PlaceholderText = "Número de documento...";
-            txtNumeroDocumento.Size = new Size(100, 23);
+            txtNumeroDocumento.Size = new Size(161, 23);
             txtNumeroDocumento.TabIndex = 1;
             // 
             // btnBuscarVenta
             // 
-            btnBuscarVenta.Location = new Point(250, 58);
+            btnBuscarVenta.Location = new Point(254, 59);
             btnBuscarVenta.Name = "btnBuscarVenta";
             btnBuscarVenta.Size = new Size(75, 23);
             btnBuscarVenta.TabIndex = 2;
@@ -71,69 +71,6 @@
             dgvDetalleVenta.ReadOnly = true;
             dgvDetalleVenta.Size = new Size(750, 250);
             dgvDetalleVenta.TabIndex = 3;
-            // 
-            // txtIdVenta
-            // 
-            txtIdVenta.Location = new Point(25, 100);
-            txtIdVenta.Name = "txtIdVenta";
-            txtIdVenta.PlaceholderText = "IdVenta";
-            txtIdVenta.ReadOnly = true;
-            txtIdVenta.Size = new Size(100, 23);
-            txtIdVenta.TabIndex = 4;
-            // 
-            // txtCliente
-            // 
-            txtCliente.Location = new Point(25, 100);
-            txtCliente.Name = "txtCliente";
-            txtCliente.PlaceholderText = "Cliente";
-            txtCliente.ReadOnly = true;
-            txtCliente.Size = new Size(100, 23);
-            txtCliente.TabIndex = 5;
-            // 
-            // txtDocumentoCliente
-            // 
-            txtDocumentoCliente.Location = new Point(200, 100);
-            txtDocumentoCliente.Name = "txtDocumentoCliente";
-            txtDocumentoCliente.PlaceholderText = "Documento Cliente";
-            txtDocumentoCliente.ReadOnly = true;
-            txtDocumentoCliente.Size = new Size(100, 23);
-            txtDocumentoCliente.TabIndex = 6;
-            // 
-            // txtTipoDocumento
-            // 
-            txtTipoDocumento.Location = new Point(25, 100);
-            txtTipoDocumento.Name = "txtTipoDocumento";
-            txtTipoDocumento.PlaceholderText = "Tipo Documento";
-            txtTipoDocumento.ReadOnly = true;
-            txtTipoDocumento.Size = new Size(100, 23);
-            txtTipoDocumento.TabIndex = 7;
-            // 
-            // txtNumeroDocumentoMostrar
-            // 
-            txtNumeroDocumentoMostrar.Location = new Point(200, 100);
-            txtNumeroDocumentoMostrar.Name = "txtNumeroDocumentoMostrar";
-            txtNumeroDocumentoMostrar.PlaceholderText = "Número Documento";
-            txtNumeroDocumentoMostrar.ReadOnly = true;
-            txtNumeroDocumentoMostrar.Size = new Size(100, 23);
-            txtNumeroDocumentoMostrar.TabIndex = 8;
-            // 
-            // txtMontoTotal
-            // 
-            txtMontoTotal.Location = new Point(25, 100);
-            txtMontoTotal.Name = "txtMontoTotal";
-            txtMontoTotal.PlaceholderText = "Monto Total";
-            txtMontoTotal.ReadOnly = true;
-            txtMontoTotal.Size = new Size(100, 23);
-            txtMontoTotal.TabIndex = 9;
-            // 
-            // txtDescuento
-            // 
-            txtDescuento.Location = new Point(200, 100);
-            txtDescuento.Name = "txtDescuento";
-            txtDescuento.PlaceholderText = "Descuento";
-            txtDescuento.ReadOnly = true;
-            txtDescuento.Size = new Size(100, 23);
-            txtDescuento.TabIndex = 10;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -170,6 +107,69 @@
             dataGridViewTextBoxColumn6.HeaderText = "Fecha";
             dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
+            // txtIdVenta
+            // 
+            txtIdVenta.Location = new Point(310, 146);
+            txtIdVenta.Name = "txtIdVenta";
+            txtIdVenta.PlaceholderText = "IdVenta";
+            txtIdVenta.ReadOnly = true;
+            txtIdVenta.Size = new Size(151, 23);
+            txtIdVenta.TabIndex = 4;
+            // 
+            // txtCliente
+            // 
+            txtCliente.Location = new Point(497, 146);
+            txtCliente.Name = "txtCliente";
+            txtCliente.PlaceholderText = "Cliente";
+            txtCliente.ReadOnly = true;
+            txtCliente.Size = new Size(100, 23);
+            txtCliente.TabIndex = 5;
+            // 
+            // txtDocumentoCliente
+            // 
+            txtDocumentoCliente.Location = new Point(145, 146);
+            txtDocumentoCliente.Name = "txtDocumentoCliente";
+            txtDocumentoCliente.PlaceholderText = "Documento Cliente";
+            txtDocumentoCliente.ReadOnly = true;
+            txtDocumentoCliente.Size = new Size(139, 23);
+            txtDocumentoCliente.TabIndex = 6;
+            // 
+            // txtTipoDocumento
+            // 
+            txtTipoDocumento.Location = new Point(25, 100);
+            txtTipoDocumento.Name = "txtTipoDocumento";
+            txtTipoDocumento.PlaceholderText = "Tipo Documento";
+            txtTipoDocumento.ReadOnly = true;
+            txtTipoDocumento.Size = new Size(100, 23);
+            txtTipoDocumento.TabIndex = 7;
+            // 
+            // txtNumeroDocumentoMostrar
+            // 
+            txtNumeroDocumentoMostrar.Location = new Point(145, 100);
+            txtNumeroDocumentoMostrar.Name = "txtNumeroDocumentoMostrar";
+            txtNumeroDocumentoMostrar.PlaceholderText = "Número Documento";
+            txtNumeroDocumentoMostrar.ReadOnly = true;
+            txtNumeroDocumentoMostrar.Size = new Size(129, 23);
+            txtNumeroDocumentoMostrar.TabIndex = 8;
+            // 
+            // txtMontoTotal
+            // 
+            txtMontoTotal.Location = new Point(636, 146);
+            txtMontoTotal.Name = "txtMontoTotal";
+            txtMontoTotal.PlaceholderText = "Monto Total";
+            txtMontoTotal.ReadOnly = true;
+            txtMontoTotal.Size = new Size(100, 23);
+            txtMontoTotal.TabIndex = 9;
+            // 
+            // txtDescuento
+            // 
+            txtDescuento.Location = new Point(25, 146);
+            txtDescuento.Name = "txtDescuento";
+            txtDescuento.PlaceholderText = "Descuento";
+            txtDescuento.ReadOnly = true;
+            txtDescuento.Size = new Size(100, 23);
+            txtDescuento.TabIndex = 10;
             // 
             // frmDetalleVenta
             // 

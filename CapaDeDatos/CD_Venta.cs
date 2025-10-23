@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using CapaDeEntidades;
+using BeanDesktop.CapaDeEntidades;
 
 namespace CapaDeDatos
 {
@@ -72,16 +73,23 @@ namespace CapaDeDatos
             {
                 using (SqlConnection cn = Conexion.GetConnection())
                 {
+                    // ✅ CAMBIO: Modificamos la consulta para unir VENTA con CLIENTE
                     string query = @"
-                        SELECT TOP 1 IdVenta, IdUsuario, TipoDocumento, NumeroDocumento, DocumentoCliente, NombreCliente,
-                                       MontoPago, MontoCambio, MontoTotal, FechaRegistro, DescuentoAplicado
-                        FROM VENTA
-                        WHERE NumeroDocumento = @NumeroDocumento
-                        ORDER BY IdVenta DESC"; // si hay varios, tomar la más reciente
+                SELECT TOP 1 
+                    v.IdVenta, v.IdUsuario, v.TipoDocumento, v.NumeroDocumento, v.MontoPago, 
+                    v.MontoCambio, v.MontoTotal, v.FechaRegistro, v.DescuentoAplicado,
+                    
+                    v.IdCliente,
+                    c.NombreCompleto,
+                    c.Documento AS DocumentoCliente
+                FROM VENTA v
+                LEFT JOIN CLIENTE c ON v.IdCliente = c.IdCliente -- El JOIN para obtener los datos
+                WHERE v.NumeroDocumento = @NumeroDocumento
+                ORDER BY v.IdVenta DESC"; // Por si hay números duplicados, trae la más reciente
 
                     using (SqlCommand cmd = new SqlCommand(query, cn))
                     {
-                        cmd.Parameters.AddWithValue("@NumeroDocumento", numeroDocumento ?? "");
+                        cmd.Parameters.AddWithValue("@NumeroDocumento", numeroDocumento);
                         cn.Open();
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {
@@ -98,26 +106,31 @@ namespace CapaDeDatos
                                     MontoTotal = Convert.ToDecimal(dr["MontoTotal"]),
                                     DescuentoAplicado = Convert.ToDecimal(dr["DescuentoAplicado"]),
                                     FechaRegistro = dr["FechaRegistro"].ToString(),
-                                    
-                                    IdCliente = dr["IdCliente"] != DBNull.Value ? Convert.ToInt32(dr["IdCliente"]) : 0,
-                                    // ✅ CAMBIO: Llenamos el IdCliente
-                                    oCliente = new Cliente()
+                                    IdCliente = Convert.ToInt32(dr["IdCliente"])
+                                };
+
+                                // ✅ ¡AQUÍ ESTÁ LA MAGIA!
+                                // Si se encontró un cliente (IdCliente no es NULL),
+                                // creamos el objeto oCliente y lo llenamos.
+                                if (dr["IdCliente"] != DBNull.Value)
+                                {
+                                    venta.oCliente = new Cliente()
                                     {
+                                        IdCliente = Convert.ToInt32(dr["IdCliente"]),
                                         NombreCompleto = dr["NombreCompleto"].ToString(),
                                         Documento = dr["DocumentoCliente"].ToString()
-                                    }
-                                };
+                                    };
+                                }
                             }
                         }
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // si quieres, loguear el error
+                // Manejar el error
                 venta = null;
             }
-
             return venta;
         }
 
@@ -125,47 +138,36 @@ namespace CapaDeDatos
         public List<Detalle_Venta> ListarDetallePorVenta(int idVenta)
         {
             var lista = new List<Detalle_Venta>();
-
             try
             {
                 using (SqlConnection cn = Conexion.GetConnection())
                 {
-                    string query = @"
-                        SELECT IdDetalleVenta, IdVenta, IdProducto, PrecioVenta, Cantidad, SubTotal, FechaRegistro
-                        FROM DETALLE_VENTA
-                        WHERE IdVenta = @IdVenta
-                        ORDER BY IdDetalleVenta";
+                    // ✅ CAMBIO: Usar el nuevo SP
+                    SqlCommand cmd = new SqlCommand("SP_ObtenerDetalleVenta", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@IdVenta", idVenta);
+                    cn.Open();
 
-                    using (SqlCommand cmd = new SqlCommand(query, cn))
+                    using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        cmd.Parameters.AddWithValue("@IdVenta", idVenta);
-                        cn.Open();
-
-                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        while (dr.Read())
                         {
-                            while (dr.Read())
+                            lista.Add(new Detalle_Venta
                             {
-                                lista.Add(new Detalle_Venta
-                                {
-                                    IdDetalleVenta = dr["IdDetalleVenta"] != DBNull.Value ? Convert.ToInt32(dr["IdDetalleVenta"]) : 0,
-                                    IdVenta = dr["IdVenta"] != DBNull.Value ? Convert.ToInt32(dr["IdVenta"]) : 0,
-                                    IdProducto = dr["IdProducto"] != DBNull.Value ? Convert.ToInt32(dr["IdProducto"]) : 0,
-                                    PrecioVenta = dr["PrecioVenta"] != DBNull.Value ? Convert.ToDecimal(dr["PrecioVenta"]) : 0m,
-                                    Cantidad = dr["Cantidad"] != DBNull.Value ? Convert.ToInt32(dr["Cantidad"]) : 0,
-                                    SubTotal = dr["SubTotal"] != DBNull.Value ? Convert.ToDecimal(dr["SubTotal"]) : 0m,
-                                    FechaRegistro = dr["FechaRegistro"] != DBNull.Value ? dr["FechaRegistro"].ToString() : ""
-                                });
-                            }
+                                IdDetalleVenta = Convert.ToInt32(dr["IdDetalleVenta"]),
+                                NombreProducto = dr["NombreProducto"].ToString(), // ✅ Usar la nueva propiedad
+                                PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"]),
+                                Cantidad = Convert.ToInt32(dr["Cantidad"]),
+                                SubTotal = Convert.ToDecimal(dr["SubTotal"])
+                            });
                         }
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // si querés loguear
-                lista = new List<Detalle_Venta>();
+                // Manejar el error
             }
-
             return lista;
         }
 
@@ -205,6 +207,40 @@ namespace CapaDeDatos
                 da.Fill(dt);
                 return dt;
             }
+        }
+        public List<VentaInfo> ListarVentas()
+        {
+            var lista = new List<VentaInfo>();
+            try
+            {
+                using (SqlConnection cn = Conexion.GetConnection())
+                {
+                    SqlCommand cmd = new SqlCommand("SP_ListarVentas", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new VentaInfo // ✅ CORRECCIÓN: Usar VentaInfo
+                            {
+                                IdVenta = Convert.ToInt32(dr["IdVenta"]),
+                                FechaRegistro = Convert.ToDateTime(dr["FechaRegistro"]).ToString("dd/MM/yyyy"),
+                                TipoDocumento = dr["TipoDocumento"].ToString(),
+                                NumeroDocumento = dr["NumeroDocumento"].ToString(),
+                                NombreCliente = dr["NombreCliente"].ToString(),
+                                NombreUsuario = dr["NombreUsuario"].ToString(),
+                                MontoTotal = Convert.ToDecimal(dr["MontoTotal"])
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar el error
+            }
+            return lista;
         }
 
     }

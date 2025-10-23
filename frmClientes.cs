@@ -9,6 +9,7 @@ namespace BeanDesktop
 {
     public partial class frmClientes : Form
     {
+        private List<Cliente> _listaCompletaClientes;
         public frmClientes()
         {
             InitializeComponent();
@@ -16,15 +17,12 @@ namespace BeanDesktop
 
         private void frmClientes_Load(object sender, EventArgs e)
         {
-            // Cargar combo Estado
-            cboEstado.Items.Clear();
             cboEstado.Items.Add(new OpcionCombo() { Valor = true, Texto = "Activo" });
             cboEstado.Items.Add(new OpcionCombo() { Valor = false, Texto = "No Activo" });
             cboEstado.DisplayMember = "Texto";
             cboEstado.ValueMember = "Valor";
             cboEstado.SelectedIndex = 0;
 
-            // Cargar columnas para búsqueda
             foreach (DataGridViewColumn columna in dgvClientes.Columns)
             {
                 if (columna.Visible == true && columna.Name != "btnSeleccionar")
@@ -36,26 +34,57 @@ namespace BeanDesktop
             cboBusqueda.ValueMember = "Valor";
             cboBusqueda.SelectedIndex = 0;
 
-            // Cargar clientes
-            List<Cliente> listaClientes = new CN_Cliente().Listar();
-            foreach (Cliente item in listaClientes)
-            {
-                dgvClientes.Rows.Add(new object[]
-                {
-            "",
-            item.IdCliente,
-            item.Documento,
-            item.NombreCompleto,
-            item.Correo,
-            item.Telefono,
-            item.Estado,
-            item.Estado == true ? "Activo" : "No Activo"
-                });
-            }
-            this.BackColor = Color.LightGray;
-            this.Refresh(); // fuerza el redibujado
-        }
+            // ✅ Cargamos la lista UNA SOLA VEZ
+            _listaCompletaClientes = new CN_Cliente().Listar();
 
+            CargarGrillaConFiltro();
+            CargarSugerenciasBusqueda();
+
+            // ✅ Conectamos el filtro en tiempo real
+            txtBusqueda.TextChanged += TxtBusqueda_TextChanged;
+
+            this.BackColor = Color.LightGray;
+            this.Refresh();
+        }
+        private void CargarGrillaConFiltro()
+        {
+            dgvClientes.Rows.Clear();
+
+            foreach (Cliente item in _listaCompletaClientes)
+            {
+                int indiceFila = dgvClientes.Rows.Add(new object[]
+                {
+                    "",
+                    item.IdCliente,
+                    item.Documento,
+                    item.NombreCompleto,
+                    item.Correo,
+                    item.Telefono,
+                    item.Estado,
+                    item.Estado ? "Activo" : "No Activo"
+                });
+
+                // ✅ Ocultamos los inactivos por defecto
+                if (!item.Estado)
+                {
+                    dgvClientes.Rows[indiceFila].Visible = false;
+                }
+            }
+        }
+        private void CargarSugerenciasBusqueda()
+        {
+            var autoCompleteCollection = new AutoCompleteStringCollection();
+            foreach (var cliente in _listaCompletaClientes)
+            {
+                if (cliente.Documento != null)
+                    autoCompleteCollection.Add(cliente.Documento);
+                if (cliente.NombreCompleto != null)
+                    autoCompleteCollection.Add(cliente.NombreCompleto);
+            }
+            txtBusqueda.AutoCompleteMode = AutoCompleteMode.Suggest;
+            txtBusqueda.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            txtBusqueda.AutoCompleteCustomSource = autoCompleteCollection;
+        }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -119,15 +148,25 @@ namespace BeanDesktop
         {
             if (Convert.ToInt32(txtid.Text) != 0)
             {
-                if (MessageBox.Show("¿Desea eliminar el cliente?", "Mensaje", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("¿Desea desactivar el cliente?", "Mensaje", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     string mensaje = string.Empty;
                     Cliente objCliente = new Cliente() { IdCliente = Convert.ToInt32(txtid.Text) };
+
+                    // Llama al método de la Capa de Negocio (que ahora usa el SP)
                     bool respuesta = new CN_Cliente().Eliminar(objCliente, out mensaje);
 
                     if (respuesta)
                     {
-                        dgvClientes.Rows.RemoveAt(Convert.ToInt32(txtindice.Text));
+                        // ✅ CAMBIO: Actualizamos la fila en lugar de borrarla
+                        int indice = Convert.ToInt32(txtindice.Text);
+                        if (indice >= 0)
+                        {
+                            dgvClientes.Rows[indice].Cells["EstadoValor"].Value = false;
+                            dgvClientes.Rows[indice].Cells["Estado"].Value = "No Activo";
+                            // Ocultamos la fila porque ya no está activa
+                            dgvClientes.Rows[indice].Visible = false;
+                        }
                         Limpiar();
                     }
                     else
@@ -195,6 +234,35 @@ namespace BeanDesktop
             txtTelefono.Text = "";
             cboEstado.SelectedIndex = 0; // Seguro porque ya tiene items
         }
+        private void TxtBusqueda_TextChanged(object sender, EventArgs e)
+        {
+            string columnaFiltro = ((OpcionCombo)cboBusqueda.SelectedItem).Valor.ToString();
+            string textoBusqueda = txtBusqueda.Text.Trim().ToUpper();
 
+            foreach (DataGridViewRow row in dgvClientes.Rows)
+            {
+                if (row.Cells[columnaFiltro].Value == null) continue;
+
+                bool coincideTexto = row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(textoBusqueda);
+                bool estaActivo = Convert.ToBoolean(row.Cells["EstadoValor"].Value);
+
+                if (string.IsNullOrEmpty(textoBusqueda))
+                {
+                    // Si la búsqueda está vacía, solo mostrar activos
+                    row.Visible = estaActivo;
+                }
+                else
+                {
+                    // Si hay búsqueda, mostrar si coincide
+                    // (esto mostrará activos e inactivos que coincidan)
+                    row.Visible = coincideTexto;
+                }
+            }
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            Limpiar();
+        }
     }
 }

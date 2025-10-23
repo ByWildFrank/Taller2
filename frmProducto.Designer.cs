@@ -24,8 +24,7 @@
             txtStock = new TextBox();
             txtPrecioFabricacion = new TextBox();
             txtPrecioVenta = new TextBox();
-            cmbCategoria = new ComboBox();
-            chkEstado = new CheckBox();
+            cmbCategoriaBusqueda = new ComboBox();
             btnGuardar = new Button();
             btnEliminar = new Button();
             lblNombre = new Label();
@@ -36,6 +35,11 @@
             lblPrecioFabricacion = new Label();
             lblPrecioVenta = new Label();
             lblEstado = new Label();
+            btnLimpiar = new FontAwesome.Sharp.IconButton();
+            cboEstado = new ComboBox();
+            txtBusqueda = new TextBox();
+            txtid = new TextBox();
+            cboBusqueda = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             SuspendLayout();
             // 
@@ -57,61 +61,54 @@
             // 
             txtNombre.Location = new Point(150, 11);
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(200, 27);
+            txtNombre.Size = new Size(200, 23);
             txtNombre.TabIndex = 1;
             // 
             // txtDescripcion
             // 
             txtDescripcion.Location = new Point(150, 41);
             txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(200, 27);
+            txtDescripcion.Size = new Size(200, 23);
             txtDescripcion.TabIndex = 2;
             // 
             // txtCodigo
             // 
             txtCodigo.Location = new Point(150, 71);
             txtCodigo.Name = "txtCodigo";
-            txtCodigo.Size = new Size(200, 27);
+            txtCodigo.Size = new Size(200, 23);
             txtCodigo.TabIndex = 3;
             // 
             // txtStock
             // 
             txtStock.Location = new Point(150, 132);
             txtStock.Name = "txtStock";
-            txtStock.Size = new Size(100, 27);
+            txtStock.Size = new Size(100, 23);
             txtStock.TabIndex = 4;
             // 
             // txtPrecioFabricacion
             // 
             txtPrecioFabricacion.Location = new Point(150, 162);
             txtPrecioFabricacion.Name = "txtPrecioFabricacion";
-            txtPrecioFabricacion.Size = new Size(100, 27);
+            txtPrecioFabricacion.Size = new Size(100, 23);
             txtPrecioFabricacion.TabIndex = 5;
             // 
             // txtPrecioVenta
             // 
             txtPrecioVenta.Location = new Point(150, 192);
             txtPrecioVenta.Name = "txtPrecioVenta";
-            txtPrecioVenta.Size = new Size(100, 27);
+            txtPrecioVenta.Size = new Size(100, 23);
             txtPrecioVenta.TabIndex = 6;
             // 
-            // cmbCategoria
+            // cmbCategoriaBusqueda
             // 
-            cmbCategoria.Location = new Point(150, 102);
-            cmbCategoria.Name = "cmbCategoria";
-            cmbCategoria.Size = new Size(200, 28);
-            cmbCategoria.TabIndex = 7;
-            // 
-            // chkEstado
-            // 
-            chkEstado.Location = new Point(495, 10);
-            chkEstado.Name = "chkEstado";
-            chkEstado.Size = new Size(104, 24);
-            chkEstado.TabIndex = 8;
+            cmbCategoriaBusqueda.Location = new Point(150, 102);
+            cmbCategoriaBusqueda.Name = "cmbCategoriaBusqueda";
+            cmbCategoriaBusqueda.Size = new Size(200, 23);
+            cmbCategoriaBusqueda.TabIndex = 7;
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(377, 42);
+            btnGuardar.Location = new Point(377, 74);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(100, 30);
             btnGuardar.TabIndex = 9;
@@ -120,7 +117,7 @@
             // 
             // btnEliminar
             // 
-            btnEliminar.Location = new Point(377, 88);
+            btnEliminar.Location = new Point(377, 115);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(100, 30);
             btnEliminar.TabIndex = 10;
@@ -187,13 +184,67 @@
             // 
             lblEstado.Location = new Point(377, 11);
             lblEstado.Name = "lblEstado";
-            lblEstado.Size = new Size(100, 23);
+            lblEstado.Size = new Size(57, 20);
             lblEstado.TabIndex = 18;
             lblEstado.Text = "Estado:";
+            // 
+            // btnLimpiar
+            // 
+            btnLimpiar.BackColor = Color.RoyalBlue;
+            btnLimpiar.Cursor = Cursors.Hand;
+            btnLimpiar.FlatAppearance.BorderColor = Color.Black;
+            btnLimpiar.FlatStyle = FlatStyle.Flat;
+            btnLimpiar.ForeColor = Color.White;
+            btnLimpiar.IconChar = FontAwesome.Sharp.IconChar.Eraser;
+            btnLimpiar.IconColor = Color.White;
+            btnLimpiar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnLimpiar.IconSize = 16;
+            btnLimpiar.Location = new Point(377, 162);
+            btnLimpiar.Name = "btnLimpiar";
+            btnLimpiar.Size = new Size(100, 23);
+            btnLimpiar.TabIndex = 19;
+            btnLimpiar.Text = "Limpiar";
+            btnLimpiar.TextAlign = ContentAlignment.MiddleRight;
+            btnLimpiar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnLimpiar.UseVisualStyleBackColor = false;
+            // 
+            // cboEstado
+            // 
+            cboEstado.Location = new Point(440, 8);
+            cboEstado.Name = "cboEstado";
+            cboEstado.Size = new Size(157, 23);
+            cboEstado.TabIndex = 20;
+            // 
+            // txtBusqueda
+            // 
+            txtBusqueda.Location = new Point(377, 202);
+            txtBusqueda.Name = "txtBusqueda";
+            txtBusqueda.Size = new Size(334, 23);
+            txtBusqueda.TabIndex = 21;
+            // 
+            // txtid
+            // 
+            txtid.Location = new Point(667, 58);
+            txtid.Name = "txtid";
+            txtid.Size = new Size(100, 23);
+            txtid.TabIndex = 22;
+            // 
+            // cboBusqueda
+            // 
+            cboBusqueda.FormattingEnabled = true;
+            cboBusqueda.Location = new Point(749, 202);
+            cboBusqueda.Name = "cboBusqueda";
+            cboBusqueda.Size = new Size(121, 23);
+            cboBusqueda.TabIndex = 23;
             // 
             // frmProducto
             // 
             ClientSize = new Size(974, 562);
+            Controls.Add(cboBusqueda);
+            Controls.Add(txtid);
+            Controls.Add(txtBusqueda);
+            Controls.Add(cboEstado);
+            Controls.Add(btnLimpiar);
             Controls.Add(dgvProductos);
             Controls.Add(txtNombre);
             Controls.Add(txtDescripcion);
@@ -201,8 +252,7 @@
             Controls.Add(txtStock);
             Controls.Add(txtPrecioFabricacion);
             Controls.Add(txtPrecioVenta);
-            Controls.Add(cmbCategoria);
-            Controls.Add(chkEstado);
+            Controls.Add(cmbCategoriaBusqueda);
             Controls.Add(btnGuardar);
             Controls.Add(btnEliminar);
             Controls.Add(lblNombre);
@@ -230,8 +280,7 @@
         private System.Windows.Forms.TextBox txtStock;
         private System.Windows.Forms.TextBox txtPrecioFabricacion;
         private System.Windows.Forms.TextBox txtPrecioVenta;
-        private System.Windows.Forms.ComboBox cmbCategoria;
-        private System.Windows.Forms.CheckBox chkEstado;
+        private System.Windows.Forms.ComboBox cmbCategoriaBusqueda;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnEliminar;
 
@@ -244,5 +293,10 @@
         private System.Windows.Forms.Label lblPrecioVenta;
         private System.Windows.Forms.Label lblEstado;
         private Microsoft.Data.SqlClient.SqlCommand sqlCommand1;
+        private FontAwesome.Sharp.IconButton btnLimpiar;
+        private ComboBox cboEstado;
+        private TextBox txtBusqueda;
+        private TextBox txtid;
+        private ComboBox cboBusqueda;
     }
 }
