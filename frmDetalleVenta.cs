@@ -1,11 +1,18 @@
 ﻿using BeanDesktop.CapaDeEntidades;
 using BeanDesktop.CapaDeNegocio;
 using CapaDeEntidades;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using System.IO;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 namespace BeanDesktop
 {
@@ -21,9 +28,8 @@ namespace BeanDesktop
 
         private void frmDetalleVenta_Load(object sender, EventArgs e)
         {
-            this.BackColor = Color.White;
+            this.BackColor = System.Drawing.Color.White;
 
-            // --- Damos estilo a los campos de solo lectura ---
             EstiloTextBoxLectura(txtTipoDocumento);
             EstiloTextBoxLectura(txtNumeroDocumentoMostrar);
             EstiloTextBoxLectura(txtDescuento);
@@ -35,13 +41,7 @@ namespace BeanDesktop
             ConfigurarGrillaVentas();
             CargarListaDeVentas();
 
-            // Conecta el evento TextChanged para el filtro dinámico
             txtNumeroDocumento.TextChanged += txtNumeroDocumento_TextChanged;
-
-            // ✅ CAMBIO: Conectamos el evento de Doble Clic a su método
-            dgvDetalleVenta.CellDoubleClick += dgvDetalleVenta_CellDoubleClick;
-
-            // Limpiamos los campos al inicio
             LimpiarCamposDetalle();
         }
 
@@ -56,13 +56,12 @@ namespace BeanDesktop
             txtDocumentoCliente.Text = "";
         }
 
-        // ✅ MÉTODO MODIFICADO: Ahora usa LimpiarCamposDetalle
         private void LimpiarCampos()
         {
             txtNumeroDocumento.Clear();
-            LimpiarCamposDetalle(); // Limpia los campos de texto
-            ConfigurarGrillaVentas(); // Reconfigura la grilla al modo "lista"
-            CargarListaDeVentas(); // Recarga la lista de ventas
+            LimpiarCamposDetalle();
+            ConfigurarGrillaVentas();
+            CargarListaDeVentas();
         }
 
         private void ConfigurarGrillaVentas()
@@ -81,9 +80,19 @@ namespace BeanDesktop
             dgvDetalleVenta.Columns.Add("MontoTotal", "Monto Total");
             dgvDetalleVenta.Columns["MontoTotal"].DefaultCellStyle.Format = "C2";
 
-            // Ocultamos la columna IdVenta pero la necesitamos para hacer doble clic
+            // Ocultamos IdVenta
             dgvDetalleVenta.Columns.Add("IdVenta", "IdVenta");
             dgvDetalleVenta.Columns["IdVenta"].Visible = false;
+
+            // ✅ Columna de botón para PDF
+            DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
+            btnColumn.HeaderText = "Acción";
+            btnColumn.Text = "Generar PDF";
+            btnColumn.UseColumnTextForButtonValue = true;
+            btnColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvDetalleVenta.Columns.Add(btnColumn);
+
+            dgvDetalleVenta.CellClick += DgvDetalleVenta_CellClick;
         }
 
         private void CargarListaDeVentas()
@@ -101,12 +110,11 @@ namespace BeanDesktop
                     v.NombreCliente,
                     v.NombreUsuario,
                     v.MontoTotal,
-                    v.IdVenta // Añadimos el ID
+                    v.IdVenta
                 });
             }
         }
 
-        // Evento que filtra la grilla en tiempo real
         private void txtNumeroDocumento_TextChanged(object sender, EventArgs e)
         {
             string textoBusqueda = txtNumeroDocumento.Text.Trim().ToUpper();
@@ -114,24 +122,13 @@ namespace BeanDesktop
             foreach (DataGridViewRow row in dgvDetalleVenta.Rows)
             {
                 if (row.IsNewRow) continue;
-
-                // Buscamos en la columna NumeroDocumento (índice 2)
                 bool coincide = row.Cells["NumeroDocumento"].Value.ToString().ToUpper().Contains(textoBusqueda);
                 row.Visible = coincide;
             }
         }
 
-        // Este botón ya no es necesario para buscar, pero puedes usarlo para LIMPIAR
-        private void btnBuscarVenta_Click(object sender, EventArgs e)
-        {
-            // Opcional: puedes cambiar este botón para que sea "Limpiar"
-            LimpiarCampos();
-        }
-
-        // Este método ahora mostrará los detalles de la venta SELECCIONADA
         private void MostrarDetalleDeVenta(string numeroDocumento)
         {
-            // 1. Obtener la venta USANDO EL NÚMERO DE DOCUMENTO
             Venta venta = new CN_Venta().ObtenerPorNumeroDocumento(numeroDocumento);
 
             if (venta == null)
@@ -140,7 +137,6 @@ namespace BeanDesktop
                 return;
             }
 
-            // 2. Mostrar la info en los TextBoxes (¡ESTO AHORA FUNCIONARÁ!)
             txtIdVenta.Text = venta.IdVenta.ToString();
             txtTipoDocumento.Text = venta.TipoDocumento;
             txtNumeroDocumentoMostrar.Text = venta.NumeroDocumento;
@@ -158,8 +154,7 @@ namespace BeanDesktop
                 txtDocumentoCliente.Text = "---";
             }
 
-            // 3. Cargar la grilla con los DETALLES
-            ConfigurarGrillaDetalles(); // Cambiamos las columnas
+            ConfigurarGrillaDetalles();
             List<Detalle_Venta> detalles = new CN_Venta().ListarDetallePorVenta(venta.IdVenta);
 
             dgvDetalleVenta.Rows.Clear();
@@ -167,15 +162,14 @@ namespace BeanDesktop
             {
                 dgvDetalleVenta.Rows.Add(new object[]
                 {
-            d.NombreProducto,
-            d.PrecioVenta,
-            d.Cantidad,
-            d.SubTotal
+                    d.NombreProducto,
+                    d.PrecioVenta,
+                    d.Cantidad,
+                    d.SubTotal
                 });
             }
         }
 
-        // NUEVO: Método para configurar la grilla para ver detalles
         private void ConfigurarGrillaDetalles()
         {
             dgvDetalleVenta.Columns.Clear();
@@ -187,22 +181,157 @@ namespace BeanDesktop
             dgvDetalleVenta.Columns["SubTotal"].DefaultCellStyle.Format = "C2";
         }
 
-        // NUEVO: Evento para ver el detalle al hacer doble clic
-        private void dgvDetalleVenta_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0) return; // Se hizo clic en el encabezado
-
-            // Obtenemos el NumeroDocumento de la fila seleccionada
-            string numDoc = dgvDetalleVenta.Rows[e.RowIndex].Cells["NumeroDocumento"].Value.ToString();
-
-            // Llamamos al método que muestra los detalles
-            MostrarDetalleDeVenta(numDoc);
-        }
         private void EstiloTextBoxLectura(TextBox txt)
         {
             txt.ReadOnly = true;
-            txt.BackColor = Color.WhiteSmoke;
+            txt.BackColor = System.Drawing.Color.White;
             txt.BorderStyle = BorderStyle.FixedSingle;
         }
+
+        // ✅ Doble clic para mostrar detalle
+        private void dgvDetalleVenta_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            string numDoc = dgvDetalleVenta.Rows[e.RowIndex].Cells["NumeroDocumento"].Value.ToString();
+            MostrarDetalleDeVenta(numDoc);
+        }
+
+        // ✅ Botón buscar (ya sin txtFecha ni dgvDetalles)
+        private void btnBuscarVenta_Click(object sender, EventArgs e)
+        {
+            string numeroDocumento = txtNumeroDocumento.Text.Trim();
+
+            if (string.IsNullOrEmpty(numeroDocumento))
+            {
+                MessageBox.Show("Ingrese un número de documento para buscar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var venta = new CN_Venta().ObtenerPorNumeroDocumento(numeroDocumento);
+
+            if (venta != null)
+            {
+                MostrarDetalleDeVenta(numeroDocumento);
+            }
+            else
+            {
+                MessageBox.Show("No se encontró ninguna venta con ese número de documento.", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        // ✅ Click en botón de PDF
+        private void DgvDetalleVenta_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dgvDetalleVenta.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+            {
+                int idVenta = Convert.ToInt32(dgvDetalleVenta.Rows[e.RowIndex].Cells["IdVenta"].Value);
+                GenerarPDFVenta(idVenta);
+            }
+        }
+
+        // ✅ Generar PDF con QuestPDF
+        private void GenerarPDFVenta(int idVenta)
+        {
+
+            PdfSharp.Fonts.GlobalFontSettings.UseWindowsFontsUnderWindows = true;
+            Venta venta = new CN_Venta().ObtenerPorId(idVenta);
+            List<Detalle_Venta> detalles = new CN_Venta().ListarDetallePorVenta(idVenta);
+
+            if (venta == null)
+            {
+                MessageBox.Show("No se pudo encontrar la venta.");
+                return;
+            }
+
+            try
+            {
+                // 📂 Carpeta "Tickets" dentro de "Documentos" del usuario
+                string documentosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string carpetaTickets = Path.Combine(documentosPath, "Tickets");
+
+                if (!Directory.Exists(carpetaTickets))
+                    Directory.CreateDirectory(carpetaTickets);
+
+                string nombreArchivo = $"Detalle_Venta_{venta.NumeroDocumento}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
+                string ruta = Path.Combine(carpetaTickets, nombreArchivo);
+
+                // Crear PDF
+                PdfDocument pdf = new PdfDocument();
+                pdf.Info.Title = $"Detalle de Venta #{venta.IdVenta}";
+
+                PdfPage page = pdf.AddPage();
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+                XFont fontBold = new XFont("Arial", 12, PdfSharp.Drawing.XFontStyleEx.Bold);
+                XFont fontNormal = new XFont("Arial", 12, PdfSharp.Drawing.XFontStyleEx.Regular);
+
+
+                double yPoint = 40;
+
+                // Encabezado
+                gfx.DrawString($"Detalle de Venta #{venta.IdVenta}", new XFont("Arial", 18, XFontStyleEx.Bold), XBrushes.Black, new XRect(0, yPoint, page.Width, 30), XStringFormats.TopCenter);
+                yPoint += 40;
+
+                // Datos del cliente y venta
+                gfx.DrawString($"Cliente: {venta.oCliente?.NombreCompleto ?? "Consumidor Final"}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 20;
+                gfx.DrawString($"Documento: {venta.oCliente?.Documento ?? "---"}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 20;
+                gfx.DrawString($"Tipo de Documento: {venta.TipoDocumento}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 20;
+                gfx.DrawString($"Número de Documento: {venta.NumeroDocumento}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 20;
+                gfx.DrawString($"Monto Total: {venta.MontoTotal:C2}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 20;
+                gfx.DrawString($"Descuento: {venta.DescuentoAplicado:C2}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 30;
+
+                // Tabla de productos
+                gfx.DrawString("Productos:", fontBold, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 25;
+
+                // Encabezados de tabla
+                gfx.DrawString("Producto", fontBold, XBrushes.Black, 40, yPoint);
+                gfx.DrawString("Precio", fontBold, XBrushes.Black, 300, yPoint);
+                gfx.DrawString("Cantidad", fontBold, XBrushes.Black, 380, yPoint);
+                gfx.DrawString("Subtotal", fontBold, XBrushes.Black, 460, yPoint);
+                yPoint += 20;
+
+                foreach (var d in detalles)
+                {
+                    gfx.DrawString(d.NombreProducto, fontNormal, XBrushes.Black, 40, yPoint);
+                    gfx.DrawString(d.PrecioVenta.ToString("C2"), fontNormal, XBrushes.Black, 300, yPoint);
+                    gfx.DrawString(d.Cantidad.ToString(), fontNormal, XBrushes.Black, 380, yPoint);
+                    gfx.DrawString(d.SubTotal.ToString("C2"), fontNormal, XBrushes.Black, 460, yPoint);
+                    yPoint += 20;
+
+                    // Salto de página si se pasa de la altura
+                    if (yPoint > page.Height - 50)
+                    {
+                        page = pdf.AddPage();
+                        gfx = XGraphics.FromPdfPage(page);
+                        yPoint = 40;
+                    }
+                }
+
+                // Footer
+                gfx.DrawString("Generado automáticamente por BeanDesktop", new XFont("Arial", 10, XFontStyleEx.Regular), XBrushes.Gray, new XRect(0, page.Height - 40, page.Width, 20), XStringFormats.Center);
+
+                pdf.Save(ruta);
+
+                MessageBox.Show($"PDF generado correctamente en:\n{ruta}", "PDF generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Process.Start(new ProcessStartInfo()
+                {
+                    FileName = ruta,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al generar el PDF:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }

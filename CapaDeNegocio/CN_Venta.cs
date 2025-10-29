@@ -40,5 +40,11 @@ namespace BeanDesktop.CapaDeNegocio
         {
             return objCD.ListarVentas();
         }
+
+        public Venta ObtenerPorId(int idVenta)
+        {
+            if (idVenta <= 0) return null;
+            return objCD.ObtenerPorId(idVenta);
+        }
     }
 }

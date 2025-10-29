@@ -243,5 +243,62 @@ namespace CapaDeDatos
             return lista;
         }
 
+        public Venta ObtenerPorId(int idVenta)
+        {
+            Venta venta = null;
+            try
+            {
+                using (SqlConnection cn = Conexion.GetConnection())
+                {
+                    string query = @"
+                SELECT v.IdVenta, v.IdUsuario, v.TipoDocumento, v.NumeroDocumento,
+                       v.MontoPago, v.MontoCambio, v.MontoTotal, v.FechaRegistro, v.DescuentoAplicado,
+                       v.IdCliente, c.NombreCompleto, c.Documento AS DocumentoCliente
+                FROM VENTA v
+                LEFT JOIN CLIENTE c ON v.IdCliente = c.IdCliente
+                WHERE v.IdVenta = @IdVenta";
+
+                    using (SqlCommand cmd = new SqlCommand(query, cn))
+                    {
+                        cmd.Parameters.AddWithValue("@IdVenta", idVenta);
+                        cn.Open();
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            if (dr.Read())
+                            {
+                                venta = new Venta
+                                {
+                                    IdVenta = Convert.ToInt32(dr["IdVenta"]),
+                                    IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
+                                    TipoDocumento = dr["TipoDocumento"].ToString(),
+                                    NumeroDocumento = dr["NumeroDocumento"].ToString(),
+                                    MontoPago = Convert.ToDecimal(dr["MontoPago"]),
+                                    MontoCambio = Convert.ToDecimal(dr["MontoCambio"]),
+                                    MontoTotal = Convert.ToDecimal(dr["MontoTotal"]),
+                                    DescuentoAplicado = Convert.ToDecimal(dr["DescuentoAplicado"]),
+                                    FechaRegistro = dr["FechaRegistro"].ToString(),
+                                    IdCliente = Convert.ToInt32(dr["IdCliente"])
+                                };
+
+                                if (dr["IdCliente"] != DBNull.Value)
+                                {
+                                    venta.oCliente = new Cliente
+                                    {
+                                        IdCliente = Convert.ToInt32(dr["IdCliente"]),
+                                        NombreCompleto = dr["NombreCompleto"].ToString(),
+                                        Documento = dr["DocumentoCliente"].ToString()
+                                    };
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch { venta = null; }
+
+            return venta;
+        }
+
+
     }
 }
