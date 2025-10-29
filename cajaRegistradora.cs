@@ -214,7 +214,7 @@ namespace BeanDesktop
                 if (filaExistente != null)
                 {
                     int cantidadActual = filaExistente.Field<int>("Cantidad");
-                    int nuevaCantidad = cantidadActual + cantidadAAgregar; 
+                    int nuevaCantidad = cantidadActual + cantidadAAgregar;
 
                     if (nuevaCantidad > stock)
                     {
@@ -284,7 +284,7 @@ namespace BeanDesktop
             if (clienteEncontrado != null)
             {
                 idClienteSeleccionado = clienteEncontrado.IdCliente;
-                txtDocumentoCliente.Text = clienteEncontrado.Documento; 
+                txtDocumentoCliente.Text = clienteEncontrado.Documento;
                 txtNombreCliente.Text = clienteEncontrado.NombreCompleto;
             }
             else
@@ -370,5 +370,14 @@ namespace BeanDesktop
             txtCambio.Text = cambio >= 0 ? cambio.ToString("0.00") : "0.00";
         }
 
+        private void btnNuevoCliente_Click(object sender, EventArgs e)
+        {
+            frmClientes formularioClientes = new frmClientes();
+            formularioClientes.ShowDialog();
+
+            CargarSugerenciasClientes();
+
+            txtDocumentoCliente.Focus();
+        }
     }
 }

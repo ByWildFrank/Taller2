@@ -44,6 +44,7 @@
             numStockAnadir = new NumericUpDown();
             txtStockActual = new TextBox();
             numStockInicial = new NumericUpDown();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             gbAjusteStock.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numStockAnadir).BeginInit();
@@ -270,7 +271,7 @@
             // 
             // txtStockActual
             // 
-            txtStockActual.Location = new Point(150, 130);
+            txtStockActual.Location = new Point(150, 160);
             txtStockActual.Name = "txtStockActual";
             txtStockActual.ReadOnly = true;
             txtStockActual.Size = new Size(107, 23);
@@ -284,10 +285,18 @@
             numStockInicial.TabIndex = 24;
             numStockInicial.Visible = false;
             // 
+            // label1
+            // 
+            label1.Location = new Point(150, 163);
+            label1.Name = "label1";
+            label1.Size = new Size(107, 23);
+            label1.TabIndex = 26;
+            // 
             // frmProducto
             // 
             ClientSize = new Size(974, 562);
             Controls.Add(txtStockActual);
+            Controls.Add(label1);
             Controls.Add(gbAjusteStock);
             Controls.Add(numStockInicial);
             Controls.Add(cboBusqueda);
@@ -354,6 +363,7 @@
         private NumericUpDown numStockAnadir;
         private TextBox txtStockActual;
         private NumericUpDown numStockInicial;
+        private Label label1;
         private ComboBox cmbCategoria;
     }
 }

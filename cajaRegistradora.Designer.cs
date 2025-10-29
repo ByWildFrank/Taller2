@@ -18,12 +18,14 @@
         private void InitializeComponent()
         {
             pnlCliente = new GroupBox();
+            btnNuevoCliente = new Button();
             lblDocumentoCliente = new Label();
             lblNombreCliente = new Label();
             txtDocumentoCliente = new TextBox();
             txtNombreCliente = new TextBox();
             btnBuscarCliente = new Button();
             pnlProductos = new GroupBox();
+            numCantidad = new NumericUpDown();
             lblBuscarProducto = new Label();
             txtBuscarProducto = new TextBox();
             btnBuscar = new Button();
@@ -49,19 +51,19 @@
             lblCambio = new Label();
             txtCambio = new TextBox();
             btnRegistrarVenta = new Button();
-            numCantidad = new NumericUpDown();
             pnlCliente.SuspendLayout();
             pnlProductos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             pnlCarrito.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCarrito).BeginInit();
             pnlTotales.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numCantidad).BeginInit();
             SuspendLayout();
             // 
             // pnlCliente
             // 
             pnlCliente.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            pnlCliente.Controls.Add(btnNuevoCliente);
             pnlCliente.Controls.Add(lblDocumentoCliente);
             pnlCliente.Controls.Add(lblNombreCliente);
             pnlCliente.Controls.Add(txtDocumentoCliente);
@@ -74,6 +76,16 @@
             pnlCliente.TabIndex = 0;
             pnlCliente.TabStop = false;
             pnlCliente.Text = "Datos del Cliente";
+            // 
+            // btnNuevoCliente
+            // 
+            btnNuevoCliente.Location = new Point(753, 19);
+            btnNuevoCliente.Name = "btnNuevoCliente";
+            btnNuevoCliente.Size = new Size(102, 37);
+            btnNuevoCliente.TabIndex = 5;
+            btnNuevoCliente.Text = "Nuevo Cliente";
+            btnNuevoCliente.UseVisualStyleBackColor = true;
+            btnNuevoCliente.Click += btnNuevoCliente_Click;
             // 
             // lblDocumentoCliente
             // 
@@ -135,6 +147,15 @@
             pnlProductos.TabIndex = 1;
             pnlProductos.TabStop = false;
             pnlProductos.Text = "Productos";
+            // 
+            // numCantidad
+            // 
+            numCantidad.Location = new Point(671, 22);
+            numCantidad.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numCantidad.Name = "numCantidad";
+            numCantidad.Size = new Size(65, 23);
+            numCantidad.TabIndex = 6;
+            numCantidad.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // lblBuscarProducto
             // 
@@ -379,15 +400,6 @@
             btnRegistrarVenta.UseVisualStyleBackColor = true;
             btnRegistrarVenta.Click += btnRegistrarVenta_Click;
             // 
-            // numCantidad
-            // 
-            numCantidad.Location = new Point(671, 22);
-            numCantidad.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            numCantidad.Name = "numCantidad";
-            numCantidad.Size = new Size(65, 23);
-            numCantidad.TabIndex = 6;
-            numCantidad.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            // 
             // cajaRegistradora
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -405,12 +417,12 @@
             pnlCliente.PerformLayout();
             pnlProductos.ResumeLayout(false);
             pnlProductos.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numCantidad).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             pnlCarrito.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvCarrito).EndInit();
             pnlTotales.ResumeLayout(false);
             pnlTotales.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numCantidad).EndInit();
             ResumeLayout(false);
         }
 
@@ -452,5 +464,6 @@
         private System.Windows.Forms.TextBox txtCambio;
         private System.Windows.Forms.Button btnRegistrarVenta;
         private NumericUpDown numCantidad;
+        private Button btnNuevoCliente;
     }
 }
