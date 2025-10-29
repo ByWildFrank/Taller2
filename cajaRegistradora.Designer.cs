@@ -49,12 +49,14 @@
             lblCambio = new Label();
             txtCambio = new TextBox();
             btnRegistrarVenta = new Button();
+            numCantidad = new NumericUpDown();
             pnlCliente.SuspendLayout();
             pnlProductos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             pnlCarrito.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCarrito).BeginInit();
             pnlTotales.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numCantidad).BeginInit();
             SuspendLayout();
             // 
             // pnlCliente
@@ -119,6 +121,7 @@
             // pnlProductos
             // 
             pnlProductos.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            pnlProductos.Controls.Add(numCantidad);
             pnlProductos.Controls.Add(lblBuscarProducto);
             pnlProductos.Controls.Add(txtBuscarProducto);
             pnlProductos.Controls.Add(btnBuscar);
@@ -376,6 +379,15 @@
             btnRegistrarVenta.UseVisualStyleBackColor = true;
             btnRegistrarVenta.Click += btnRegistrarVenta_Click;
             // 
+            // numCantidad
+            // 
+            numCantidad.Location = new Point(671, 22);
+            numCantidad.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numCantidad.Name = "numCantidad";
+            numCantidad.Size = new Size(65, 23);
+            numCantidad.TabIndex = 6;
+            numCantidad.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
             // cajaRegistradora
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -398,6 +410,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvCarrito).EndInit();
             pnlTotales.ResumeLayout(false);
             pnlTotales.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numCantidad).EndInit();
             ResumeLayout(false);
         }
 
@@ -438,5 +451,6 @@
         private System.Windows.Forms.Label lblCambio;
         private System.Windows.Forms.TextBox txtCambio;
         private System.Windows.Forms.Button btnRegistrarVenta;
+        private NumericUpDown numCantidad;
     }
 }

@@ -79,12 +79,13 @@ namespace BeanDesktop
         {
             List<Cliente> listaClientes = new CN_Cliente().ListarActivos();
             var autoCompleteCollection = new AutoCompleteStringCollection();
+
             foreach (var cliente in listaClientes)
             {
-                autoCompleteCollection.Add(cliente.Documento);
-                autoCompleteCollection.Add(cliente.NombreCompleto);
+                autoCompleteCollection.Add($"{cliente.Documento} - {cliente.NombreCompleto}");
             }
-            txtDocumentoCliente.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            txtDocumentoCliente.AutoCompleteMode = AutoCompleteMode.Suggest;
             txtDocumentoCliente.AutoCompleteSource = AutoCompleteSource.CustomSource;
             txtDocumentoCliente.AutoCompleteCustomSource = autoCompleteCollection;
         }
@@ -92,7 +93,6 @@ namespace BeanDesktop
         private void CargarProductos()
         {
             CN_Producto objProducto = new CN_Producto();
-            // Obtenemos la lista UNA SOLA VEZ y la guardamos
             _listaProductosCompleta = objProducto.Listar();
 
             // Filtramos solo los activos para mostrar en la venta
@@ -103,21 +103,10 @@ namespace BeanDesktop
             dgvProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             // Ocultar columnas que no interesan en la venta
-            if (dgvProductos.Columns.Contains("IdProducto"))
-                dgvProductos.Columns["IdProducto"].Visible = false;
-
-            if (dgvProductos.Columns.Contains("oCategoria"))
-                dgvProductos.Columns["oCategoria"].Visible = false;
-
-            if (dgvProductos.Columns.Contains("IdCategoria"))
-                dgvProductos.Columns["IdCategoria"].Visible = false;
-
-            if (dgvProductos.Columns.Contains("PrecioFabricacion"))
-                dgvProductos.Columns["PrecioFabricacion"].Visible = false;
-
-            if (dgvProductos.Columns.Contains("Estado"))
-                dgvProductos.Columns["Estado"].Visible = false;
-
+            dgvProductos.Columns["IdProducto"].Visible = false;
+            dgvProductos.Columns["oCategoria"].Visible = false;
+            dgvProductos.Columns["PrecioFabricacion"].Visible = false;
+            dgvProductos.Columns["Estado"].Visible = false;
         }
 
         // --- MÉTODOS DE FILTRADO DINÁMICO (NUEVOS) ---
@@ -125,21 +114,19 @@ namespace BeanDesktop
         private void FiltrarProductosGrid()
         {
             if (_listaProductosCompleta == null) return;
-
-            // Empezamos con la lista de productos activos
             IEnumerable<Producto> productosFiltrados = _listaProductosCompleta.Where(p => p.Estado);
 
-            // 1. Obtener valores de filtro
             string textoBusqueda = txtBuscarProducto.Text.Trim().ToUpper();
+
             int idCategoria = 0;
-            try
+            // Verificamos si hay un ítem seleccionado
+            if (cboCategoria.SelectedItem != null)
             {
-                idCategoria = Convert.ToInt32(cboCategoria.SelectedValue);
-            }
-            catch
-            {
-                if (cboCategoria.SelectedValue is Categoria cat)
-                    idCategoria = cat.IdCategoria;
+                // Obtenemos el objeto Categoria completo que está seleccionado
+                Categoria categoriaSeleccionada = (Categoria)cboCategoria.SelectedItem;
+
+                // Accedemos directamente a su propiedad IdCategoria
+                idCategoria = categoriaSeleccionada.IdCategoria;
             }
 
             // 2. Aplicar filtro de categoría (si no es "Todas")
@@ -172,14 +159,12 @@ namespace BeanDesktop
             FiltrarProductosGrid();
         }
 
-        // --- FIN DE MÉTODOS DE FILTRADO ---
 
 
         private void dgvProductos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                // Obtenemos el producto directamente de la fuente de datos
                 var productoSeleccionado = (Producto)dgvProductos.Rows[e.RowIndex].DataBoundItem;
 
                 int idProducto = productoSeleccionado.IdProducto;
@@ -187,9 +172,12 @@ namespace BeanDesktop
                 decimal precioVenta = productoSeleccionado.PrecioVenta;
                 int stock = productoSeleccionado.stock;
 
-                if (stock <= 0)
+                // ✅ CAMBIO: Obtener la cantidad deseada desde el NumericUpDown
+                int cantidadAAgregar = (int)numCantidad.Value;
+
+                if (stock <= 0 || cantidadAAgregar > stock)
                 {
-                    MessageBox.Show("Este producto no tiene stock disponible.", "Stock insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"Stock insuficiente. Stock disponible: {stock}", "Stock insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -198,10 +186,13 @@ namespace BeanDesktop
 
                 if (filaExistente != null)
                 {
-                    int nuevaCantidad = filaExistente.Field<int>("Cantidad") + 1;
+                    // El producto ya está en el carrito, actualizamos la cantidad
+                    int cantidadActual = filaExistente.Field<int>("Cantidad");
+                    int nuevaCantidad = cantidadActual + cantidadAAgregar; // Suma la cantidad deseada
+
                     if (nuevaCantidad > stock)
                     {
-                        MessageBox.Show("No hay suficiente stock disponible.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Stock insuficiente. Ya tiene {cantidadActual} en el carrito y el stock total es {stock}.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
                     filaExistente["Cantidad"] = nuevaCantidad;
@@ -209,11 +200,15 @@ namespace BeanDesktop
                 }
                 else
                 {
-                    // ✅ Añadimos el nombre del producto al carrito
-                    detalleVenta.Rows.Add(idProducto, nombreProducto, precioVenta, 1, precioVenta);
+                    // El producto es nuevo en el carrito
+                    detalleVenta.Rows.Add(idProducto, nombreProducto, precioVenta, cantidadAAgregar, precioVenta * cantidadAAgregar);
                 }
 
                 CalcularTotales();
+
+                // ✅ Resetea el contador a 1 para la próxima adición
+                numCantidad.Value = 1;
+                txtBuscarProducto.Focus(); // Pone el foco de nuevo en la búsqueda
             }
         }
 
@@ -243,19 +238,29 @@ namespace BeanDesktop
         private void btnBuscarCliente_Click(object sender, EventArgs e)
         {
             string textoBusqueda = txtDocumentoCliente.Text.Trim();
-            if (string.IsNullOrEmpty(textoBusqueda)) { /* ... mensaje ... */ return; }
+            if (string.IsNullOrEmpty(textoBusqueda))
+            {
+                MessageBox.Show("Ingrese un documento o nombre para buscar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            string documentoBusqueda = textoBusqueda.Split(' ')[0];
 
             CN_Cliente objCliente = new CN_Cliente();
-            Cliente clienteEncontrado = objCliente.ListarActivos()
-                .FirstOrDefault(c =>
-                    c.Documento.Equals(textoBusqueda, StringComparison.OrdinalIgnoreCase) ||
-                    c.NombreCompleto.Equals(textoBusqueda, StringComparison.OrdinalIgnoreCase)
-                );
+            Cliente clienteEncontrado = null;
+
+            clienteEncontrado = objCliente.ListarActivos()
+                .FirstOrDefault(c => c.Documento.Equals(documentoBusqueda, StringComparison.OrdinalIgnoreCase));
+
+            if (clienteEncontrado == null)
+            {
+                clienteEncontrado = objCliente.ListarActivos()
+                    .FirstOrDefault(c => c.NombreCompleto.Equals(textoBusqueda, StringComparison.OrdinalIgnoreCase));
+            }
 
             if (clienteEncontrado != null)
             {
                 idClienteSeleccionado = clienteEncontrado.IdCliente;
-                txtDocumentoCliente.Text = clienteEncontrado.Documento;
+                txtDocumentoCliente.Text = clienteEncontrado.Documento; // Rellenamos con el DNI
                 txtNombreCliente.Text = clienteEncontrado.NombreCompleto;
             }
             else
@@ -282,7 +287,7 @@ namespace BeanDesktop
             {
                 IdUsuario = usuarioLogueado.IdUsuario,
                 TipoDocumento = ((OpcionCombo)cboTipoDocumento.SelectedItem)?.Texto ?? "Boleta",
-                NumeroDocumento = txtDocumentoCliente.Text.Trim(), // Considera generar un correlativo
+                NumeroDocumento = txtDocumentoCliente.Text.Trim(),
                 IdCliente = idClienteSeleccionado,
                 MontoPago = montoPago,
                 MontoCambio = montoCambio,
@@ -290,9 +295,19 @@ namespace BeanDesktop
                 DescuentoAplicado = descuentoAplicado
             };
 
+            // 1. Creamos una copia del DataTable del carrito.
+            DataTable dtDetalleParaSQL = detalleVenta.Copy();
+
+            // 2. Le quitamos la columna "NombreProducto" porque el SP no la espera.
+            if (dtDetalleParaSQL.Columns.Contains("NombreProducto"))
+            {
+                dtDetalleParaSQL.Columns.Remove("NombreProducto");
+            }
+
             string mensaje = string.Empty;
             CN_Venta objVentaCN = new CN_Venta();
-            int idVentaGenerada = objVentaCN.Registrar(objVenta, detalleVenta, out mensaje);
+
+            int idVentaGenerada = objVentaCN.Registrar(objVenta, dtDetalleParaSQL, out mensaje);
 
             if (idVentaGenerada > 0)
             {
@@ -323,7 +338,7 @@ namespace BeanDesktop
             // Limpiar filtros de producto
             txtBuscarProducto.Clear();
             cboCategoria.SelectedIndex = 0;
-            FiltrarProductosGrid(); // Recarga la grilla
+            FiltrarProductosGrid(); // Recarga
         }
 
         private void txtPago_TextChanged(object sender, EventArgs e)
