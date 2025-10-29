@@ -103,11 +103,21 @@ namespace BeanDesktop
             dgvProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             // Ocultar columnas que no interesan en la venta
-            dgvProductos.Columns["IdProducto"].Visible = false;
-            dgvProductos.Columns["oCategoria"].Visible = false;
-            dgvProductos.Columns["IdCategoria"].Visible = false;
-            dgvProductos.Columns["PrecioFabricacion"].Visible = false;
-            dgvProductos.Columns["Estado"].Visible = false;
+            if (dgvProductos.Columns.Contains("IdProducto"))
+                dgvProductos.Columns["IdProducto"].Visible = false;
+
+            if (dgvProductos.Columns.Contains("oCategoria"))
+                dgvProductos.Columns["oCategoria"].Visible = false;
+
+            if (dgvProductos.Columns.Contains("IdCategoria"))
+                dgvProductos.Columns["IdCategoria"].Visible = false;
+
+            if (dgvProductos.Columns.Contains("PrecioFabricacion"))
+                dgvProductos.Columns["PrecioFabricacion"].Visible = false;
+
+            if (dgvProductos.Columns.Contains("Estado"))
+                dgvProductos.Columns["Estado"].Visible = false;
+
         }
 
         // --- MÉTODOS DE FILTRADO DINÁMICO (NUEVOS) ---
@@ -121,7 +131,16 @@ namespace BeanDesktop
 
             // 1. Obtener valores de filtro
             string textoBusqueda = txtBuscarProducto.Text.Trim().ToUpper();
-            int idCategoria = (cboCategoria.SelectedValue != null) ? Convert.ToInt32(cboCategoria.SelectedValue) : 0;
+            int idCategoria = 0;
+            try
+            {
+                idCategoria = Convert.ToInt32(cboCategoria.SelectedValue);
+            }
+            catch
+            {
+                if (cboCategoria.SelectedValue is Categoria cat)
+                    idCategoria = cat.IdCategoria;
+            }
 
             // 2. Aplicar filtro de categoría (si no es "Todas")
             if (idCategoria > 0)
