@@ -1,6 +1,7 @@
 ﻿using BeanDesktop.CapaDeEntidades;
 using BeanDesktop.CapaDeNegocio;
 using BeanDesktop.Utilidades;
+using CapaDeDatos;
 using CapaDeEntidades;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Color = System.Drawing.Color;
 
 namespace BeanDesktop
 {
@@ -15,17 +17,18 @@ namespace BeanDesktop
     {
         private CN_Producto CN_Producto = new CN_Producto();
         private List<Producto> _listaCompletaProductos;
+        private Usuario _usuarioLogueado; // Asumimos que lo recibes
 
-        public frmProducto()
+        public frmProducto(Usuario usuario) // Recibe el usuario que inició sesión
         {
             InitializeComponent();
+            _usuarioLogueado = usuario;
         }
 
         private void frmProducto_Load(object sender, EventArgs e)
         {
-            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.BackColor = Color.WhiteSmoke;
 
-            // Cargar estado
             cboEstado.Items.Add(new OpcionCombo() { Valor = true, Texto = "Activo" });
             cboEstado.Items.Add(new OpcionCombo() { Valor = false, Texto = "No Activo" });
             cboEstado.DisplayMember = "Texto";
@@ -34,10 +37,8 @@ namespace BeanDesktop
 
             CargarComboCategorias();
 
-            // Cargar columnas de búsqueda
             cboBusqueda.Items.Add(new OpcionCombo { Valor = "Codigo", Texto = "Código" });
             cboBusqueda.Items.Add(new OpcionCombo { Valor = "Nombre", Texto = "Nombre" });
-            cboBusqueda.Items.Add(new OpcionCombo { Valor = "Descripcion", Texto = "Descripción" });
             cboBusqueda.DisplayMember = "Texto";
             cboBusqueda.ValueMember = "Valor";
             cboBusqueda.SelectedIndex = 0;
@@ -45,34 +46,34 @@ namespace BeanDesktop
             CargarGrilla();
             CargarSugerenciasBusqueda();
 
-            // Conectar filtros dinámicos
             txtBusqueda.TextChanged += TxtBusqueda_TextChanged;
-            cmbCategoriaBusqueda.SelectedIndexChanged += CmbCategoriaBusqueda_SelectedIndexChanged;
-            // (Asumo que tienes un cboCategoriaBusqueda en el panel de búsqueda)
+            cmbCategoria.SelectedIndexChanged += CmbCategoriaBusqueda_SelectedIndexChanged;
+            numStockInicial.Click += btnAnadirStock_Click;
+
+            Limpiar(); // Establece el estado inicial
         }
 
         private void CargarGrilla()
         {
-            _listaCompletaProductos = CN_Producto.Listar();
-            dgvProductos.DataSource = _listaCompletaProductos.Where(p => p.Estado == true).ToList(); // Mostrar solo activos por defecto
+            // Carga TODOS los productos (activos e inactivos) a la memoria
+            _listaCompletaProductos = new CN_Producto().ListarTodos();
+            FiltrarGrilla(); // Aplica el filtro por defecto (solo activos)
         }
 
         private void CargarComboCategorias()
         {
             CN_Categoria cnCategoria = new CN_Categoria();
-            var categorias = cnCategoria.Listar().Where(c => c.Estado).ToList(); // Solo activas
+            var categorias = cnCategoria.Listar().Where(c => c.Estado).ToList();
 
-            // Para el ComboBox de edición
-            cmbCategoriaBusqueda.DataSource = categorias;
-            cmbCategoriaBusqueda.DisplayMember = "Descripcion";
-            cmbCategoriaBusqueda.ValueMember = "IdCategoria";
+            cmbCategoria.DataSource = new List<Categoria>(categorias);
+            cmbCategoria.DisplayMember = "Descripcion";
+            cmbCategoria.ValueMember = "IdCategoria";
 
-            // Para el ComboBox de búsqueda (con "Todas")
             var categoriasBusqueda = new List<Categoria>(categorias);
             categoriasBusqueda.Insert(0, new Categoria { IdCategoria = 0, Descripcion = "Todas" });
-            cmbCategoriaBusqueda.DataSource = categoriasBusqueda; // Asumo que tienes este ComboBox
-            cmbCategoriaBusqueda.DisplayMember = "Descripcion";
-            cmbCategoriaBusqueda.ValueMember = "IdCategoria";
+            cmbCategoria.DataSource = categoriasBusqueda;
+            cmbCategoria.DisplayMember = "Descripcion";
+            cmbCategoria.ValueMember = "IdCategoria";
         }
 
         private void CargarSugerenciasBusqueda()
@@ -88,34 +89,21 @@ namespace BeanDesktop
             txtBusqueda.AutoCompleteCustomSource = autoCompleteCollection;
         }
 
-        private void TxtBusqueda_TextChanged(object sender, EventArgs e)
-        {
-            FiltrarGrilla();
-        }
-
-        private void CmbCategoriaBusqueda_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FiltrarGrilla();
-        }
+        // --- Eventos de Filtro Dinámico ---
+        private void TxtBusqueda_TextChanged(object sender, EventArgs e) { FiltrarGrilla(); }
+        private void CmbCategoriaBusqueda_SelectedIndexChanged(object sender, EventArgs e) { FiltrarGrilla(); }
 
         private void FiltrarGrilla()
         {
             if (_listaCompletaProductos == null) return;
-
             IEnumerable<Producto> listaFiltrada = _listaCompletaProductos;
-
-            // 1. Filtrar por categoría
             int idCategoria = 0;
-            if (cmbCategoriaBusqueda.SelectedValue != null)
-            {
-                int.TryParse(cmbCategoriaBusqueda.SelectedValue.ToString(), out idCategoria);
-            }
-            if (idCategoria > 0)
-            {
-                listaFiltrada = listaFiltrada.Where(p => p.oCategoria.IdCategoria == idCategoria);
-            }
+            if (cmbCategoria.SelectedValue != null)
+                int.TryParse(cmbCategoria.SelectedValue.ToString(), out idCategoria);
 
-            // 2. Filtrar por texto
+            if (idCategoria > 0)
+                listaFiltrada = listaFiltrada.Where(p => p.oCategoria.IdCategoria == idCategoria);
+
             string textoBusqueda = txtBusqueda.Text.Trim().ToUpper();
             string columnaFiltro = ((OpcionCombo)cboBusqueda.SelectedItem).Valor.ToString();
 
@@ -123,13 +111,11 @@ namespace BeanDesktop
             {
                 listaFiltrada = listaFiltrada.Where(p =>
                     (columnaFiltro == "Nombre" && p.Nombre != null && p.Nombre.ToUpper().Contains(textoBusqueda)) ||
-                    (columnaFiltro == "Codigo" && p.codigo != null && p.codigo.ToUpper().Contains(textoBusqueda)) ||
-                    (columnaFiltro == "Descripcion" && p.Descripcion != null && p.Descripcion.ToUpper().Contains(textoBusqueda))
+                    (columnaFiltro == "Codigo" && p.codigo != null && p.codigo.ToUpper().Contains(textoBusqueda))
                 );
             }
 
-            // 3. Ocultar inactivos (a menos que se busquen)
-            // Si la búsqueda está vacía, solo mostrar activos
+            // Filtro por defecto: Ocultar inactivos si no se está buscando nada
             if (string.IsNullOrEmpty(textoBusqueda) && idCategoria == 0)
             {
                 listaFiltrada = listaFiltrada.Where(p => p.Estado == true);
@@ -142,20 +128,26 @@ namespace BeanDesktop
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             string mensaje = string.Empty;
+            int idProducto = string.IsNullOrEmpty(txtid.Text) ? 0 : Convert.ToInt32(txtid.Text);
 
-            Producto objProducto = new Producto
+            var objProducto = new Producto
             {
-                // Si txtid.Text es 0, es nuevo. Si no, es edición.
-                IdProducto = string.IsNullOrEmpty(txtid.Text) ? 0 : Convert.ToInt32(txtid.Text),
+                IdProducto = idProducto,
                 Nombre = txtNombre.Text,
                 Descripcion = txtDescripcion.Text,
                 codigo = txtCodigo.Text,
-                oCategoria = new Categoria { IdCategoria = Convert.ToInt32(cmbCategoriaBusqueda.SelectedValue) },
-                stock = Convert.ToInt32(txtStock.Text), // Añadir validación TryParse
-                PrecioFabricacion = Convert.ToDecimal(txtPrecioFabricacion.Text), // Añadir validación TryParse
-                PrecioVenta = Convert.ToDecimal(txtPrecioVenta.Text), // Añadir validación TryParse
-                Estado = (bool)((OpcionCombo)cboEstado.SelectedItem).Valor
+                oCategoria = new Categoria { IdCategoria = Convert.ToInt32(cmbCategoria.SelectedValue) },
+                PrecioFabricacion = Convert.ToDecimal(txtPrecioFabricacion.Text), // Añadir TryParse
+                PrecioVenta = Convert.ToDecimal(txtPrecioVenta.Text), // Añadir TryParse
+                Estado = (bool)((OpcionCombo)cboEstado.SelectedItem).Valor,
+                stock = 0 // Por defecto
             };
+
+            // ✅ LÓGICA DE STOCK: Solo se define el stock al CREAR un producto nuevo
+            if (objProducto.IdProducto == 0)
+            {
+                objProducto.stock = (int)numStockInicial.Value;
+            }
 
             bool resultado = CN_Producto.Guardar(objProducto, out mensaje);
 
@@ -165,9 +157,29 @@ namespace BeanDesktop
                 CargarGrilla();
                 Limpiar();
             }
+            else { MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
+        }
+
+        // ✅ NUEVO: Evento para el botón de añadir stock
+        private void btnAnadirStock_Click(object sender, EventArgs e)
+        {
+            int idProducto = Convert.ToInt32(txtid.Text);
+            int cantidad = (int)numStockAnadir.Value;
+
+            string mensaje = string.Empty;
+            bool respuesta = CN_Producto.AnadirStock(idProducto, cantidad, _usuarioLogueado.IdUsuario, out mensaje);
+
+            if (respuesta)
+            {
+                MessageBox.Show(mensaje, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarGrilla();
+                // Actualizamos el stock en el txtStockActual
+                txtStockActual.Text = (Convert.ToInt32(txtStockActual.Text) + cantidad).ToString();
+                numStockAnadir.Value = 1; // Reseteamos el contador
+            }
             else
             {
-                MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -175,32 +187,34 @@ namespace BeanDesktop
         {
             if (e.RowIndex < 0) return;
 
-            // Obtener el ID del producto de la fila seleccionada
             int idProducto = Convert.ToInt32(dgvProductos.Rows[e.RowIndex].Cells["IdProducto"].Value);
+            Producto p = _listaCompletaProductos.FirstOrDefault(prod => prod.IdProducto == idProducto);
 
-            // Buscar el producto en la lista completa que ya tenemos en memoria
-            Producto productoSeleccionado = _listaCompletaProductos.FirstOrDefault(p => p.IdProducto == idProducto);
-
-            if (productoSeleccionado != null)
+            if (p != null)
             {
-                txtid.Text = productoSeleccionado.IdProducto.ToString();
-                txtNombre.Text = productoSeleccionado.Nombre;
-                txtDescripcion.Text = productoSeleccionado.Descripcion;
-                txtCodigo.Text = productoSeleccionado.codigo;
-                txtStock.Text = productoSeleccionado.stock.ToString();
-                txtPrecioFabricacion.Text = productoSeleccionado.PrecioFabricacion.ToString();
-                txtPrecioVenta.Text = productoSeleccionado.PrecioVenta.ToString();
-
-                // Seleccionar el estado correcto en el ComboBox
-                cboEstado.SelectedValue = productoSeleccionado.Estado;
-
-                // Seleccionar la categoría correcta
-                if (productoSeleccionado.oCategoria != null)
+                // Llenamos el formulario
+                txtid.Text = p.IdProducto.ToString();
+                txtNombre.Text = p.Nombre;
+                txtDescripcion.Text = p.Descripcion;
+                txtCodigo.Text = p.codigo;
+                txtPrecioFabricacion.Text = p.PrecioFabricacion.ToString();
+                txtPrecioVenta.Text = p.PrecioVenta.ToString();
+                cboEstado.SelectedValue = p.Estado;
+                if (p.oCategoria != null)
                 {
-                    cmbCategoriaBusqueda.SelectedValue = productoSeleccionado.oCategoria.IdCategoria;
+                    cmbCategoria.SelectedValue = p.oCategoria.IdCategoria;
                 }
+
+                // ✅ LÓGICA DE UI PARA STOCK
+                numStockInicial.Visible = false; // Ocultamos el stock inicial
+                txtStockActual.Visible = true; // Mostramos el stock actual
+                txtStockActual.Text = p.stock.ToString();
+                gbAjusteStock.Enabled = true; // Habilitamos el panel de ajuste
+                btnGuardar.Enabled = true; // Habilitamos editar
+                btnEliminar.Enabled = true; // Habilitamos eliminar
             }
         }
+
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtid.Text) || txtid.Text == "0") return;
@@ -215,7 +229,7 @@ namespace BeanDesktop
                 if (respuesta)
                 {
                     MessageBox.Show("Producto desactivado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    CargarGrilla(); // Recarga la grilla, los inactivos desaparecerán
+                    CargarGrilla();
                     Limpiar();
                 }
                 else
@@ -225,20 +239,38 @@ namespace BeanDesktop
             }
         }
 
+        // ✅ MÉTODO "LIMPIAR" ACTUALIZADO
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            Limpiar();
+        }
+
         private void Limpiar()
         {
             txtid.Text = "0";
             txtNombre.Clear();
             txtDescripcion.Clear();
             txtCodigo.Clear();
-            txtStock.Clear();
             txtPrecioFabricacion.Clear();
             txtPrecioVenta.Clear();
             cboEstado.SelectedIndex = 0;
-            cmbCategoriaBusqueda.SelectedIndex = 0;
+            cmbCategoria.SelectedIndex = 0;
 
-            // Limpia la selección de la grilla
+            // Resetea la grilla y los filtros
+            txtBusqueda.Clear();
+            cmbCategoria.SelectedIndex = 0;
             dgvProductos.ClearSelection();
+
+            // Resetea la lógica de Stock
+            numStockInicial.Value = 0;
+            numStockInicial.Visible = true; // Habilita campo de stock inicial
+            txtStockActual.Visible = false; // Oculta campo de stock actual
+            numStockAnadir.Value = 1;
+            gbAjusteStock.Enabled = false; // Deshabilita el panel de ajuste
+
+            // Habilita/deshabilita botones
+            btnGuardar.Enabled = true;
+            btnEliminar.Enabled = false;
         }
     }
 }

@@ -8,20 +8,21 @@ namespace BeanDesktop.CapaDeNegocio
     {
         private CD_Producto objCD_Producto = new CD_Producto();
 
-        // El método Listar ahora devuelve List<Producto>
         public List<Producto> Listar()
+        {
+            return objCD_Producto.Listar().Where(p => p.Estado == true).ToList();
+        }
+
+        public List<Producto> ListarTodos()
         {
             return objCD_Producto.Listar();
         }
 
-        // Método unificado para Guardar (decide si registrar o editar)
         public bool Guardar(Producto obj, out string mensaje)
         {
             mensaje = string.Empty;
-            // Validaciones
-            if (string.IsNullOrEmpty(obj.Nombre)) mensaje = "El nombre es obligatorio.";
-            else if (string.IsNullOrEmpty(obj.codigo)) mensaje = "El código es obligatorio.";
-            // ... (más validaciones) ...
+            if (string.IsNullOrWhiteSpace(obj.Nombre)) mensaje = "El nombre es obligatorio.";
+            else if (string.IsNullOrWhiteSpace(obj.codigo)) mensaje = "El código es obligatorio.";
 
             if (!string.IsNullOrEmpty(mensaje)) return false;
 
@@ -36,10 +37,20 @@ namespace BeanDesktop.CapaDeNegocio
             }
         }
 
-        // Método para Eliminar (Lógico)
         public bool Eliminar(int idProducto, out string mensaje)
         {
             return objCD_Producto.Eliminar(idProducto, out mensaje);
         }
+
+        public bool AnadirStock(int idProducto, int cantidad, int idUsuario, out string mensaje)
+        {
+            if (cantidad <= 0)
+            {
+                mensaje = "La cantidad a añadir debe ser mayor a cero.";
+                return false;
+            }
+            return objCD_Producto.AnadirStock(idProducto, cantidad, idUsuario, out mensaje);
+        }
+
     }
 }

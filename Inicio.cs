@@ -126,7 +126,7 @@ namespace BeanDesktop
 
         private void agregarProductoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AbrirFormulario((menuStock), new frmProducto());
+            AbrirFormulario((menuStock), new frmProducto(usuarioActual));
         }
 
         private void subMenuRegistrarVenta_Click(object sender, EventArgs e)

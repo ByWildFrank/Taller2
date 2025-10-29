@@ -8,7 +8,6 @@ namespace CapaDeDatos
 {
     public class CD_Producto
     {
-        // El método Listar debe devolver List<Producto>, no DataTable
         public List<Producto> Listar()
         {
             List<Producto> lista = new List<Producto>();
@@ -69,7 +68,7 @@ namespace CapaDeDatos
                     cmd.Parameters.AddWithValue("@Nombre", obj.Nombre);
                     cmd.Parameters.AddWithValue("@Descripcion", obj.Descripcion);
                     cmd.Parameters.AddWithValue("@IdCategoria", obj.oCategoria.IdCategoria);
-                    cmd.Parameters.AddWithValue("@Stock", obj.stock);
+                    cmd.Parameters.AddWithValue("@Stock", obj.stock); // El stock inicial sí se pasa
                     cmd.Parameters.AddWithValue("@PrecioFabricacion", obj.PrecioFabricacion);
                     cmd.Parameters.AddWithValue("@PrecioVenta", obj.PrecioVenta);
                     cmd.Parameters.AddWithValue("@Estado", obj.Estado);
@@ -78,7 +77,6 @@ namespace CapaDeDatos
 
                     cn.Open();
                     cmd.ExecuteNonQuery();
-
                     idProductoGenerado = Convert.ToInt32(cmd.Parameters["@IdProductoResultado"].Value);
                     mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
                 }
@@ -87,6 +85,7 @@ namespace CapaDeDatos
             return idProductoGenerado;
         }
 
+        // ✅ Método para llamar a SP_EditarProducto (sin stock)
         public bool Editar(Producto obj, out string mensaje)
         {
             bool resultado = false;
@@ -102,7 +101,7 @@ namespace CapaDeDatos
                     cmd.Parameters.AddWithValue("@Nombre", obj.Nombre);
                     cmd.Parameters.AddWithValue("@Descripcion", obj.Descripcion);
                     cmd.Parameters.AddWithValue("@IdCategoria", obj.oCategoria.IdCategoria);
-                    cmd.Parameters.AddWithValue("@Stock", obj.stock);
+                    // No pasamos el stock
                     cmd.Parameters.AddWithValue("@PrecioFabricacion", obj.PrecioFabricacion);
                     cmd.Parameters.AddWithValue("@PrecioVenta", obj.PrecioVenta);
                     cmd.Parameters.AddWithValue("@Estado", obj.Estado);
@@ -111,7 +110,6 @@ namespace CapaDeDatos
 
                     cn.Open();
                     cmd.ExecuteNonQuery();
-
                     resultado = Convert.ToBoolean(cmd.Parameters["@Respuesta"].Value);
                     mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
                 }
@@ -120,6 +118,34 @@ namespace CapaDeDatos
             return resultado;
         }
 
+        // ✅ Método para llamar a SP_AnadirStock (NUEVO)
+        public bool AnadirStock(int idProducto, int cantidad, int idUsuario, out string mensaje)
+        {
+            bool resultado = false;
+            mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection cn = Conexion.GetConnection())
+                {
+                    SqlCommand cmd = new SqlCommand("SP_AnadirStock", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@IdProducto", idProducto);
+                    cmd.Parameters.AddWithValue("@Cantidad", cantidad);
+                    cmd.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                    cmd.Parameters.Add("@Respuesta", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+
+                    cn.Open();
+                    cmd.ExecuteNonQuery();
+                    resultado = Convert.ToBoolean(cmd.Parameters["@Respuesta"].Value);
+                    mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
+                }
+            }
+            catch (Exception ex) { resultado = false; mensaje = ex.Message; }
+            return resultado;
+        }
+
+        // ✅ Método para llamar a SP_EliminarProducto
         public bool Eliminar(int idProducto, out string mensaje)
         {
             bool resultado = false;
@@ -136,7 +162,6 @@ namespace CapaDeDatos
 
                     cn.Open();
                     cmd.ExecuteNonQuery();
-
                     resultado = Convert.ToBoolean(cmd.Parameters["@Respuesta"].Value);
                     mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
                 }

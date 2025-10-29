@@ -369,5 +369,6 @@ namespace BeanDesktop
             decimal cambio = montoPago - montoTotal;
             txtCambio.Text = cambio >= 0 ? cambio.ToString("0.00") : "0.00";
         }
+
     }
 }

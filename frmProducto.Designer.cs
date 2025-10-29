@@ -21,10 +21,9 @@
             txtNombre = new TextBox();
             txtDescripcion = new TextBox();
             txtCodigo = new TextBox();
-            txtStock = new TextBox();
             txtPrecioFabricacion = new TextBox();
             txtPrecioVenta = new TextBox();
-            cmbCategoriaBusqueda = new ComboBox();
+            cmbCategoria = new ComboBox();
             btnGuardar = new Button();
             btnEliminar = new Button();
             lblNombre = new Label();
@@ -40,7 +39,15 @@
             txtBusqueda = new TextBox();
             txtid = new TextBox();
             cboBusqueda = new ComboBox();
+            gbAjusteStock = new GroupBox();
+            btnAnadirStock = new Button();
+            numStockAnadir = new NumericUpDown();
+            txtStockActual = new TextBox();
+            numStockInicial = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
+            gbAjusteStock.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numStockAnadir).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numStockInicial).BeginInit();
             SuspendLayout();
             // 
             // dgvProductos
@@ -78,13 +85,6 @@
             txtCodigo.Size = new Size(200, 23);
             txtCodigo.TabIndex = 3;
             // 
-            // txtStock
-            // 
-            txtStock.Location = new Point(150, 132);
-            txtStock.Name = "txtStock";
-            txtStock.Size = new Size(100, 23);
-            txtStock.TabIndex = 4;
-            // 
             // txtPrecioFabricacion
             // 
             txtPrecioFabricacion.Location = new Point(150, 162);
@@ -99,12 +99,12 @@
             txtPrecioVenta.Size = new Size(100, 23);
             txtPrecioVenta.TabIndex = 6;
             // 
-            // cmbCategoriaBusqueda
+            // cmbCategoria
             // 
-            cmbCategoriaBusqueda.Location = new Point(150, 102);
-            cmbCategoriaBusqueda.Name = "cmbCategoriaBusqueda";
-            cmbCategoriaBusqueda.Size = new Size(200, 23);
-            cmbCategoriaBusqueda.TabIndex = 7;
+            cmbCategoria.Location = new Point(150, 102);
+            cmbCategoria.Name = "cmbCategoria";
+            cmbCategoria.Size = new Size(200, 23);
+            cmbCategoria.TabIndex = 7;
             // 
             // btnGuardar
             // 
@@ -207,6 +207,7 @@
             btnLimpiar.TextAlign = ContentAlignment.MiddleRight;
             btnLimpiar.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnLimpiar.UseVisualStyleBackColor = false;
+            btnLimpiar.Click += btnLimpiar_Click;
             // 
             // cboEstado
             // 
@@ -224,7 +225,7 @@
             // 
             // txtid
             // 
-            txtid.Location = new Point(667, 58);
+            txtid.Location = new Point(611, 8);
             txtid.Name = "txtid";
             txtid.Size = new Size(100, 23);
             txtid.TabIndex = 22;
@@ -237,9 +238,58 @@
             cboBusqueda.Size = new Size(121, 23);
             cboBusqueda.TabIndex = 23;
             // 
+            // gbAjusteStock
+            // 
+            gbAjusteStock.Controls.Add(btnAnadirStock);
+            gbAjusteStock.Controls.Add(numStockAnadir);
+            gbAjusteStock.Location = new Point(505, 74);
+            gbAjusteStock.Name = "gbAjusteStock";
+            gbAjusteStock.Size = new Size(206, 111);
+            gbAjusteStock.TabIndex = 25;
+            gbAjusteStock.TabStop = false;
+            gbAjusteStock.Text = "Añadir Stock:";
+            // 
+            // btnAnadirStock
+            // 
+            btnAnadirStock.Location = new Point(6, 61);
+            btnAnadirStock.Name = "btnAnadirStock";
+            btnAnadirStock.Size = new Size(75, 23);
+            btnAnadirStock.TabIndex = 1;
+            btnAnadirStock.Text = "Añadir";
+            btnAnadirStock.UseVisualStyleBackColor = true;
+            btnAnadirStock.Click += btnAnadirStock_Click;
+            // 
+            // numStockAnadir
+            // 
+            numStockAnadir.Location = new Point(6, 22);
+            numStockAnadir.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numStockAnadir.Name = "numStockAnadir";
+            numStockAnadir.Size = new Size(86, 23);
+            numStockAnadir.TabIndex = 0;
+            numStockAnadir.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // txtStockActual
+            // 
+            txtStockActual.Location = new Point(150, 130);
+            txtStockActual.Name = "txtStockActual";
+            txtStockActual.ReadOnly = true;
+            txtStockActual.Size = new Size(107, 23);
+            txtStockActual.TabIndex = 2;
+            // 
+            // numStockInicial
+            // 
+            numStockInicial.Location = new Point(150, 131);
+            numStockInicial.Name = "numStockInicial";
+            numStockInicial.Size = new Size(94, 23);
+            numStockInicial.TabIndex = 24;
+            numStockInicial.Visible = false;
+            // 
             // frmProducto
             // 
             ClientSize = new Size(974, 562);
+            Controls.Add(txtStockActual);
+            Controls.Add(gbAjusteStock);
+            Controls.Add(numStockInicial);
             Controls.Add(cboBusqueda);
             Controls.Add(txtid);
             Controls.Add(txtBusqueda);
@@ -249,10 +299,9 @@
             Controls.Add(txtNombre);
             Controls.Add(txtDescripcion);
             Controls.Add(txtCodigo);
-            Controls.Add(txtStock);
             Controls.Add(txtPrecioFabricacion);
             Controls.Add(txtPrecioVenta);
-            Controls.Add(cmbCategoriaBusqueda);
+            Controls.Add(cmbCategoria);
             Controls.Add(btnGuardar);
             Controls.Add(btnEliminar);
             Controls.Add(lblNombre);
@@ -267,6 +316,9 @@
             Text = "Gestión de Productos";
             Load += frmProducto_Load;
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
+            gbAjusteStock.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)numStockAnadir).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numStockInicial).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -280,7 +332,6 @@
         private System.Windows.Forms.TextBox txtStock;
         private System.Windows.Forms.TextBox txtPrecioFabricacion;
         private System.Windows.Forms.TextBox txtPrecioVenta;
-        private System.Windows.Forms.ComboBox cmbCategoriaBusqueda;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnEliminar;
 
@@ -298,5 +349,11 @@
         private TextBox txtBusqueda;
         private TextBox txtid;
         private ComboBox cboBusqueda;
+        private GroupBox gbAjusteStock;
+        private Button btnAnadirStock;
+        private NumericUpDown numStockAnadir;
+        private TextBox txtStockActual;
+        private NumericUpDown numStockInicial;
+        private ComboBox cmbCategoria;
     }
 }
