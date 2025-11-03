@@ -97,13 +97,14 @@ namespace BeanDesktop
             CN_Producto objProducto = new CN_Producto();
             _listaProductosCompleta = objProducto.Listar();
 
-            // Filtramos solo los activos para mostrar en la venta
-            var productosActivos = _listaProductosCompleta.Where(p => p.Estado).ToList();
+            // Filtramos solo los activos y con stock > 0
+            var productosActivos = _listaProductosCompleta
+                                    .Where(p => p.Estado && p.stock > 0)
+                                    .ToList();
 
             dgvProductos.DataSource = null; // Desenlazar primero
             dgvProductos.DataSource = productosActivos;
             dgvProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
         }
         private void dgvProductos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
@@ -147,7 +148,10 @@ namespace BeanDesktop
         private void FiltrarProductosGrid()
         {
             if (_listaProductosCompleta == null) return;
-            IEnumerable<Producto> productosFiltrados = _listaProductosCompleta.Where(p => p.Estado);
+
+            // ✅ Filtramos productos activos con stock > 0
+            IEnumerable<Producto> productosFiltrados = _listaProductosCompleta
+                                                       .Where(p => p.Estado && p.stock > 0);
 
             string textoBusqueda = txtBuscarProducto.Text.Trim().ToUpper();
 
@@ -155,7 +159,6 @@ namespace BeanDesktop
             if (cboCategoria.SelectedItem != null)
             {
                 Categoria categoriaSeleccionada = (Categoria)cboCategoria.SelectedItem;
-
                 idCategoria = categoriaSeleccionada.IdCategoria;
             }
 
