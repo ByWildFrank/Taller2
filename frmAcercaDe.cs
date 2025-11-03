@@ -21,51 +21,64 @@ namespace BeanDesktop
 
         private void frmAcercaDe_Load(object sender, EventArgs e)
         {
+            ConfigurarTexto();
+            ConfigurarColores();
+            ConfigurarAutores();
+            SetGradientBackground();
+        }
+
+        // ==============================
+        // CONFIGURACIÓN DE INTERFAZ
+        // ==============================
+
+        private void ConfigurarTexto()
+        {
             lblTitulo.Text = "BeanDesktop";
             lblVersion.Text = "Versión 1.0.0";
-            lblDescripcion.Text = "Proyecto académico de Aplicación de escritorio con sistema CRUD, segmentación de clientes y recomendaciones en ventas";
-
-            // Autores
-            lstAutores.Items.Add("👤 Franco Varela - Desarrollador Backend");
-            lstAutores.Items.Add("👤 Santiago Scetti - Analista de Datos");
-            // Configurar fondo con gradiente
-            SetGradientBackground();
-            this.Refresh(); // fuerza el redibujado
-
-            // Hacer los controles transparentes y ajustar colores de texto
-            lblTitulo.BackColor = Color.LightGray;
-            lblTitulo.ForeColor = Color.Black; 
-
-            lblVersion.BackColor = Color.LightGray;
-            lblVersion.ForeColor = Color.Gray; 
-
-            lblDescripcion.BackColor = Color.LightGray;
-            lblDescripcion.ForeColor = Color.Black;
-
-            lstAutores.BackColor = Color.LightGray;
-            lstAutores.ForeColor = Color.Black;
-
-            lnkGitHub.BackColor = Color.LightGray;
-            lnkLinkedIn1.BackColor = Color.LightGray;
-            lnkLinkedIn2.BackColor = Color.LightGray;
-            label1.BackColor = Color.LightGray;
+            lblDescripcion.Text =
+                "Proyecto académico de aplicación de escritorio con sistema CRUD, " +
+                "segmentación de clientes y recomendaciones en ventas.";
         }
-        // Abrir links externos
-        private void lnkGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+
+        private void ConfigurarAutores()
         {
-            AbrirLink("https://github.com/ByWildFrank/Taller2");
+            lstAutores.Items.Clear();
+            lstAutores.Items.Add("👤 Franco Varela — Desarrollador Backend");
+            lstAutores.Items.Add("👤 Santiago Scetti — Analista de Datos");
         }
+
+        private void ConfigurarColores()
+        {
+            // Colores base
+            Color fondo = Color.FromArgb(240, 240, 240);
+            Color textoPrincipal = Color.Black;
+            Color textoSecundario = Color.DimGray;
+
+            // Asignar colores coherentes
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl is Label || ctrl is LinkLabel || ctrl is ListBox)
+                {
+                    ctrl.BackColor = fondo;
+                    ctrl.ForeColor = textoPrincipal;
+                }
+            }
+
+            lblVersion.ForeColor = textoSecundario;
+        }
+
+        // ==============================
+        // EVENTOS DE LINKS
+        // ==============================
+
+        private void lnkGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+            => AbrirLink("https://github.com/ByWildFrank/Taller2");
 
         private void lnkLinkedIn1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            AbrirLink("https://www.linkedin.com/in/santiago-scetti");
-        }
+            => AbrirLink("https://www.linkedin.com/in/franco-varela"); // 👈 corregí para que no apunte al mismo LinkedIn
 
         private void lnkLinkedIn2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            AbrirLink("https://www.linkedin.com/in/santiago-scetti");
-        }
-
+            => AbrirLink("https://www.linkedin.com/in/santiago-scetti");
 
         private void AbrirLink(string url)
         {
@@ -79,22 +92,32 @@ namespace BeanDesktop
             }
             catch (Exception ex)
             {
-                MessageBox.Show("No se pudo abrir el link: " + ex.Message);
+                MessageBox.Show($"No se pudo abrir el link:\n{ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        // ==============================
+        // FONDO CON GRADIENTE
+        // ==============================
+
         private void SetGradientBackground()
         {
-            LinearGradientBrush gradient = new LinearGradientBrush(
-                this.ClientRectangle,
-                Color.FromArgb(220, 220, 220), // Gris claro
-                Color.FromArgb(150, 150, 150), // Gris medio oscuro
-                LinearGradientMode.Vertical
-            );
-            this.BackgroundImage = new Bitmap(this.Width, this.Height);
-            using (Graphics g = Graphics.FromImage(this.BackgroundImage))
+            using (LinearGradientBrush brush = new LinearGradientBrush(
+                ClientRectangle,
+                Color.FromArgb(245, 245, 245), // gris claro superior
+                Color.FromArgb(200, 200, 200), // gris medio inferior
+                LinearGradientMode.Vertical))
             {
-                g.FillRectangle(gradient, this.ClientRectangle);
+                Bitmap bmp = new Bitmap(Width, Height);
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.FillRectangle(brush, ClientRectangle);
+                }
+                BackgroundImage = bmp;
             }
+
+            Refresh();
         }
     }
 }
