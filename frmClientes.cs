@@ -89,6 +89,22 @@ namespace BeanDesktop
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             string mensaje = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(txtDocumento.Text) ||
+                string.IsNullOrWhiteSpace(txtNombreCompleto.Text) ||
+                string.IsNullOrWhiteSpace(txtCorreo.Text) ||
+                string.IsNullOrWhiteSpace(txtTelefono.Text))
+            {
+                MessageBox.Show("Por favor, complete todos los campos.", "Campos Vacíos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!IsValidEmail(txtCorreo.Text))
+            {
+                MessageBox.Show("El formato del correo electrónico no es válido. (ej: usuario@dominio.com)", "Error de Correo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtCorreo.Focus();
+                return;
+            }
             Cliente objCliente = new Cliente()
             {
                 IdCliente = Convert.ToInt32(txtid.Text),
@@ -120,7 +136,7 @@ namespace BeanDesktop
                 }
                 else
                 {
-                    MessageBox.Show(mensaje, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show(mensaje, "Error al Editar", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
             else
@@ -263,6 +279,37 @@ namespace BeanDesktop
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             Limpiar();
+        }
+
+        private void txtDocumento_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

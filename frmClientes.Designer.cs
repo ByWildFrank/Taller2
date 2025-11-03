@@ -109,6 +109,7 @@
             txtDocumento.Name = "txtDocumento";
             txtDocumento.Size = new Size(200, 23);
             txtDocumento.TabIndex = 1;
+            txtDocumento.KeyPress += txtDocumento_KeyPress;
             // 
             // txtNombreCompleto
             // 
@@ -130,6 +131,7 @@
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(200, 23);
             txtTelefono.TabIndex = 7;
+            txtTelefono.KeyPress += txtTelefono_KeyPress;
             // 
             // cboEstado
             // 

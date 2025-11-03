@@ -12,6 +12,7 @@ using CapaDeEntidades;
 using BeanDesktop.CapaDeNegocio;
 using System.Drawing.Text;
 using CapaDeNegocio;
+using System.Text.RegularExpressions;
 
 
 namespace BeanDesktop
@@ -88,6 +89,35 @@ namespace BeanDesktop
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             string mensaje = string.Empty;
+            // --- VALIDACIONES DEL FORMULARIO ---
+
+            // 1. Validar campos vacíos
+            if (string.IsNullOrWhiteSpace(txtDocumento.Text) ||
+                string.IsNullOrWhiteSpace(txtNombreCompleto.Text) ||
+                string.IsNullOrWhiteSpace(txtCorreo.Text) ||
+                string.IsNullOrWhiteSpace(txtClave.Text))
+            {
+                MessageBox.Show("Por favor, complete todos los campos.", "Campos Vacíos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Validar que las contraseñas coincidan
+            if (txtClave.Text != txtConfirmarClave.Text)
+            {
+                MessageBox.Show("Las contraseñas no coinciden.", "Error de Contraseña", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtConfirmarClave.Focus();
+                return;
+            }
+
+            // 3. Validar formato de Email
+            if (!IsValidEmail(txtCorreo.Text))
+            {
+                MessageBox.Show("El formato del correo electrónico no es válido. (ej: usuario@dominio.com)", "Error de Correo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtCorreo.Focus();
+                return;
+            }
+
+            // --- Si todas las validaciones pasan, creamos el objeto ---
             Usuario objUsusario = new Usuario()
             {
                 IdUsuario = Convert.ToInt32(txtid.Text),
@@ -124,7 +154,7 @@ namespace BeanDesktop
                 else
                 {
                     //No se registro
-                    MessageBox.Show(mensaje, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show(mensaje, "Error al Editar", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
             else
@@ -311,6 +341,21 @@ namespace BeanDesktop
                         }
                     }
                 }
+            }
+        }
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
             }
         }
     }
