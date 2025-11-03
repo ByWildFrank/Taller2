@@ -80,5 +80,11 @@ namespace CapaDeNegocio
         {
             return objcd_usuario.Eliminar(obj, out Mensaje);
         }
+        // ✅ AÑADE ESTE MÉTODO
+        public Usuario ValidarUsuario(string documento, string clave)
+        {
+            // Llama al método de la capa de datos que acabamos de corregir
+            return objcd_usuario.ValidarUsuario(documento, clave);
+        }
     }
 }

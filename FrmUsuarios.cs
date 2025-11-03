@@ -116,6 +116,20 @@ namespace BeanDesktop
                 txtCorreo.Focus();
                 return;
             }
+            int idUsuario = Convert.ToInt32(txtid.Text);
+            if (idUsuario != 0 && string.IsNullOrWhiteSpace(txtClave.Text))
+            {
+                // Opcional: Confirmar que no se quiere cambiar la clave.
+                // Si no pones esto, simplemente no la cambiará, lo cual es correcto.
+                // objUsuario.Clave se enviará como "" y el SP mantendrá la clave antigua.
+            }
+
+            // Si estamos CREANDO (IdUsuario == 0) el campo clave NO puede estar vacío
+            if (idUsuario == 0 && string.IsNullOrWhiteSpace(txtClave.Text))
+            {
+                MessageBox.Show("Debe ingresar una contraseña para el nuevo usuario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             // --- Si todas las validaciones pasan, creamos el objeto ---
             Usuario objUsusario = new Usuario()
@@ -210,6 +224,11 @@ namespace BeanDesktop
                     txtCorreo.Text = dgvdata.Rows[indice].Cells["Correo"].Value.ToString();
                     txtClave.Text = dgvdata.Rows[indice].Cells["Clave"].Value.ToString();
                     txtConfirmarClave.Text = dgvdata.Rows[indice].Cells["Clave"].Value.ToString();
+
+                    // ✅ CAMBIO: Dejar los campos de clave vacíos
+                    txtClave.Text = "";
+                    txtConfirmarClave.Text = "";
+
                     foreach (OpcionCombo oc in cboRol.Items)
                     {
                         if (Convert.ToInt32(oc.Valor) == Convert.ToInt32(dgvdata.Rows[indice].Cells["IdRol"].Value))

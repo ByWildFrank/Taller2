@@ -1,12 +1,16 @@
 ﻿using BeanDesktop.CapaDeNegocio;
 using BeanDesktop.Utilidades;
 using CapaDeEntidades;
+using PdfSharp.Drawing;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Drawing;
-using System.Collections.Generic;
+using PdfSharp.Pdf;
+using PdfSharp.Fonts;
 
 namespace BeanDesktop
 {
@@ -300,15 +304,17 @@ namespace BeanDesktop
 
         private void btnRegistrarVenta_Click(object sender, EventArgs e)
         {
-            if (detalleVenta.Rows.Count == 0) { /* ... mensaje ... */ return; }
-            if (idClienteSeleccionado == 0) { /* ... mensaje ... */ return; }
+
+
+            if (detalleVenta.Rows.Count == 0) { MessageBox.Show("No hay productos en el carrito.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            if (idClienteSeleccionado == 0) { MessageBox.Show("Seleccione un cliente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
             decimal.TryParse(txtPago.Text, out decimal montoPago);
             decimal.TryParse(txtTotalFinal.Text, out decimal montoTotal);
             decimal.TryParse(txtDescuentoAplicado.Text, out decimal descuentoAplicado);
 
             decimal montoCambio = montoPago - montoTotal;
-            if (montoCambio < 0) { /* ... mensaje ... */ return; }
+            if (montoCambio < 0) { MessageBox.Show("El pago es insuficiente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
             Venta objVenta = new Venta()
             {
@@ -325,9 +331,7 @@ namespace BeanDesktop
             DataTable dtDetalleParaSQL = detalleVenta.Copy();
 
             if (dtDetalleParaSQL.Columns.Contains("NombreProducto"))
-            {
                 dtDetalleParaSQL.Columns.Remove("NombreProducto");
-            }
 
             string mensaje = string.Empty;
             CN_Venta objVentaCN = new CN_Venta();
@@ -337,6 +341,10 @@ namespace BeanDesktop
             if (idVentaGenerada > 0)
             {
                 MessageBox.Show("Venta registrada correctamente. ID Venta: " + idVentaGenerada, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // ✅ Generar PDF automáticamente
+                GenerarPDFVenta(idVentaGenerada);
+
                 LimpiarFormulario();
                 CargarProductos();
             }
@@ -345,6 +353,7 @@ namespace BeanDesktop
                 MessageBox.Show(mensaje, "Error al registrar venta", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void LimpiarFormulario()
         {
@@ -381,6 +390,97 @@ namespace BeanDesktop
             CargarSugerenciasClientes();
 
             txtDocumentoCliente.Focus();
+        }
+
+        private void GenerarPDFVenta(int idVenta)
+        {
+            Venta venta = new CN_Venta().ObtenerPorId(idVenta);
+            List<Detalle_Venta> detalles = new CN_Venta().ListarDetallePorVenta(idVenta);
+            GlobalFontSettings.UseWindowsFontsUnderWindows = true;
+
+            if (venta == null)
+            {
+                MessageBox.Show("No se pudo encontrar la venta.");
+                return;
+            }
+
+            try
+            {
+                string documentosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string carpetaTickets = Path.Combine(documentosPath, "Tickets");
+
+                if (!Directory.Exists(carpetaTickets))
+                    Directory.CreateDirectory(carpetaTickets);
+
+                string nombreArchivo = $"Detalle_Venta_{venta.NumeroDocumento}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
+                string ruta = Path.Combine(carpetaTickets, nombreArchivo);
+
+                PdfDocument pdf = new PdfDocument();
+                pdf.Info.Title = $"Detalle de Venta #{venta.IdVenta}";
+                PdfPage page = pdf.AddPage();
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+
+                XFont fontBold = new XFont("Arial", 12, XFontStyleEx.Bold);
+                XFont fontNormal = new XFont("Arial", 12, XFontStyleEx.Regular);
+
+                double yPoint = 40;
+
+                gfx.DrawString($"Detalle de Venta #{venta.IdVenta}", new XFont("Arial", 18, XFontStyleEx.Bold), XBrushes.Black, new XRect(0, yPoint, page.Width, 30), XStringFormats.TopCenter);
+                yPoint += 40;
+
+                gfx.DrawString($"Cliente: {venta.oCliente?.NombreCompleto ?? "Consumidor Final"}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 20;
+                gfx.DrawString($"Documento: {venta.oCliente?.Documento ?? "---"}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 20;
+                gfx.DrawString($"Tipo de Documento: {venta.TipoDocumento}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 20;
+                gfx.DrawString($"Número de Documento: {venta.NumeroDocumento}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 20;
+                gfx.DrawString($"Monto Total: {venta.MontoTotal:C2}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 20;
+                gfx.DrawString($"Descuento: {venta.DescuentoAplicado:C2}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 30;
+
+                gfx.DrawString("Productos:", fontBold, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 25;
+
+                gfx.DrawString("Producto", fontBold, XBrushes.Black, 40, yPoint);
+                gfx.DrawString("Precio", fontBold, XBrushes.Black, 300, yPoint);
+                gfx.DrawString("Cantidad", fontBold, XBrushes.Black, 380, yPoint);
+                gfx.DrawString("Subtotal", fontBold, XBrushes.Black, 460, yPoint);
+                yPoint += 20;
+
+                foreach (var d in detalles)
+                {
+                    gfx.DrawString(d.NombreProducto, fontNormal, XBrushes.Black, 40, yPoint);
+                    gfx.DrawString(d.PrecioVenta.ToString("C2"), fontNormal, XBrushes.Black, 300, yPoint);
+                    gfx.DrawString(d.Cantidad.ToString(), fontNormal, XBrushes.Black, 380, yPoint);
+                    gfx.DrawString(d.SubTotal.ToString("C2"), fontNormal, XBrushes.Black, 460, yPoint);
+                    yPoint += 20;
+
+                    if (yPoint > page.Height - 50)
+                    {
+                        page = pdf.AddPage();
+                        gfx = XGraphics.FromPdfPage(page);
+                        yPoint = 40;
+                    }
+                }
+
+                gfx.DrawString("Generado automáticamente por BeanDesktop", new XFont("Arial", 10, XFontStyleEx.Regular), XBrushes.Gray, new XRect(0, page.Height - 40, page.Width, 20), XStringFormats.Center);
+
+                pdf.Save(ruta);
+
+                MessageBox.Show($"PDF generado correctamente en:\n{ruta}", "PDF generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Process.Start(new ProcessStartInfo()
+                {
+                    FileName = ruta,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al generar el PDF:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

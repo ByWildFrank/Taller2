@@ -29,24 +29,47 @@ namespace BeanDesktop
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            List<Usuario> Test = new CN_Usuario().Listar();
+            // 1. Validar entradas vacías primero
+            if (string.IsNullOrWhiteSpace(txtDocumento.Text))
+            {
+                MessageBox.Show("Debe ingresar su documento.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDocumento.Focus();
+                return;
+            }
 
-            Usuario ousuario = new CN_Usuario().Listar().Where(u => u.Documento == txtDocumento.Text && u.Clave == txtClave.Text).FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(txtClave.Text))
+            {
+                MessageBox.Show("Debe ingresar su contraseña.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtClave.Focus();
+                return;
+            }
 
+            // 2. Llamar al NUEVO método de validación
+            // Ya no traemos la lista, solo enviamos los datos para que SQL compare.
+            CN_Usuario cnUsuario = new CN_Usuario();
+            Usuario ousuario = cnUsuario.ValidarUsuario(txtDocumento.Text, txtClave.Text);
+
+            // 3. Comprobar el resultado
             if (ousuario != null)
             {
-                Inicio form = new Inicio(ousuario);
+                // 4. (¡IMPORTANTE!) Verificar si el usuario está activo
+                if (!ousuario.Estado)
+                {
+                    MessageBox.Show("Este usuario se encuentra desactivado. Contacte al administrador.", "Acceso Denegado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
 
+                // 5. Si todo está bien, abrir el formulario principal
+                Inicio form = new Inicio(ousuario);
                 form.Show();
                 this.Hide();
                 form.FormClosing += frm_clossing;
-
             }
             else
             {
-                MessageBox.Show("Usuario o Clave Incorrecta", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                // Si ousuario es null, significa que el DNI o la clave (hasheada) no coincidieron
+                MessageBox.Show("Documento o Contraseña Incorrecta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
         }
         private void frm_clossing(object? sender, FormClosingEventArgs e)
         {

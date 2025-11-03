@@ -156,5 +156,50 @@ namespace CapaDeDatos
             }
             return resultado;
         }
+
+        public Usuario ValidarUsuario(string documento, string clave)
+        {
+            Usuario usuario = null;
+            try
+            {
+                using (SqlConnection cn = Conexion.GetConnection())
+                {
+                    // ✅ LA CORRECCIÓN: CAST(@clave AS VARCHAR(100))
+                    string query = @"
+                SELECT u.IdUsuario, u.Documento, u.NombreCompleto, u.Correo, u.IdRol, r.Descripcion as RolDescripcion, u.Estado 
+                FROM USUARIO u
+                INNER JOIN ROL r ON u.IdRol = r.IdRol
+                WHERE u.Documento = @documento 
+                AND u.Clave = HASHBYTES('SHA2_512', CAST(@clave AS VARCHAR(100)))"; // <-- ¡EL CAMBIO ESTÁ AQUÍ!
+
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@documento", documento);
+                    cmd.Parameters.AddWithValue("@clave", clave);
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            usuario = new Usuario()
+                            {
+                                IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
+                                Documento = dr["Documento"].ToString(),
+                                NombreCompleto = dr["NombreCompleto"].ToString(),
+                                Correo = dr["Correo"].ToString(),
+                                Estado = Convert.ToBoolean(dr["Estado"]),
+                                oRol = new Rol() { IdRol = Convert.ToInt32(dr["IdRol"]), Descripcion = dr["RolDescripcion"].ToString() }
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                usuario = null;
+                // Aquí deberías loggear el 'ex.Message'
+            }
+            return usuario;
+        }
     }
 }
