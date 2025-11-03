@@ -1,15 +1,12 @@
 ﻿using BeanDesktop.CapaDeEntidades;
 using BeanDesktop.CapaDeNegocio;
 using BeanDesktop.Utilidades;
-using CapaDeDatos;
 using CapaDeEntidades;
-using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Color = System.Drawing.Color;
 
 namespace BeanDesktop
 {
@@ -17,9 +14,10 @@ namespace BeanDesktop
     {
         private CN_Producto CN_Producto = new CN_Producto();
         private List<Producto> _listaCompletaProductos;
-        private Usuario _usuarioLogueado; // Asumimos que lo recibes
+        private Usuario _usuarioLogueado;
 
-        public frmProducto(Usuario usuario) // Recibe el usuario que inició sesión
+        // Asumo que el constructor recibe el usuario
+        public frmProducto(Usuario usuario)
         {
             InitializeComponent();
             _usuarioLogueado = usuario;
@@ -29,35 +27,41 @@ namespace BeanDesktop
         {
             this.BackColor = Color.WhiteSmoke;
 
+            // --- Configuración Panel Izquierdo (Edición) ---
             cboEstado.Items.Add(new OpcionCombo() { Valor = true, Texto = "Activo" });
             cboEstado.Items.Add(new OpcionCombo() { Valor = false, Texto = "No Activo" });
             cboEstado.DisplayMember = "Texto";
             cboEstado.ValueMember = "Valor";
             cboEstado.SelectedIndex = 0;
 
-            CargarComboCategorias();
-
-            cboBusqueda.Items.Add(new OpcionCombo { Valor = "Codigo", Texto = "Código" });
+            // --- Configuración Panel Derecho (Búsqueda) ---
+            cboBusqueda.Items.Add(new OpcionCombo { Valor = "codigo", Texto = "Código" }); // 'codigo' en minúscula
             cboBusqueda.Items.Add(new OpcionCombo { Valor = "Nombre", Texto = "Nombre" });
             cboBusqueda.DisplayMember = "Texto";
             cboBusqueda.ValueMember = "Valor";
             cboBusqueda.SelectedIndex = 0;
 
+            CargarComboCategorias(); // Carga cmbCategoria y cmbCategoriaBusqueda
             CargarGrilla();
             CargarSugerenciasBusqueda();
 
+            // Conectar filtros dinámicos
             txtBusqueda.TextChanged += TxtBusqueda_TextChanged;
-            cmbCategoria.SelectedIndexChanged += CmbCategoriaBusqueda_SelectedIndexChanged;
-            numStockInicial.Click += btnAnadirStock_Click;
+            cmbCategoriaBusqueda.SelectedIndexChanged += CmbCategoriaBusqueda_SelectedIndexChanged;
+
+            // Conectar botón de añadir stock
+            btnAnadirStock.Click += btnAnadirStock_Click;
+
+            // Conectar botón limpiar
+            btnLimpiar.Click += btnLimpiar_Click;
 
             Limpiar(); // Establece el estado inicial
         }
 
         private void CargarGrilla()
         {
-            // Carga TODOS los productos (activos e inactivos) a la memoria
             _listaCompletaProductos = new CN_Producto().ListarTodos();
-            FiltrarGrilla(); // Aplica el filtro por defecto (solo activos)
+            FiltrarGrilla();
         }
 
         private void CargarComboCategorias()
@@ -65,15 +69,17 @@ namespace BeanDesktop
             CN_Categoria cnCategoria = new CN_Categoria();
             var categorias = cnCategoria.Listar().Where(c => c.Estado).ToList();
 
+            // ✅ CORRECCIÓN: Asigna la lista de categorías (sin "Todas") al combo de edición
             cmbCategoria.DataSource = new List<Categoria>(categorias);
             cmbCategoria.DisplayMember = "Descripcion";
             cmbCategoria.ValueMember = "IdCategoria";
 
+            // ✅ CORRECCIÓN: Crea una nueva lista con "Todas" para el combo de búsqueda
             var categoriasBusqueda = new List<Categoria>(categorias);
             categoriasBusqueda.Insert(0, new Categoria { IdCategoria = 0, Descripcion = "Todas" });
-            cmbCategoria.DataSource = categoriasBusqueda;
-            cmbCategoria.DisplayMember = "Descripcion";
-            cmbCategoria.ValueMember = "IdCategoria";
+            cmbCategoriaBusqueda.DataSource = categoriasBusqueda;
+            cmbCategoriaBusqueda.DisplayMember = "Descripcion";
+            cmbCategoriaBusqueda.ValueMember = "IdCategoria";
         }
 
         private void CargarSugerenciasBusqueda()
@@ -96,10 +102,13 @@ namespace BeanDesktop
         private void FiltrarGrilla()
         {
             if (_listaCompletaProductos == null) return;
+
             IEnumerable<Producto> listaFiltrada = _listaCompletaProductos;
             int idCategoria = 0;
-            if (cmbCategoria.SelectedValue != null)
-                int.TryParse(cmbCategoria.SelectedValue.ToString(), out idCategoria);
+
+            // ✅ CORRECCIÓN: Leer del ComboBox de BÚSQUEDA
+            if (cmbCategoriaBusqueda.SelectedValue != null)
+                int.TryParse(cmbCategoriaBusqueda.SelectedValue.ToString(), out idCategoria);
 
             if (idCategoria > 0)
                 listaFiltrada = listaFiltrada.Where(p => p.oCategoria.IdCategoria == idCategoria);
@@ -111,7 +120,7 @@ namespace BeanDesktop
             {
                 listaFiltrada = listaFiltrada.Where(p =>
                     (columnaFiltro == "Nombre" && p.Nombre != null && p.Nombre.ToUpper().Contains(textoBusqueda)) ||
-                    (columnaFiltro == "Codigo" && p.codigo != null && p.codigo.ToUpper().Contains(textoBusqueda))
+                    (columnaFiltro == "codigo" && p.codigo != null && p.codigo.ToUpper().Contains(textoBusqueda)) // 'codigo' minúscula
                 );
             }
 
@@ -128,6 +137,30 @@ namespace BeanDesktop
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             string mensaje = string.Empty;
+
+            // --- Validaciones ---
+            if (string.IsNullOrWhiteSpace(txtNombre.Text) ||
+                string.IsNullOrWhiteSpace(txtCodigo.Text) ||
+                string.IsNullOrWhiteSpace(txtPrecioFabricacion.Text) ||
+                string.IsNullOrWhiteSpace(txtPrecioVenta.Text))
+            {
+                MessageBox.Show("Debe completar todos los campos obligatorios.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Validaciones numéricas
+            if (!decimal.TryParse(txtPrecioFabricacion.Text, out decimal precioFab))
+            {
+                MessageBox.Show("El Precio de Fabricación debe ser un número válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (!decimal.TryParse(txtPrecioVenta.Text, out decimal precioVenta))
+            {
+                MessageBox.Show("El Precio de Venta debe ser un número válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            // --- Fin Validaciones ---
+
             int idProducto = string.IsNullOrEmpty(txtid.Text) ? 0 : Convert.ToInt32(txtid.Text);
 
             var objProducto = new Producto
@@ -137,13 +170,13 @@ namespace BeanDesktop
                 Descripcion = txtDescripcion.Text,
                 codigo = txtCodigo.Text,
                 oCategoria = new Categoria { IdCategoria = Convert.ToInt32(cmbCategoria.SelectedValue) },
-                PrecioFabricacion = Convert.ToDecimal(txtPrecioFabricacion.Text), // Añadir TryParse
-                PrecioVenta = Convert.ToDecimal(txtPrecioVenta.Text), // Añadir TryParse
+                PrecioFabricacion = precioFab,
+                PrecioVenta = precioVenta,
                 Estado = (bool)((OpcionCombo)cboEstado.SelectedItem).Valor,
-                stock = 0 // Por defecto
+                stock = 0
             };
 
-            // ✅ LÓGICA DE STOCK: Solo se define el stock al CREAR un producto nuevo
+            // Lógica de Stock: Solo se define el stock al CREAR. Al editar, se usa el SP_AnadirStock.
             if (objProducto.IdProducto == 0)
             {
                 objProducto.stock = (int)numStockInicial.Value;
@@ -160,9 +193,14 @@ namespace BeanDesktop
             else { MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
         }
 
-        // ✅ NUEVO: Evento para el botón de añadir stock
         private void btnAnadirStock_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtid.Text) || txtid.Text == "0")
+            {
+                MessageBox.Show("Debe seleccionar un producto de la lista primero.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             int idProducto = Convert.ToInt32(txtid.Text);
             int cantidad = (int)numStockAnadir.Value;
 
@@ -172,10 +210,18 @@ namespace BeanDesktop
             if (respuesta)
             {
                 MessageBox.Show(mensaje, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                CargarGrilla();
-                // Actualizamos el stock en el txtStockActual
+
+                // Actualizamos la lista en memoria
+                var productoEnLista = _listaCompletaProductos.FirstOrDefault(p => p.IdProducto == idProducto);
+                if (productoEnLista != null)
+                {
+                    productoEnLista.stock += cantidad;
+                }
+
+                FiltrarGrilla(); // Refrescamos la grilla
+
                 txtStockActual.Text = (Convert.ToInt32(txtStockActual.Text) + cantidad).ToString();
-                numStockAnadir.Value = 1; // Reseteamos el contador
+                numStockAnadir.Value = 1;
             }
             else
             {
@@ -187,30 +233,31 @@ namespace BeanDesktop
         {
             if (e.RowIndex < 0) return;
 
+            // Obtener el ID del producto de la fila seleccionada
+            // Es más seguro obtenerlo de la celda "IdProducto"
             int idProducto = Convert.ToInt32(dgvProductos.Rows[e.RowIndex].Cells["IdProducto"].Value);
             Producto p = _listaCompletaProductos.FirstOrDefault(prod => prod.IdProducto == idProducto);
 
             if (p != null)
             {
-                // Llenamos el formulario
                 txtid.Text = p.IdProducto.ToString();
                 txtNombre.Text = p.Nombre;
                 txtDescripcion.Text = p.Descripcion;
                 txtCodigo.Text = p.codigo;
-                txtPrecioFabricacion.Text = p.PrecioFabricacion.ToString();
-                txtPrecioVenta.Text = p.PrecioVenta.ToString();
+                txtPrecioFabricacion.Text = p.PrecioFabricacion.ToString("0.00");
+                txtPrecioVenta.Text = p.PrecioVenta.ToString("0.00");
                 cboEstado.SelectedValue = p.Estado;
                 if (p.oCategoria != null)
                 {
                     cmbCategoria.SelectedValue = p.oCategoria.IdCategoria;
                 }
 
-                // ✅ LÓGICA DE UI PARA STOCK
+                // LÓGICA DE UI PARA STOCK
                 numStockInicial.Visible = false; // Ocultamos el stock inicial
                 txtStockActual.Visible = true; // Mostramos el stock actual
                 txtStockActual.Text = p.stock.ToString();
                 gbAjusteStock.Enabled = true; // Habilitamos el panel de ajuste
-                btnGuardar.Enabled = true; // Habilitamos editar
+
                 btnEliminar.Enabled = true; // Habilitamos eliminar
             }
         }
@@ -239,7 +286,6 @@ namespace BeanDesktop
             }
         }
 
-        // ✅ MÉTODO "LIMPIAR" ACTUALIZADO
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             Limpiar();
@@ -258,18 +304,17 @@ namespace BeanDesktop
 
             // Resetea la grilla y los filtros
             txtBusqueda.Clear();
-            cmbCategoria.SelectedIndex = 0;
+            cmbCategoriaBusqueda.SelectedIndex = 0;
             dgvProductos.ClearSelection();
+            FiltrarGrilla(); // Muestra solo activos
 
             // Resetea la lógica de Stock
             numStockInicial.Value = 0;
-            numStockInicial.Visible = true; // Habilita campo de stock inicial
-            txtStockActual.Visible = false; // Oculta campo de stock actual
+            numStockInicial.Visible = true;
+            txtStockActual.Visible = false;
             numStockAnadir.Value = 1;
-            gbAjusteStock.Enabled = false; // Deshabilita el panel de ajuste
+            gbAjusteStock.Enabled = false;
 
-            // Habilita/deshabilita botones
-            btnGuardar.Enabled = true;
             btnEliminar.Enabled = false;
         }
     }
