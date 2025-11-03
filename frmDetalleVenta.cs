@@ -4,21 +4,17 @@ using CapaDeEntidades;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using System.IO;
-using QuestPDF.Helpers;
-using QuestPDF.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Media;
 
 namespace BeanDesktop
 {
     public partial class frmDetalleVenta : Form
     {
-        // Guardará la lista completa de ventas para filtrar en memoria
         private List<VentaInfo> _listaCompletaVentas;
 
         public frmDetalleVenta()
@@ -80,11 +76,9 @@ namespace BeanDesktop
             dgvDetalleVenta.Columns.Add("MontoTotal", "Monto Total");
             dgvDetalleVenta.Columns["MontoTotal"].DefaultCellStyle.Format = "C2";
 
-            // Ocultamos IdVenta
             dgvDetalleVenta.Columns.Add("IdVenta", "IdVenta");
             dgvDetalleVenta.Columns["IdVenta"].Visible = false;
 
-            // ✅ Columna de botón para PDF
             DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
             btnColumn.HeaderText = "Acción";
             btnColumn.Text = "Generar PDF";
@@ -188,15 +182,19 @@ namespace BeanDesktop
             txt.BorderStyle = BorderStyle.FixedSingle;
         }
 
-        // ✅ Doble clic para mostrar detalle
         private void dgvDetalleVenta_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
+
+            // Solo ejecutar si la grilla tiene la columna "NumeroDocumento"
+            if (!dgvDetalleVenta.Columns.Contains("NumeroDocumento"))
+                return;
+
             string numDoc = dgvDetalleVenta.Rows[e.RowIndex].Cells["NumeroDocumento"].Value.ToString();
             MostrarDetalleDeVenta(numDoc);
         }
 
-        // ✅ Botón buscar (ya sin txtFecha ni dgvDetalles)
+
         private void btnBuscarVenta_Click(object sender, EventArgs e)
         {
             string numeroDocumento = txtNumeroDocumento.Text.Trim();
@@ -219,10 +217,11 @@ namespace BeanDesktop
             }
         }
 
-        // ✅ Click en botón de PDF
         private void DgvDetalleVenta_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            // Evita clicks en encabezados o el selector de fila
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
 
             if (dgvDetalleVenta.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
             {
@@ -231,11 +230,10 @@ namespace BeanDesktop
             }
         }
 
-        // ✅ Generar PDF con QuestPDF
+
+        // ✅ Generar PDF con PdfSharp
         private void GenerarPDFVenta(int idVenta)
         {
-
-            PdfSharp.Fonts.GlobalFontSettings.UseWindowsFontsUnderWindows = true;
             Venta venta = new CN_Venta().ObtenerPorId(idVenta);
             List<Detalle_Venta> detalles = new CN_Venta().ListarDetallePorVenta(idVenta);
 
@@ -247,7 +245,6 @@ namespace BeanDesktop
 
             try
             {
-                // 📂 Carpeta "Tickets" dentro de "Documentos" del usuario
                 string documentosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 string carpetaTickets = Path.Combine(documentosPath, "Tickets");
 
@@ -257,23 +254,19 @@ namespace BeanDesktop
                 string nombreArchivo = $"Detalle_Venta_{venta.NumeroDocumento}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
                 string ruta = Path.Combine(carpetaTickets, nombreArchivo);
 
-                // Crear PDF
                 PdfDocument pdf = new PdfDocument();
                 pdf.Info.Title = $"Detalle de Venta #{venta.IdVenta}";
-
                 PdfPage page = pdf.AddPage();
                 XGraphics gfx = XGraphics.FromPdfPage(page);
-                XFont fontBold = new XFont("Arial", 12, PdfSharp.Drawing.XFontStyleEx.Bold);
-                XFont fontNormal = new XFont("Arial", 12, PdfSharp.Drawing.XFontStyleEx.Regular);
 
+                XFont fontBold = new XFont("Arial", 12, XFontStyleEx.Bold);
+                XFont fontNormal = new XFont("Arial", 12, XFontStyleEx.Regular);
 
                 double yPoint = 40;
 
-                // Encabezado
                 gfx.DrawString($"Detalle de Venta #{venta.IdVenta}", new XFont("Arial", 18, XFontStyleEx.Bold), XBrushes.Black, new XRect(0, yPoint, page.Width, 30), XStringFormats.TopCenter);
                 yPoint += 40;
 
-                // Datos del cliente y venta
                 gfx.DrawString($"Cliente: {venta.oCliente?.NombreCompleto ?? "Consumidor Final"}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
                 yPoint += 20;
                 gfx.DrawString($"Documento: {venta.oCliente?.Documento ?? "---"}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
@@ -287,11 +280,9 @@ namespace BeanDesktop
                 gfx.DrawString($"Descuento: {venta.DescuentoAplicado:C2}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
                 yPoint += 30;
 
-                // Tabla de productos
                 gfx.DrawString("Productos:", fontBold, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
                 yPoint += 25;
 
-                // Encabezados de tabla
                 gfx.DrawString("Producto", fontBold, XBrushes.Black, 40, yPoint);
                 gfx.DrawString("Precio", fontBold, XBrushes.Black, 300, yPoint);
                 gfx.DrawString("Cantidad", fontBold, XBrushes.Black, 380, yPoint);
@@ -306,7 +297,6 @@ namespace BeanDesktop
                     gfx.DrawString(d.SubTotal.ToString("C2"), fontNormal, XBrushes.Black, 460, yPoint);
                     yPoint += 20;
 
-                    // Salto de página si se pasa de la altura
                     if (yPoint > page.Height - 50)
                     {
                         page = pdf.AddPage();
@@ -315,7 +305,6 @@ namespace BeanDesktop
                     }
                 }
 
-                // Footer
                 gfx.DrawString("Generado automáticamente por BeanDesktop", new XFont("Arial", 10, XFontStyleEx.Regular), XBrushes.Gray, new XRect(0, page.Height - 40, page.Width, 20), XStringFormats.Center);
 
                 pdf.Save(ruta);
@@ -332,6 +321,5 @@ namespace BeanDesktop
                 MessageBox.Show($"Ocurrió un error al generar el PDF:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
     }
 }
