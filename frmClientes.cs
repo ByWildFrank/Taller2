@@ -3,6 +3,7 @@ using BeanDesktop.Utilidades;
 using CapaDeEntidades;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace BeanDesktop
@@ -303,10 +304,20 @@ namespace BeanDesktop
 
             try
             {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
+                // Esta Expresión Regular (Regex)
+                // Busca un patrón de [texto]@[texto].[texto]
+                // 1. [^@\s]+ -> Uno o más caracteres que no sean @ o espacio
+                // 2. @         -> El símbolo @ literal
+                // 3. [^@\s]+ -> Uno o más caracteres para el dominio
+                // 4. \.        -> Un punto literal
+                // 5. [^@\s]+ -> Uno o más caracteres para el TLD (.com, .ar, .org, etc.)
+
+                string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+
+                // Usamos Regex.IsMatch para ver si el email cumple con el patrón
+                return Regex.IsMatch(email, pattern);
             }
-            catch
+            catch (Exception)
             {
                 return false;
             }

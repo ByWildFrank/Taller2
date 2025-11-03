@@ -294,7 +294,7 @@
             // 
             // frmProducto
             // 
-            ClientSize = new Size(974, 562);
+            ClientSize = new Size(1010, 661);
             Controls.Add(txtStockActual);
             Controls.Add(label1);
             Controls.Add(gbAjusteStock);

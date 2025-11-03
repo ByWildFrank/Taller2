@@ -22,6 +22,7 @@ using CapaDeEntidades;
 using Microsoft.ML;
 using BeanDesktop.CapaDeEntidades;
 using OxyPlot.Legends;
+using System.IO;
 
 namespace BeanDesktop
 {
@@ -44,17 +45,13 @@ namespace BeanDesktop
                 return;
             }
 
-            // Prepara la UI para la operación
             lblStatusML.Text = "Entrenando modelo y segmentando clientes...";
             lblStatusML.Visible = true;
             btnSegmentar.Enabled = false;
-            pltGraficoClusters.Model = null; // Limpia el gráfico anterior
+            pltGraficoClusters.Model = null; 
             dgvResultados.Rows.Clear();
-            // txtInsights.Clear(); // Si usas un TextBox para el análisis
-
             try
             {
-                // Ejecuta el entrenamiento y predicción en un hilo secundario
                 await Task.Run(() =>
                 {
                     var clusteringService = new CN_Clustering();
@@ -68,10 +65,9 @@ namespace BeanDesktop
                     _predicciones = mlContext.Data.CreateEnumerable<ClientePrediction>(predicciones, reuseRowObject: false).ToList();
                 });
 
-                // Una vez terminado, actualizamos la UI con los resultados
                 MostrarResultadosEnGrafico();
                 MostrarResultadosEnTabla();
-                MostrarAnalisisEnTexto(); // Nuevo método para el análisis
+                MostrarAnalisisEnTexto();
 
                 lblStatusML.Text = $"Segmentación completada en {numeroDeClusters} grupos.";
             }
@@ -88,13 +84,12 @@ namespace BeanDesktop
 
         private void MostrarResultadosEnGrafico()
         {
-            // 1. Crear el modelo de gráfico y configurar los ejes
             var model = new PlotModel { Title = "Clusters de Clientes (Gasto vs. Frecuencia)" };
             model.Axes.Add(new LinearAxis
             {
                 Position = AxisPosition.Bottom,
                 Title = "Frecuencia de Compra",
-                MajorGridlineStyle = LineStyle.Dot // Añade líneas de guía sutiles
+                MajorGridlineStyle = LineStyle.Dot
             });
             model.Axes.Add(new LinearAxis
             {
@@ -121,11 +116,10 @@ namespace BeanDesktop
                 {
                     MarkerType = MarkerType.Circle,
                     MarkerSize = 5,
-                    Title = $"Cluster {clusterId}", // Esto aparecerá en la leyenda
+                    Title = $"Cluster {clusterId}",
                     MarkerFill = colores[(int)(clusterId - 1) % colores.Length]
                 };
 
-                // Añadir cada cliente como un punto en la serie de su cluster
                 foreach (var item in grupo)
                 {
                     scatterSeries.Points.Add(new ScatterPoint(item.Data.Frequency, item.Data.Monetary));
@@ -154,6 +148,11 @@ namespace BeanDesktop
             dgvResultados.Columns.Add("Recency", "Últ. Compra (días)");
             dgvResultados.Columns.Add("Frequency", "Frecuencia");
             dgvResultados.Columns.Add("Monetary", "Gasto Total");
+            dgvResultados.Columns.Add("AverageTicket", "Ticket Promedio");
+            dgvResultados.Columns.Add("ProductVariety", "Variedad Prod.");
+
+            dgvResultados.Columns["Monetary"].DefaultCellStyle.Format = "C2";
+            dgvResultados.Columns["AverageTicket"].DefaultCellStyle.Format = "C2";
 
             var resultados = _datosOriginales.Zip(_predicciones, (data, pred) => new { Data = data, Pred = pred }).ToList();
 
@@ -165,7 +164,9 @@ namespace BeanDesktop
                     $"Cluster {item.Pred.PredictedClusterId}",
                     item.Data.Recency,
                     item.Data.Frequency,
-                    item.Data.Monetary.ToString("C")
+                    item.Data.Monetary.ToString("C"),
+                    item.Data.AverageTicket,
+                    item.Data.ProductVariety
                 );
             }
         }
@@ -187,7 +188,8 @@ namespace BeanDesktop
 
             var insights = resultados
                 .GroupBy(r => r.Pred.PredictedClusterId)
-                .Select(g => new {
+                .Select(g => new
+                {
                     ClusterId = g.Key,
                     CantidadClientes = g.Count(),
                     PromedioRecency = g.Average(x => x.Data.Recency),
@@ -196,7 +198,6 @@ namespace BeanDesktop
                 })
                 .OrderBy(g => g.ClusterId).ToList();
 
-            // --- Lógica para construir el texto y mostrarlo ---
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("--- ANÁLISIS DE CLUSTERS ---");
 
@@ -221,8 +222,59 @@ namespace BeanDesktop
                 sb.AppendLine($"  ▶ Última Compra (Promedio): Hace {cluster.PromedioRecency:N0} días");
             }
 
-            // Asegúrate de tener un TextBox multilínea llamado 'txtInsights' en tu formulario
             txtInsights.Text = sb.ToString();
+        }
+
+        private void btnDescargarCsv_Click(object sender, EventArgs e)
+        {
+            // 1. Validar que haya datos para exportar
+            if (_datosOriginales == null || _predicciones == null || !_datosOriginales.Any())
+            {
+                MessageBox.Show("No hay datos de segmentación para exportar. Por favor, ejecute la segmentación primero.", "Datos no encontrados", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Preguntar al usuario dónde guardar
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.FileName = $"Segmentacion_Clientes_{DateTime.Now:yyyyMMdd}.csv";
+            saveFile.Filter = "Archivo CSV (*.csv)|*.csv";
+
+            if (saveFile.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    var sb = new StringBuilder();
+
+                    // 3. Crear los encabezados del CSV
+                    sb.AppendLine("IdCliente,NombreCompleto,ClusterId,Recency(dias),Frequency(compras),Monetary(gasto),AverageTicket,ProductVariety");
+
+                    // 4. Juntar los datos originales con sus predicciones
+                    var resultados = _datosOriginales.Zip(_predicciones, (data, pred) => new { Data = data, Pred = pred });
+
+                    // 5. Escribir cada fila de datos
+                    foreach (var item in resultados)
+                    {
+                        sb.AppendLine(
+                            $"{item.Data.IdCliente}," +
+                            $"\"{item.Data.NombreCompleto}\"," + // Usar comillas por si el nombre tiene comas
+                            $"{item.Pred.PredictedClusterId}," +
+                            $"{item.Data.Recency}," +
+                            $"{item.Data.Frequency}," +
+                            $"{item.Data.Monetary}," +
+                            $"{item.Data.AverageTicket}," +
+                            $"{item.Data.ProductVariety}"
+                        );
+                    }
+
+                    // 6. Guardar el archivo
+                    File.WriteAllText(saveFile.FileName, sb.ToString(), Encoding.UTF8);
+                    MessageBox.Show("Archivo CSV exportado con éxito.", "Exportación Completa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al exportar el archivo: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

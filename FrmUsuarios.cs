@@ -347,13 +347,12 @@ namespace BeanDesktop
         {
             if (string.IsNullOrWhiteSpace(email))
                 return false;
-
             try
             {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
+                string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                return Regex.IsMatch(email, pattern);
             }
-            catch
+            catch (Exception)
             {
                 return false;
             }

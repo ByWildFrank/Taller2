@@ -39,12 +39,20 @@ namespace BeanDesktop
 
             // Fecha de fin: fecha actual
             dtpFin.Value = DateTime.Now;
+            CargarReporte();
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            List<ReporteVenta> lista = new List<ReporteVenta>();
-            lista = new CN_Reporte().Venta(dtpInicio.Value.ToString(), dtpFin.Value.ToString());
+            CargarReporte();
+        }
+        private void CargarReporte()
+        {
+            // Convertimos las fechas al formato que espera el SP (dd/MM/yyyy)
+            string fechaInicio = dtpInicio.Value.ToString("dd/MM/yyyy");
+            string fechaFin = dtpFin.Value.ToString("dd/MM/yyyy");
+
+            List<ReporteVenta> lista = new CN_Reporte().Venta(fechaInicio, fechaFin);
 
             dgvdata.Rows.Clear();
             foreach (ReporteVenta rv in lista)
@@ -72,7 +80,6 @@ namespace BeanDesktop
                 });
             }
         }
-
         private void exportarExelButton_Click(object sender, EventArgs e)
         {
             if(dgvdata.Rows.Count < 1)
