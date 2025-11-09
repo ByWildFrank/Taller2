@@ -394,9 +394,9 @@ namespace BeanDesktop
 
         private void GenerarPDFVenta(int idVenta)
         {
+            GlobalFontSettings.UseWindowsFontsUnderWindows = true;
             Venta venta = new CN_Venta().ObtenerPorId(idVenta);
             List<Detalle_Venta> detalles = new CN_Venta().ListarDetallePorVenta(idVenta);
-            GlobalFontSettings.UseWindowsFontsUnderWindows = true;
 
             if (venta == null)
             {
@@ -406,6 +406,7 @@ namespace BeanDesktop
 
             try
             {
+
                 string documentosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 string carpetaTickets = Path.Combine(documentosPath, "Tickets");
 
@@ -420,57 +421,102 @@ namespace BeanDesktop
                 PdfPage page = pdf.AddPage();
                 XGraphics gfx = XGraphics.FromPdfPage(page);
 
-                XFont fontBold = new XFont("Arial", 12, XFontStyleEx.Bold);
-                XFont fontNormal = new XFont("Arial", 12, XFontStyleEx.Regular);
+                // Fuentes refinadas
+                XFont fontTitle = new XFont("Arial", 20, XFontStyleEx.Bold);
+                XFont fontSection = new XFont("Arial", 13, XFontStyleEx.Bold);
+                XFont fontNormal = new XFont("Arial", 11, XFontStyleEx.Regular);
+                XFont fontFooter = new XFont("Arial", 9, XFontStyleEx.Italic);
 
-                double yPoint = 40;
+                double marginLeft = 50;
+                double yPoint = 60;
 
-                gfx.DrawString($"Detalle de Venta #{venta.IdVenta}", new XFont("Arial", 18, XFontStyleEx.Bold), XBrushes.Black, new XRect(0, yPoint, page.Width, 30), XStringFormats.TopCenter);
-                yPoint += 40;
+                // Logo institucional
+                try
+                {
+                    using (var ms = new MemoryStream(Properties.Resources.MarcaPNGreducida))
+                    {
+                        XImage logo = XImage.FromStream(ms);
+                        double logoWidth = 70;
+                        double logoHeight = (logo.PixelHeight / (double)logo.PixelWidth) * logoWidth;
+                        gfx.DrawImage(logo, page.Width - logoWidth - marginLeft, yPoint - 30, logoWidth, logoHeight);
+                    }
+                }
+                catch { }
 
-                gfx.DrawString($"Cliente: {venta.oCliente?.NombreCompleto ?? "Consumidor Final"}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
-                yPoint += 20;
-                gfx.DrawString($"Documento: {venta.oCliente?.Documento ?? "---"}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
-                yPoint += 20;
-                gfx.DrawString($"Tipo de Documento: {venta.TipoDocumento}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
-                yPoint += 20;
-                gfx.DrawString($"Número de Documento: {venta.NumeroDocumento}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
-                yPoint += 20;
-                gfx.DrawString($"Monto Total: {venta.MontoTotal:C2}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
-                yPoint += 20;
-                gfx.DrawString($"Descuento: {venta.DescuentoAplicado:C2}", fontNormal, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
-                yPoint += 30;
+                // Título principal
+                gfx.DrawString($"Detalle de Venta Nº {venta.IdVenta}", fontTitle, XBrushes.Black,
+                    new XRect(0, yPoint, page.Width, 30), XStringFormats.TopCenter);
+                yPoint += 50;
 
-                gfx.DrawString("Productos:", fontBold, XBrushes.Black, new XRect(40, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                // Línea decorativa
+                gfx.DrawLine(new XPen(XColors.DarkGray, 1.5), marginLeft, yPoint, page.Width - marginLeft, yPoint);
                 yPoint += 25;
 
-                gfx.DrawString("Producto", fontBold, XBrushes.Black, 40, yPoint);
-                gfx.DrawString("Precio", fontBold, XBrushes.Black, 300, yPoint);
-                gfx.DrawString("Cantidad", fontBold, XBrushes.Black, 380, yPoint);
-                gfx.DrawString("Subtotal", fontBold, XBrushes.Black, 460, yPoint);
-                yPoint += 20;
+                // Información del cliente
+                // Información del cliente
+                    string[] infoVenta = {
+                        $"Cliente: {venta.oCliente?.NombreCompleto ?? "Consumidor Final"}",
+                        $"Documento del Cliente: {venta.oCliente?.Documento ?? "---"}",
+                        $"Tipo de Comprobante: {venta.TipoDocumento}",
+                        $"Número de {venta.TipoDocumento}: {venta.IdVenta}",
+                        $"Monto Total: {venta.MontoTotal:C2}",
+                        $"Descuento Aplicado: {venta.DescuentoAplicado:C2}"
+                    };
 
+
+                foreach (var info in infoVenta)
+                {
+                    gfx.DrawString(info, fontNormal, XBrushes.Black,
+                        new XRect(marginLeft, yPoint, page.Width - marginLeft * 2, 20), XStringFormats.TopLeft);
+                    yPoint += 18;
+                }
+
+                yPoint += 30;
+
+                // Sección de productos
+                gfx.DrawString("Detalle de Productos", fontSection, XBrushes.Black,
+                    new XRect(marginLeft, yPoint, page.Width, 20), XStringFormats.TopLeft);
+                yPoint += 25;
+
+                // Encabezado de tabla
+                gfx.DrawRectangle(XBrushes.LightSteelBlue, marginLeft - 5, yPoint - 3, page.Width - marginLeft * 2 + 10, 22);
+                gfx.DrawString("Producto", fontSection, XBrushes.Black, marginLeft, yPoint);
+                gfx.DrawString("Precio", fontSection, XBrushes.Black, marginLeft + 220, yPoint);
+                gfx.DrawString("Cantidad", fontSection, XBrushes.Black, marginLeft + 320, yPoint);
+                gfx.DrawString("Subtotal", fontSection, XBrushes.Black, marginLeft + 420, yPoint);
+                yPoint += 25;
+
+                // Filas de productos
                 foreach (var d in detalles)
                 {
-                    gfx.DrawString(d.NombreProducto, fontNormal, XBrushes.Black, 40, yPoint);
-                    gfx.DrawString(d.PrecioVenta.ToString("C2"), fontNormal, XBrushes.Black, 300, yPoint);
-                    gfx.DrawString(d.Cantidad.ToString(), fontNormal, XBrushes.Black, 380, yPoint);
-                    gfx.DrawString(d.SubTotal.ToString("C2"), fontNormal, XBrushes.Black, 460, yPoint);
+                    gfx.DrawString(d.NombreProducto, fontNormal, XBrushes.Black, marginLeft, yPoint);
+                    gfx.DrawString(d.PrecioVenta.ToString("C2"), fontNormal, XBrushes.Black, marginLeft + 220, yPoint);
+                    gfx.DrawString(d.Cantidad.ToString(), fontNormal, XBrushes.Black, marginLeft + 320, yPoint);
+                    gfx.DrawString(d.SubTotal.ToString("C2"), fontNormal, XBrushes.Black, marginLeft + 420, yPoint);
                     yPoint += 20;
 
-                    if (yPoint > page.Height - 50)
+                    gfx.DrawLine(XPens.LightGray, marginLeft - 5, yPoint, page.Width - marginLeft + 5, yPoint);
+
+                    if (yPoint > page.Height - 80)
                     {
                         page = pdf.AddPage();
                         gfx = XGraphics.FromPdfPage(page);
-                        yPoint = 40;
+                        yPoint = 60;
                     }
                 }
 
-                gfx.DrawString("Generado automáticamente por BeanDesktop", new XFont("Arial", 10, XFontStyleEx.Regular), XBrushes.Gray, new XRect(0, page.Height - 40, page.Width, 20), XStringFormats.Center);
+                yPoint += 30;
+                gfx.DrawLine(new XPen(XColors.DarkGray, 1.5), marginLeft, yPoint, page.Width - marginLeft, yPoint);
+                yPoint += 30;
+
+                // Pie de página
+                gfx.DrawString("Documento generado automáticamente por BeanDesktop", fontFooter, XBrushes.Gray,
+                    new XRect(0, page.Height - 40, page.Width, 20), XStringFormats.Center);
 
                 pdf.Save(ruta);
 
                 MessageBox.Show($"PDF generado correctamente en:\n{ruta}", "PDF generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 Process.Start(new ProcessStartInfo()
                 {
                     FileName = ruta,

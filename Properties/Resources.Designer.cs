@@ -59,5 +59,15 @@ namespace BeanDesktop.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] MarcaPNGreducida {
+            get {
+                object obj = ResourceManager.GetObject("MarcaPNGreducida", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

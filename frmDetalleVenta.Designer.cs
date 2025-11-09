@@ -15,252 +15,263 @@
 
         private void InitializeComponent()
         {
-            this.lblBuscar = new System.Windows.Forms.Label();
-            this.txtNumeroDocumento = new System.Windows.Forms.TextBox();
-            this.btnBuscarVenta = new System.Windows.Forms.Button();
-            this.btnLimpiar = new System.Windows.Forms.Button();
-            this.dgvDetalleVenta = new System.Windows.Forms.DataGridView();
-            this.lblIdVenta = new System.Windows.Forms.Label();
-            this.txtIdVenta = new System.Windows.Forms.TextBox();
-            this.lblTipoDocumento = new System.Windows.Forms.Label();
-            this.txtTipoDocumento = new System.Windows.Forms.TextBox();
-            this.lblNumeroDocMostrar = new System.Windows.Forms.Label();
-            this.txtNumeroDocumentoMostrar = new System.Windows.Forms.TextBox();
-            this.lblCliente = new System.Windows.Forms.Label();
-            this.txtCliente = new System.Windows.Forms.TextBox();
-            this.lblDocumentoCliente = new System.Windows.Forms.Label();
-            this.txtDocumentoCliente = new System.Windows.Forms.TextBox();
-            this.lblDescuento = new System.Windows.Forms.Label();
-            this.txtDescuento = new System.Windows.Forms.TextBox();
-            this.lblMontoTotal = new System.Windows.Forms.Label();
-            this.txtMontoTotal = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDetalleVenta)).BeginInit();
-            this.SuspendLayout();
+            lblBuscar = new Label();
+            txtNumeroDocumento = new TextBox();
+            btnBuscarVenta = new Button();
+            btnLimpiar = new Button();
+            dgvDetalleVenta = new DataGridView();
+            lblIdVenta = new Label();
+            txtIdVenta = new TextBox();
+            lblTipoDocumento = new Label();
+            txtTipoDocumento = new TextBox();
+            lblNumeroDocMostrar = new Label();
+            txtNumeroDocumentoMostrar = new TextBox();
+            lblCliente = new Label();
+            txtCliente = new TextBox();
+            lblDocumentoCliente = new Label();
+            txtDocumentoCliente = new TextBox();
+            lblDescuento = new Label();
+            txtDescuento = new TextBox();
+            lblMontoTotal = new Label();
+            txtMontoTotal = new TextBox();
+            ((System.ComponentModel.ISupportInitialize)dgvDetalleVenta).BeginInit();
+            SuspendLayout();
             // 
             // lblBuscar
             // 
-            this.lblBuscar.AutoSize = true;
-            this.lblBuscar.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblBuscar.Location = new System.Drawing.Point(20, 20);
-            this.lblBuscar.Name = "lblBuscar";
-            this.lblBuscar.Size = new System.Drawing.Size(121, 15);
-            this.lblBuscar.TabIndex = 0;
-            this.lblBuscar.Text = "Número de documento:";
+            lblBuscar.AutoSize = true;
+            lblBuscar.Font = new Font("Segoe UI", 9F);
+            lblBuscar.Location = new Point(23, 27);
+            lblBuscar.Name = "lblBuscar";
+            lblBuscar.Size = new Size(167, 20);
+            lblBuscar.TabIndex = 0;
+            lblBuscar.Text = "Número de documento:";
             // 
             // txtNumeroDocumento
             // 
-            this.txtNumeroDocumento.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtNumeroDocumento.Location = new System.Drawing.Point(150, 17);
-            this.txtNumeroDocumento.Name = "txtNumeroDocumento";
-            this.txtNumeroDocumento.Size = new System.Drawing.Size(180, 23);
-            this.txtNumeroDocumento.TabIndex = 1;
+            txtNumeroDocumento.Font = new Font("Segoe UI", 9F);
+            txtNumeroDocumento.Location = new Point(189, 24);
+            txtNumeroDocumento.Margin = new Padding(3, 4, 3, 4);
+            txtNumeroDocumento.Name = "txtNumeroDocumento";
+            txtNumeroDocumento.Size = new Size(205, 27);
+            txtNumeroDocumento.TabIndex = 1;
             // 
             // btnBuscarVenta
             // 
-            this.btnBuscarVenta.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnBuscarVenta.Location = new System.Drawing.Point(340, 15);
-            this.btnBuscarVenta.Name = "btnBuscarVenta";
-            this.btnBuscarVenta.Size = new System.Drawing.Size(90, 27);
-            this.btnBuscarVenta.TabIndex = 2;
-            this.btnBuscarVenta.Text = "Buscar";
-            this.btnBuscarVenta.UseVisualStyleBackColor = true;
-            this.btnBuscarVenta.Click += new System.EventHandler(this.btnBuscarVenta_Click);
+            btnBuscarVenta.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnBuscarVenta.Location = new Point(417, 19);
+            btnBuscarVenta.Margin = new Padding(3, 4, 3, 4);
+            btnBuscarVenta.Name = "btnBuscarVenta";
+            btnBuscarVenta.Size = new Size(103, 36);
+            btnBuscarVenta.TabIndex = 2;
+            btnBuscarVenta.Text = "Buscar";
+            btnBuscarVenta.UseVisualStyleBackColor = true;
+            btnBuscarVenta.Click += btnBuscarVenta_Click;
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnLimpiar.Location = new System.Drawing.Point(440, 15);
-            this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(90, 27);
-            this.btnLimpiar.TabIndex = 3;
-            this.btnLimpiar.Text = "Limpiar";
-            this.btnLimpiar.UseVisualStyleBackColor = true;
-            this.btnLimpiar.Click += new System.EventHandler((s, e) => LimpiarCampos());
+            btnLimpiar.Font = new Font("Segoe UI", 9F);
+            btnLimpiar.Location = new Point(526, 19);
+            btnLimpiar.Margin = new Padding(3, 4, 3, 4);
+            btnLimpiar.Name = "btnLimpiar";
+            btnLimpiar.Size = new Size(103, 36);
+            btnLimpiar.TabIndex = 3;
+            btnLimpiar.Text = "Limpiar";
+            btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.Click += btnLimpiar_Click;
             // 
             // dgvDetalleVenta
             // 
-            this.dgvDetalleVenta.AllowUserToAddRows = false;
-            this.dgvDetalleVenta.AllowUserToDeleteRows = false;
-            this.dgvDetalleVenta.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                                                                | System.Windows.Forms.AnchorStyles.Left)
-                                                                                | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvDetalleVenta.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvDetalleVenta.BackgroundColor = System.Drawing.Color.White;
-            this.dgvDetalleVenta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDetalleVenta.Location = new System.Drawing.Point(20, 210);
-            this.dgvDetalleVenta.MultiSelect = false;
-            this.dgvDetalleVenta.Name = "dgvDetalleVenta";
-            this.dgvDetalleVenta.ReadOnly = true;
-            this.dgvDetalleVenta.RowTemplate.Height = 25;
-            this.dgvDetalleVenta.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDetalleVenta.Size = new System.Drawing.Size(820, 340);
-            this.dgvDetalleVenta.TabIndex = 4;
-            this.dgvDetalleVenta.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDetalleVenta_CellDoubleClick);
+            dgvDetalleVenta.AllowUserToAddRows = false;
+            dgvDetalleVenta.AllowUserToDeleteRows = false;
+            dgvDetalleVenta.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvDetalleVenta.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDetalleVenta.BackgroundColor = Color.White;
+            dgvDetalleVenta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDetalleVenta.Location = new Point(23, 280);
+            dgvDetalleVenta.Margin = new Padding(3, 4, 3, 4);
+            dgvDetalleVenta.MultiSelect = false;
+            dgvDetalleVenta.Name = "dgvDetalleVenta";
+            dgvDetalleVenta.ReadOnly = true;
+            dgvDetalleVenta.RowHeadersWidth = 51;
+            dgvDetalleVenta.RowTemplate.Height = 25;
+            dgvDetalleVenta.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDetalleVenta.Size = new Size(937, 453);
+            dgvDetalleVenta.TabIndex = 4;
+            dgvDetalleVenta.CellDoubleClick += dgvDetalleVenta_CellDoubleClick;
             // 
             // lblIdVenta
             // 
-            this.lblIdVenta.AutoSize = true;
-            this.lblIdVenta.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblIdVenta.Location = new System.Drawing.Point(20, 60);
-            this.lblIdVenta.Name = "lblIdVenta";
-            this.lblIdVenta.Size = new System.Drawing.Size(55, 15);
-            this.lblIdVenta.TabIndex = 5;
-            this.lblIdVenta.Text = "ID Venta:";
+            lblIdVenta.AutoSize = true;
+            lblIdVenta.Font = new Font("Segoe UI", 9F);
+            lblIdVenta.Location = new Point(23, 80);
+            lblIdVenta.Name = "lblIdVenta";
+            lblIdVenta.Size = new Size(68, 20);
+            lblIdVenta.TabIndex = 5;
+            lblIdVenta.Text = "ID Venta:";
             // 
             // txtIdVenta
             // 
-            this.txtIdVenta.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtIdVenta.Location = new System.Drawing.Point(150, 57);
-            this.txtIdVenta.Name = "txtIdVenta";
-            this.txtIdVenta.ReadOnly = true;
-            this.txtIdVenta.Size = new System.Drawing.Size(100, 23);
-            this.txtIdVenta.TabIndex = 6;
+            txtIdVenta.Font = new Font("Segoe UI", 9F);
+            txtIdVenta.Location = new Point(171, 76);
+            txtIdVenta.Margin = new Padding(3, 4, 3, 4);
+            txtIdVenta.Name = "txtIdVenta";
+            txtIdVenta.ReadOnly = true;
+            txtIdVenta.Size = new Size(114, 27);
+            txtIdVenta.TabIndex = 6;
             // 
             // lblTipoDocumento
             // 
-            this.lblTipoDocumento.AutoSize = true;
-            this.lblTipoDocumento.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblTipoDocumento.Location = new System.Drawing.Point(270, 60);
-            this.lblTipoDocumento.Name = "lblTipoDocumento";
-            this.lblTipoDocumento.Size = new System.Drawing.Size(106, 15);
-            this.lblTipoDocumento.TabIndex = 7;
-            this.lblTipoDocumento.Text = "Tipo de documento:";
+            lblTipoDocumento.AutoSize = true;
+            lblTipoDocumento.Font = new Font("Segoe UI", 9F);
+            lblTipoDocumento.Location = new Point(309, 80);
+            lblTipoDocumento.Name = "lblTipoDocumento";
+            lblTipoDocumento.Size = new Size(143, 20);
+            lblTipoDocumento.TabIndex = 7;
+            lblTipoDocumento.Text = "Tipo de documento:";
             // 
             // txtTipoDocumento
             // 
-            this.txtTipoDocumento.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtTipoDocumento.Location = new System.Drawing.Point(380, 57);
-            this.txtTipoDocumento.Name = "txtTipoDocumento";
-            this.txtTipoDocumento.ReadOnly = true;
-            this.txtTipoDocumento.Size = new System.Drawing.Size(150, 23);
-            this.txtTipoDocumento.TabIndex = 8;
+            txtTipoDocumento.Font = new Font("Segoe UI", 9F);
+            txtTipoDocumento.Location = new Point(458, 76);
+            txtTipoDocumento.Margin = new Padding(3, 4, 3, 4);
+            txtTipoDocumento.Name = "txtTipoDocumento";
+            txtTipoDocumento.ReadOnly = true;
+            txtTipoDocumento.Size = new Size(171, 27);
+            txtTipoDocumento.TabIndex = 8;
             // 
             // lblNumeroDocMostrar
             // 
-            this.lblNumeroDocMostrar.AutoSize = true;
-            this.lblNumeroDocMostrar.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblNumeroDocMostrar.Location = new System.Drawing.Point(550, 60);
-            this.lblNumeroDocMostrar.Name = "lblNumeroDocMostrar";
-            this.lblNumeroDocMostrar.Size = new System.Drawing.Size(94, 15);
-            this.lblNumeroDocMostrar.TabIndex = 9;
-            this.lblNumeroDocMostrar.Text = "N° Documento:";
+            lblNumeroDocMostrar.AutoSize = true;
+            lblNumeroDocMostrar.Font = new Font("Segoe UI", 9F);
+            lblNumeroDocMostrar.Location = new Point(635, 79);
+            lblNumeroDocMostrar.Name = "lblNumeroDocMostrar";
+            lblNumeroDocMostrar.Size = new Size(111, 20);
+            lblNumeroDocMostrar.TabIndex = 9;
+            lblNumeroDocMostrar.Text = "N° Documento:";
             // 
             // txtNumeroDocumentoMostrar
             // 
-            this.txtNumeroDocumentoMostrar.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtNumeroDocumentoMostrar.Location = new System.Drawing.Point(650, 57);
-            this.txtNumeroDocumentoMostrar.Name = "txtNumeroDocumentoMostrar";
-            this.txtNumeroDocumentoMostrar.ReadOnly = true;
-            this.txtNumeroDocumentoMostrar.Size = new System.Drawing.Size(150, 23);
-            this.txtNumeroDocumentoMostrar.TabIndex = 10;
+            txtNumeroDocumentoMostrar.Font = new Font("Segoe UI", 9F);
+            txtNumeroDocumentoMostrar.Location = new Point(761, 73);
+            txtNumeroDocumentoMostrar.Margin = new Padding(3, 4, 3, 4);
+            txtNumeroDocumentoMostrar.Name = "txtNumeroDocumentoMostrar";
+            txtNumeroDocumentoMostrar.ReadOnly = true;
+            txtNumeroDocumentoMostrar.Size = new Size(171, 27);
+            txtNumeroDocumentoMostrar.TabIndex = 10;
             // 
             // lblCliente
             // 
-            this.lblCliente.AutoSize = true;
-            this.lblCliente.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblCliente.Location = new System.Drawing.Point(20, 100);
-            this.lblCliente.Name = "lblCliente";
-            this.lblCliente.Size = new System.Drawing.Size(47, 15);
-            this.lblCliente.TabIndex = 11;
-            this.lblCliente.Text = "Cliente:";
+            lblCliente.AutoSize = true;
+            lblCliente.Font = new Font("Segoe UI", 9F);
+            lblCliente.Location = new Point(23, 133);
+            lblCliente.Name = "lblCliente";
+            lblCliente.Size = new Size(58, 20);
+            lblCliente.TabIndex = 11;
+            lblCliente.Text = "Cliente:";
             // 
             // txtCliente
             // 
-            this.txtCliente.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtCliente.Location = new System.Drawing.Point(150, 97);
-            this.txtCliente.Name = "txtCliente";
-            this.txtCliente.ReadOnly = true;
-            this.txtCliente.Size = new System.Drawing.Size(280, 23);
-            this.txtCliente.TabIndex = 12;
+            txtCliente.Font = new Font("Segoe UI", 9F);
+            txtCliente.Location = new Point(171, 129);
+            txtCliente.Margin = new Padding(3, 4, 3, 4);
+            txtCliente.Name = "txtCliente";
+            txtCliente.ReadOnly = true;
+            txtCliente.Size = new Size(319, 27);
+            txtCliente.TabIndex = 12;
             // 
             // lblDocumentoCliente
             // 
-            this.lblDocumentoCliente.AutoSize = true;
-            this.lblDocumentoCliente.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblDocumentoCliente.Location = new System.Drawing.Point(450, 100);
-            this.lblDocumentoCliente.Name = "lblDocumentoCliente";
-            this.lblDocumentoCliente.Size = new System.Drawing.Size(118, 15);
-            this.lblDocumentoCliente.TabIndex = 13;
-            this.lblDocumentoCliente.Text = "Documento (cliente):";
+            lblDocumentoCliente.AutoSize = true;
+            lblDocumentoCliente.Font = new Font("Segoe UI", 9F);
+            lblDocumentoCliente.Location = new Point(514, 133);
+            lblDocumentoCliente.Name = "lblDocumentoCliente";
+            lblDocumentoCliente.Size = new Size(148, 20);
+            lblDocumentoCliente.TabIndex = 13;
+            lblDocumentoCliente.Text = "Documento (cliente):";
             // 
             // txtDocumentoCliente
             // 
-            this.txtDocumentoCliente.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtDocumentoCliente.Location = new System.Drawing.Point(580, 97);
-            this.txtDocumentoCliente.Name = "txtDocumentoCliente";
-            this.txtDocumentoCliente.ReadOnly = true;
-            this.txtDocumentoCliente.Size = new System.Drawing.Size(220, 23);
-            this.txtDocumentoCliente.TabIndex = 14;
+            txtDocumentoCliente.Font = new Font("Segoe UI", 9F);
+            txtDocumentoCliente.Location = new Point(663, 129);
+            txtDocumentoCliente.Margin = new Padding(3, 4, 3, 4);
+            txtDocumentoCliente.Name = "txtDocumentoCliente";
+            txtDocumentoCliente.ReadOnly = true;
+            txtDocumentoCliente.Size = new Size(251, 27);
+            txtDocumentoCliente.TabIndex = 14;
             // 
             // lblDescuento
             // 
-            this.lblDescuento.AutoSize = true;
-            this.lblDescuento.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblDescuento.Location = new System.Drawing.Point(20, 140);
-            this.lblDescuento.Name = "lblDescuento";
-            this.lblDescuento.Size = new System.Drawing.Size(69, 15);
-            this.lblDescuento.TabIndex = 15;
-            this.lblDescuento.Text = "Descuento:";
+            lblDescuento.AutoSize = true;
+            lblDescuento.Font = new Font("Segoe UI", 9F);
+            lblDescuento.Location = new Point(23, 187);
+            lblDescuento.Name = "lblDescuento";
+            lblDescuento.Size = new Size(82, 20);
+            lblDescuento.TabIndex = 15;
+            lblDescuento.Text = "Descuento:";
             // 
             // txtDescuento
             // 
-            this.txtDescuento.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtDescuento.Location = new System.Drawing.Point(150, 137);
-            this.txtDescuento.Name = "txtDescuento";
-            this.txtDescuento.ReadOnly = true;
-            this.txtDescuento.Size = new System.Drawing.Size(100, 23);
-            this.txtDescuento.TabIndex = 16;
+            txtDescuento.Font = new Font("Segoe UI", 9F);
+            txtDescuento.Location = new Point(171, 183);
+            txtDescuento.Margin = new Padding(3, 4, 3, 4);
+            txtDescuento.Name = "txtDescuento";
+            txtDescuento.ReadOnly = true;
+            txtDescuento.Size = new Size(114, 27);
+            txtDescuento.TabIndex = 16;
             // 
             // lblMontoTotal
             // 
-            this.lblMontoTotal.AutoSize = true;
-            this.lblMontoTotal.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblMontoTotal.Location = new System.Drawing.Point(270, 140);
-            this.lblMontoTotal.Name = "lblMontoTotal";
-            this.lblMontoTotal.Size = new System.Drawing.Size(74, 15);
-            this.lblMontoTotal.TabIndex = 17;
-            this.lblMontoTotal.Text = "Monto Total:";
+            lblMontoTotal.AutoSize = true;
+            lblMontoTotal.Font = new Font("Segoe UI", 9F);
+            lblMontoTotal.Location = new Point(309, 187);
+            lblMontoTotal.Name = "lblMontoTotal";
+            lblMontoTotal.Size = new Size(93, 20);
+            lblMontoTotal.TabIndex = 17;
+            lblMontoTotal.Text = "Monto Total:";
             // 
             // txtMontoTotal
             // 
-            this.txtMontoTotal.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtMontoTotal.Location = new System.Drawing.Point(350, 137);
-            this.txtMontoTotal.Name = "txtMontoTotal";
-            this.txtMontoTotal.ReadOnly = true;
-            this.txtMontoTotal.Size = new System.Drawing.Size(120, 23);
-            this.txtMontoTotal.TabIndex = 18;
+            txtMontoTotal.Font = new Font("Segoe UI", 9F);
+            txtMontoTotal.Location = new Point(400, 183);
+            txtMontoTotal.Margin = new Padding(3, 4, 3, 4);
+            txtMontoTotal.Name = "txtMontoTotal";
+            txtMontoTotal.ReadOnly = true;
+            txtMontoTotal.Size = new Size(137, 27);
+            txtMontoTotal.TabIndex = 18;
             // 
             // frmDetalleVenta
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(860, 570);
-            this.Controls.Add(this.txtMontoTotal);
-            this.Controls.Add(this.lblMontoTotal);
-            this.Controls.Add(this.txtDescuento);
-            this.Controls.Add(this.lblDescuento);
-            this.Controls.Add(this.txtDocumentoCliente);
-            this.Controls.Add(this.lblDocumentoCliente);
-            this.Controls.Add(this.txtCliente);
-            this.Controls.Add(this.lblCliente);
-            this.Controls.Add(this.txtNumeroDocumentoMostrar);
-            this.Controls.Add(this.lblNumeroDocMostrar);
-            this.Controls.Add(this.txtTipoDocumento);
-            this.Controls.Add(this.lblTipoDocumento);
-            this.Controls.Add(this.txtIdVenta);
-            this.Controls.Add(this.lblIdVenta);
-            this.Controls.Add(this.dgvDetalleVenta);
-            this.Controls.Add(this.btnLimpiar);
-            this.Controls.Add(this.btnBuscarVenta);
-            this.Controls.Add(this.txtNumeroDocumento);
-            this.Controls.Add(this.lblBuscar);
-            this.Name = "frmDetalleVenta";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Detalle de Ventas";
-            this.Load += new System.EventHandler(this.frmDetalleVenta_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDetalleVenta)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(983, 760);
+            Controls.Add(txtMontoTotal);
+            Controls.Add(lblMontoTotal);
+            Controls.Add(txtDescuento);
+            Controls.Add(lblDescuento);
+            Controls.Add(txtDocumentoCliente);
+            Controls.Add(lblDocumentoCliente);
+            Controls.Add(txtCliente);
+            Controls.Add(lblCliente);
+            Controls.Add(txtNumeroDocumentoMostrar);
+            Controls.Add(lblNumeroDocMostrar);
+            Controls.Add(txtTipoDocumento);
+            Controls.Add(lblTipoDocumento);
+            Controls.Add(txtIdVenta);
+            Controls.Add(lblIdVenta);
+            Controls.Add(dgvDetalleVenta);
+            Controls.Add(btnLimpiar);
+            Controls.Add(btnBuscarVenta);
+            Controls.Add(txtNumeroDocumento);
+            Controls.Add(lblBuscar);
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "frmDetalleVenta";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Detalle de Ventas";
+            Load += frmDetalleVenta_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvDetalleVenta).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
