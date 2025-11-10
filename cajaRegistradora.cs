@@ -345,6 +345,7 @@ namespace BeanDesktop
             Venta objVenta = new Venta()
             {
                 IdUsuario = usuarioLogueado.IdUsuario,
+                IdCliente = idClienteSeleccionado,
                 TipoDocumento = ((OpcionCombo)cboTipoDocumento.SelectedItem)?.Texto ?? "Boleta",
                 NumeroDocumento = nuevoNumeroDoc, // <-- Usamos el número generado
                 MontoPago = montoPago,

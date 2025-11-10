@@ -16,8 +16,10 @@ namespace BeanDesktop
 {
     public partial class frmDetalleVenta : Form
     {
+        // Lista completa de ventas (cargada una sola vez)
         private List<VentaInfo> _listaCompletaVentas;
         private System.Windows.Forms.Timer _busquedaTimer;
+        private AutoCompleteStringCollection _autoCompleteSource;
 
         public frmDetalleVenta()
         {
@@ -27,7 +29,6 @@ namespace BeanDesktop
         private void frmDetalleVenta_Load(object sender, EventArgs e)
         {
             this.BackColor = System.Drawing.Color.White;
-
             EstiloTextBoxLectura(txtTipoDocumento);
             EstiloTextBoxLectura(txtNumeroDocumentoMostrar);
             EstiloTextBoxLectura(txtDescuento);
@@ -37,17 +38,16 @@ namespace BeanDesktop
             EstiloTextBoxLectura(txtMontoTotal);
 
             ConfigurarGrillaVentas();
-            CargarListaDeVentas();
+            CargarListaDeVentas();          // ← Carga una sola vez desde SQL
+            ConfigurarAutoComplete();       // ← Autocompletado rápido
 
-            // Configurar debounce (evita que se dispare en cada letra)
-            _busquedaTimer = new System.Windows.Forms.Timer();
-            _busquedaTimer.Interval = 300; // milisegundos
+            // Debounce para búsqueda en tiempo real
+            _busquedaTimer = new System.Windows.Forms.Timer { Interval = 300 };
             _busquedaTimer.Tick += (s, ev) =>
             {
                 _busquedaTimer.Stop();
                 FiltrarVentas(txtNumeroDocumento.Text.Trim());
             };
-
             txtNumeroDocumento.TextChanged += (s, ev) =>
             {
                 _busquedaTimer.Stop();
@@ -57,24 +57,139 @@ namespace BeanDesktop
             LimpiarCamposDetalle();
         }
 
+        // -------------------------------------------------------------------------
+        // 1. Carga única de datos + autocompletado
+        // -------------------------------------------------------------------------
+        private void CargarListaDeVentas()
+        {
+            _listaCompletaVentas = new CN_Venta().ListarVentas(); // ← UNA SOLA consulta SQL
+            ActualizarGrilla(_listaCompletaVentas);
+        }
 
+        private void ConfigurarAutoComplete()
+        {
+            _autoCompleteSource = new AutoCompleteStringCollection();
+            var documentos = _listaCompletaVentas
+                .Select(v => v.NumeroDocumento)
+                .Distinct()
+                .ToArray();
+
+            _autoCompleteSource.AddRange(documentos);
+            txtNumeroDocumento.AutoCompleteCustomSource = _autoCompleteSource;
+            txtNumeroDocumento.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            txtNumeroDocumento.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        }
+
+        // -------------------------------------------------------------------------
+        // 2. Filtrado en memoria (sin tocar SQL)
+        // -------------------------------------------------------------------------
+        private void FiltrarVentas(string texto)
+        {
+            if (_listaCompletaVentas == null) return;
+
+            var filtradas = string.IsNullOrWhiteSpace(texto)
+                ? _listaCompletaVentas
+                : _listaCompletaVentas
+                    .Where(v => v.NumeroDocumento.IndexOf(texto, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .ToList();
+
+            ActualizarGrilla(filtradas);
+        }
+
+        private void ActualizarGrilla(List<VentaInfo> ventas)
+        {
+            dgvDetalleVenta.Rows.Clear();
+            foreach (var v in ventas)
+            {
+                dgvDetalleVenta.Rows.Add(
+                    v.FechaRegistro,
+                    v.TipoDocumento,
+                    v.NumeroDocumento,
+                    v.NombreCliente,
+                    v.NombreUsuario,
+                    v.MontoTotal,
+                    v.IdVenta
+                );
+            }
+        }
+
+        // -------------------------------------------------------------------------
+        // 3. Búsqueda exacta por botón (también en memoria)
+        // -------------------------------------------------------------------------
+        private void btnBuscarVenta_Click(object sender, EventArgs e)
+        {
+            string numeroDocumento = txtNumeroDocumento.Text.Trim();
+            if (string.IsNullOrEmpty(numeroDocumento))
+            {
+                MessageBox.Show("Ingrese un número de documento para buscar.", "Aviso",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var venta = _listaCompletaVentas
+                .FirstOrDefault(v => v.NumeroDocumento.Equals(numeroDocumento, StringComparison.OrdinalIgnoreCase));
+
+            if (venta != null)
+                MostrarDetalleDeVenta(venta.IdVenta);
+            else
+                MessageBox.Show("No se encontró ninguna venta con ese número de documento.", "Sin resultados",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        // -------------------------------------------------------------------------
+        // 4. Detalle de venta (consulta SQL solo aquí, una vez por venta)
+        // -------------------------------------------------------------------------
+        private void MostrarDetalleDeVenta(int idVenta)
+        {
+            Venta venta = new CN_Venta().ObtenerPorId(idVenta); // ← Única consulta SQL para detalle
+            if (venta == null)
+            {
+                MessageBox.Show("No se pudieron cargar los detalles de la venta.");
+                return;
+            }
+
+            txtIdVenta.Text = venta.IdVenta.ToString();
+            txtTipoDocumento.Text = venta.TipoDocumento;
+            txtNumeroDocumentoMostrar.Text = venta.NumeroDocumento;
+            txtMontoTotal.Text = venta.MontoTotal.ToString("C2");
+            txtDescuento.Text = venta.DescuentoAplicado.ToString("C2");
+
+            txtCliente.Text = venta.oCliente?.NombreCompleto ?? "Consumidor Final";
+            txtDocumentoCliente.Text = venta.oCliente?.Documento ?? "---";
+
+            ConfigurarGrillaDetalles();
+            var detalles = new CN_Venta().ListarDetallePorVenta(idVenta);
+            dgvDetalleVenta.Rows.Clear();
+            foreach (var d in detalles)
+            {
+                dgvDetalleVenta.Rows.Add(
+                    d.NombreProducto,
+                    d.PrecioVenta,
+                    d.Cantidad,
+                    d.SubTotal
+                );
+            }
+        }
+
+        // -------------------------------------------------------------------------
+        // 5. Resto de métodos (sin cambios importantes)
+        // -------------------------------------------------------------------------
         private void LimpiarCamposDetalle()
         {
-            txtIdVenta.Text = "";
-            txtTipoDocumento.Text = "";
-            txtNumeroDocumentoMostrar.Text = "";
-            txtMontoTotal.Text = "";
-            txtDescuento.Text = "";
-            txtCliente.Text = "";
-            txtDocumentoCliente.Text = "";
+            txtIdVenta.Clear();
+            txtTipoDocumento.Clear();
+            txtNumeroDocumentoMostrar.Clear();
+            txtMontoTotal.Clear();
+            txtDescuento.Clear();
+            txtCliente.Clear();
+            txtDocumentoCliente.Clear();
         }
 
         private void LimpiarCampos()
         {
             txtNumeroDocumento.Clear();
             LimpiarCamposDetalle();
-            ConfigurarGrillaVentas();
-            CargarListaDeVentas();
+            FiltrarVentas(string.Empty);
         }
 
         private void ConfigurarGrillaVentas()
@@ -92,93 +207,18 @@ namespace BeanDesktop
             dgvDetalleVenta.Columns.Add("NombreUsuario", "Vendedor");
             dgvDetalleVenta.Columns.Add("MontoTotal", "Monto Total");
             dgvDetalleVenta.Columns["MontoTotal"].DefaultCellStyle.Format = "C2";
+            dgvDetalleVenta.Columns.Add("IdVenta", "IdVenta"); 
 
-            dgvDetalleVenta.Columns.Add("IdVenta", "IdVenta");
-            dgvDetalleVenta.Columns["IdVenta"].Visible = false;
-
-            DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
-            btnColumn.HeaderText = "Acción";
-            btnColumn.Text = "Generar PDF";
-            btnColumn.UseColumnTextForButtonValue = true;
-            btnColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            var btnColumn = new DataGridViewButtonColumn
+            {
+                HeaderText = "Acción",
+                Text = "Generar PDF",
+                UseColumnTextForButtonValue = true,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            };
             dgvDetalleVenta.Columns.Add(btnColumn);
-
             dgvDetalleVenta.CellClick += DgvDetalleVenta_CellClick;
-        }
-
-        private void CargarListaDeVentas()
-        {
-            _listaCompletaVentas = new CN_Venta().ListarVentas();
-
-            dgvDetalleVenta.Rows.Clear();
-            foreach (var v in _listaCompletaVentas)
-            {
-                dgvDetalleVenta.Rows.Add(new object[]
-                {
-                    v.FechaRegistro,
-                    v.TipoDocumento,
-                    v.NumeroDocumento,
-                    v.NombreCliente,
-                    v.NombreUsuario,
-                    v.MontoTotal,
-                    v.IdVenta
-                });
-            }
-        }
-
-        private void FiltrarVentas(string texto)
-        {
-            if (_listaCompletaVentas == null || _listaCompletaVentas.Count == 0)
-                return;
-
-            texto = texto.ToUpper();
-
-            var filtradas = _listaCompletaVentas
-                .Where(v => v.NumeroDocumento.ToUpper().Contains(texto))
-                .ToList();
-        }
-
-        private void MostrarDetalleDeVenta(string numeroDocumento)
-        {
-            Venta venta = new CN_Venta().ObtenerPorNumeroDocumento(numeroDocumento);
-
-            if (venta == null)
-            {
-                MessageBox.Show("No se pudieron cargar los detalles de la venta.");
-                return;
-            }
-
-            txtIdVenta.Text = venta.IdVenta.ToString();
-            txtTipoDocumento.Text = venta.TipoDocumento;
-            txtNumeroDocumentoMostrar.Text = venta.NumeroDocumento;
-            txtMontoTotal.Text = venta.MontoTotal.ToString("C2");
-            txtDescuento.Text = venta.DescuentoAplicado.ToString("C2");
-
-            if (venta.oCliente != null)
-            {
-                txtCliente.Text = venta.oCliente.NombreCompleto;
-                txtDocumentoCliente.Text = venta.oCliente.Documento;
-            }
-            else
-            {
-                txtCliente.Text = "Consumidor Final";
-                txtDocumentoCliente.Text = "---";
-            }
-
-            ConfigurarGrillaDetalles();
-            List<Detalle_Venta> detalles = new CN_Venta().ListarDetallePorVenta(venta.IdVenta);
-
-            dgvDetalleVenta.Rows.Clear();
-            foreach (var d in detalles)
-            {
-                dgvDetalleVenta.Rows.Add(new object[]
-                {
-                    d.NombreProducto,
-                    d.PrecioVenta,
-                    d.Cantidad,
-                    d.SubTotal
-                });
-            }
+            dgvDetalleVenta.CellDoubleClick += dgvDetalleVenta_CellDoubleClick;
         }
 
         private void ConfigurarGrillaDetalles()
@@ -201,45 +241,19 @@ namespace BeanDesktop
 
         private void dgvDetalleVenta_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex < 0 || !dgvDetalleVenta.Columns.Contains("NumeroDocumento")) return;
 
-            // Solo ejecutar si la grilla tiene la columna "NumeroDocumento"
-            if (!dgvDetalleVenta.Columns.Contains("NumeroDocumento"))
-                return;
-
-            string numDoc = dgvDetalleVenta.Rows[e.RowIndex].Cells["NumeroDocumento"].Value.ToString();
-            MostrarDetalleDeVenta(numDoc);
-        }
-
-
-        private void btnBuscarVenta_Click(object sender, EventArgs e)
-        {
-            string numeroDocumento = txtNumeroDocumento.Text.Trim();
-
-            if (string.IsNullOrEmpty(numeroDocumento))
+            string numDoc = dgvDetalleVenta.Rows[e.RowIndex].Cells["NumeroDocumento"].Value?.ToString();
+            if (!string.IsNullOrEmpty(numDoc))
             {
-                MessageBox.Show("Ingrese un número de documento para buscar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var venta = new CN_Venta().ObtenerPorNumeroDocumento(numeroDocumento);
-
-            if (venta != null)
-            {
-                MostrarDetalleDeVenta(numeroDocumento);
-            }
-            else
-            {
-                MessageBox.Show("No se encontró ninguna venta con ese número de documento.", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var venta = _listaCompletaVentas.FirstOrDefault(v => v.NumeroDocumento == numDoc);
+                if (venta != null) MostrarDetalleDeVenta(venta.IdVenta);
             }
         }
 
         private void DgvDetalleVenta_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Evita clicks en encabezados o el selector de fila
-            if (e.RowIndex < 0 || e.ColumnIndex < 0)
-                return;
-
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
             if (dgvDetalleVenta.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
             {
                 int idVenta = Convert.ToInt32(dgvDetalleVenta.Rows[e.RowIndex].Cells["IdVenta"].Value);
@@ -247,11 +261,7 @@ namespace BeanDesktop
             }
         }
 
-        private void btnLimpiar_Click(object sender, EventArgs e)
-        {
-            LimpiarCampos();
-        }
-
+        private void btnLimpiar_Click(object sender, EventArgs e) => LimpiarCampos();
 
         // ✅ Generar PDF con PdfSharp
         private void GenerarPDFVenta(int idVenta)
