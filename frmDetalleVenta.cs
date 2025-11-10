@@ -278,7 +278,6 @@ namespace BeanDesktop
 
             try
             {
-          
                 string documentosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 string carpetaTickets = Path.Combine(documentosPath, "Tickets");
 
@@ -298,6 +297,7 @@ namespace BeanDesktop
                 XFont fontSection = new XFont("Arial", 13, XFontStyleEx.Bold);
                 XFont fontNormal = new XFont("Arial", 11, XFontStyleEx.Regular);
                 XFont fontFooter = new XFont("Arial", 9, XFontStyleEx.Italic);
+                XFont fontTotal = new XFont("Arial", 12, XFontStyleEx.Bold);
 
                 double marginLeft = 50;
                 double yPoint = 60;
@@ -325,16 +325,14 @@ namespace BeanDesktop
                 yPoint += 25;
 
                 // Información del cliente
-                // Información del cliente
                 string[] infoVenta = {
-                        $"Cliente: {venta.oCliente?.NombreCompleto ?? "Consumidor Final"}",
-                        $"Documento del Cliente: {venta.oCliente?.Documento ?? "---"}",
-                        $"Tipo de Comprobante: {venta.TipoDocumento}",
-                        $"Número de {venta.TipoDocumento}: {venta.IdVenta}",
-                        $"Monto Total: {venta.MontoTotal:C2}",
-                        $"Descuento Aplicado: {venta.DescuentoAplicado:C2}"
-                    };
-
+            $"Cliente: {venta.oCliente?.NombreCompleto ?? "Consumidor Final"}",
+            $"Documento del Cliente: {venta.oCliente?.Documento ?? "---"}",
+            $"Tipo de Comprobante: {venta.TipoDocumento}",
+            $"Número de {venta.TipoDocumento}: {venta.IdVenta}",
+            $"Monto Total: {venta.MontoTotal:C2}",
+            $"Descuento Aplicado: {venta.DescuentoAplicado:C2}"
+        };
 
                 foreach (var info in infoVenta)
                 {
@@ -359,6 +357,8 @@ namespace BeanDesktop
                 yPoint += 25;
 
                 // Filas de productos
+                decimal montoTotalCalculado = 0;
+
                 foreach (var d in detalles)
                 {
                     gfx.DrawString(d.NombreProducto, fontNormal, XBrushes.Black, marginLeft, yPoint);
@@ -367,9 +367,12 @@ namespace BeanDesktop
                     gfx.DrawString(d.SubTotal.ToString("C2"), fontNormal, XBrushes.Black, marginLeft + 420, yPoint);
                     yPoint += 20;
 
+                    montoTotalCalculado += d.SubTotal;
+
                     gfx.DrawLine(XPens.LightGray, marginLeft - 5, yPoint, page.Width - marginLeft + 5, yPoint);
 
-                    if (yPoint > page.Height - 80)
+                    // Salto de página automático
+                    if (yPoint > page.Height - 100)
                     {
                         page = pdf.AddPage();
                         gfx = XGraphics.FromPdfPage(page);
@@ -377,9 +380,18 @@ namespace BeanDesktop
                     }
                 }
 
+                // Línea final de separación
+                yPoint += 20;
+                gfx.DrawLine(new XPen(XColors.DarkGray, 1.2), marginLeft, yPoint, page.Width - marginLeft, yPoint);
+                yPoint += 15;
+
+                // Mostrar el monto total al final
+                gfx.DrawString("TOTAL GENERAL:", fontTotal, XBrushes.Black, marginLeft + 320, yPoint);
+                gfx.DrawString(montoTotalCalculado.ToString("C2"), fontTotal, XBrushes.Black, marginLeft + 420, yPoint);
                 yPoint += 30;
+
+                // Línea decorativa final
                 gfx.DrawLine(new XPen(XColors.DarkGray, 1.5), marginLeft, yPoint, page.Width - marginLeft, yPoint);
-                yPoint += 30;
 
                 // Pie de página
                 gfx.DrawString("Documento generado automáticamente por BeanDesktop", fontFooter, XBrushes.Gray,
@@ -400,6 +412,7 @@ namespace BeanDesktop
                 MessageBox.Show($"Ocurrió un error al generar el PDF:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
     }

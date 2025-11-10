@@ -50,7 +50,7 @@
             label1.Dock = DockStyle.Left;
             label1.Location = new Point(0, 0);
             label1.Name = "label1";
-            label1.Size = new Size(215, 367);
+            label1.Size = new Size(246, 489);
             label1.TabIndex = 0;
             // 
             // label2
@@ -59,9 +59,9 @@
             label2.BackColor = Color.SteelBlue;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(12, 170);
+            label2.Location = new Point(2, 232);
             label2.Name = "label2";
-            label2.Size = new Size(195, 21);
+            label2.Size = new Size(244, 28);
             label2.TabIndex = 1;
             label2.Text = "Sistema de Ventas BEAN";
             // 
@@ -71,36 +71,39 @@
             iconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.Store;
             iconPictureBox1.IconColor = Color.White;
             iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconPictureBox1.IconSize = 117;
-            iconPictureBox1.Location = new Point(51, 54);
+            iconPictureBox1.IconSize = 136;
+            iconPictureBox1.Location = new Point(58, 72);
+            iconPictureBox1.Margin = new Padding(3, 4, 3, 4);
             iconPictureBox1.Name = "iconPictureBox1";
-            iconPictureBox1.Size = new Size(119, 117);
+            iconPictureBox1.Size = new Size(136, 156);
             iconPictureBox1.TabIndex = 2;
             iconPictureBox1.TabStop = false;
             // 
             // txtDocumento
             // 
-            txtDocumento.Location = new Point(281, 103);
+            txtDocumento.Location = new Point(321, 137);
+            txtDocumento.Margin = new Padding(3, 4, 3, 4);
             txtDocumento.Name = "txtDocumento";
-            txtDocumento.Size = new Size(211, 23);
+            txtDocumento.Size = new Size(241, 27);
             txtDocumento.TabIndex = 3;
             txtDocumento.KeyPress += txtDocumento_KeyPress;
             // 
             // txtClave
             // 
-            txtClave.Location = new Point(281, 172);
+            txtClave.Location = new Point(321, 229);
+            txtClave.Margin = new Padding(3, 4, 3, 4);
             txtClave.Name = "txtClave";
             txtClave.PasswordChar = '*';
-            txtClave.Size = new Size(211, 23);
+            txtClave.Size = new Size(241, 27);
             txtClave.TabIndex = 4;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label3.Location = new Point(281, 85);
+            label3.Location = new Point(321, 113);
             label3.Name = "label3";
-            label3.Size = new Size(106, 17);
+            label3.Size = new Size(134, 23);
             label3.TabIndex = 5;
             label3.Text = "Nro Documento";
             // 
@@ -108,9 +111,9 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label4.Location = new Point(281, 154);
+            label4.Location = new Point(321, 205);
             label4.Name = "label4";
-            label4.Size = new Size(77, 17);
+            label4.Size = new Size(97, 23);
             label4.TabIndex = 6;
             label4.Text = "Contraseña";
             // 
@@ -125,9 +128,10 @@
             btnIngresar.IconColor = Color.White;
             btnIngresar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnIngresar.IconSize = 25;
-            btnIngresar.Location = new Point(281, 246);
+            btnIngresar.Location = new Point(321, 328);
+            btnIngresar.Margin = new Padding(3, 4, 3, 4);
             btnIngresar.Name = "btnIngresar";
-            btnIngresar.Size = new Size(89, 32);
+            btnIngresar.Size = new Size(102, 43);
             btnIngresar.TabIndex = 7;
             btnIngresar.Text = "Ingresar";
             btnIngresar.TextAlign = ContentAlignment.MiddleRight;
@@ -146,9 +150,10 @@
             btnCancelar.IconColor = Color.White;
             btnCancelar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnCancelar.IconSize = 25;
-            btnCancelar.Location = new Point(412, 246);
+            btnCancelar.Location = new Point(471, 328);
+            btnCancelar.Margin = new Padding(3, 4, 3, 4);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(89, 32);
+            btnCancelar.Size = new Size(102, 43);
             btnCancelar.TabIndex = 8;
             btnCancelar.Text = "Cancelar";
             btnCancelar.TextAlign = ContentAlignment.MiddleRight;
@@ -159,40 +164,44 @@
             // panel4
             // 
             panel4.BackColor = SystemColors.ButtonShadow;
-            panel4.Location = new Point(281, 246);
+            panel4.Location = new Point(321, 328);
+            panel4.Margin = new Padding(3, 4, 3, 4);
             panel4.Name = "panel4";
-            panel4.Size = new Size(91, 34);
+            panel4.Size = new Size(104, 45);
             panel4.TabIndex = 17;
             // 
             // panel1
             // 
             panel1.BackColor = SystemColors.ButtonShadow;
-            panel1.Location = new Point(412, 246);
+            panel1.Location = new Point(471, 328);
+            panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(91, 34);
+            panel1.Size = new Size(104, 45);
             panel1.TabIndex = 18;
             // 
             // panel2
             // 
             panel2.BackColor = SystemColors.ButtonShadow;
-            panel2.Location = new Point(281, 103);
+            panel2.Location = new Point(321, 137);
+            panel2.Margin = new Padding(3, 4, 3, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(213, 25);
+            panel2.Size = new Size(243, 33);
             panel2.TabIndex = 19;
             // 
             // panel3
             // 
             panel3.BackColor = SystemColors.ButtonShadow;
-            panel3.Location = new Point(281, 172);
+            panel3.Location = new Point(321, 229);
+            panel3.Margin = new Padding(3, 4, 3, 4);
             panel3.Name = "panel3";
-            panel3.Size = new Size(213, 25);
+            panel3.Size = new Size(243, 33);
             panel3.TabIndex = 20;
             // 
             // Login
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(561, 367);
+            ClientSize = new Size(641, 489);
             Controls.Add(btnCancelar);
             Controls.Add(btnIngresar);
             Controls.Add(label4);
@@ -207,6 +216,7 @@
             Controls.Add(panel2);
             Controls.Add(panel3);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Login";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";

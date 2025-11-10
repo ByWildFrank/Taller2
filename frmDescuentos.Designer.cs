@@ -51,9 +51,11 @@
             // 
             dgvSegmentos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSegmentos.Columns.AddRange(new DataGridViewColumn[] { Segmento, DescuentoPorcent });
-            dgvSegmentos.Location = new Point(91, 233);
+            dgvSegmentos.Location = new Point(104, 311);
+            dgvSegmentos.Margin = new Padding(3, 4, 3, 4);
             dgvSegmentos.Name = "dgvSegmentos";
-            dgvSegmentos.Size = new Size(498, 418);
+            dgvSegmentos.RowHeadersWidth = 51;
+            dgvSegmentos.Size = new Size(569, 557);
             dgvSegmentos.TabIndex = 0;
             dgvSegmentos.CellClick += dgvSegmentos_CellClick;
             // 
@@ -70,6 +72,7 @@
             // 
             DescuentoPorcent.DataPropertyName = "DescuentoPorcent";
             DescuentoPorcent.HeaderText = "Descuento (%)";
+            DescuentoPorcent.MinimumWidth = 6;
             DescuentoPorcent.Name = "DescuentoPorcent";
             DescuentoPorcent.ReadOnly = true;
             DescuentoPorcent.Width = 180;
@@ -78,17 +81,19 @@
             // 
             txtSegmento.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtSegmento.Location = new Point(0, -1);
+            txtSegmento.Margin = new Padding(3, 4, 3, 4);
             txtSegmento.Name = "txtSegmento";
             txtSegmento.ReadOnly = true;
-            txtSegmento.Size = new Size(211, 29);
+            txtSegmento.Size = new Size(241, 34);
             txtSegmento.TabIndex = 1;
             // 
             // numDescuento
             // 
             numDescuento.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             numDescuento.Location = new Point(0, 0);
+            numDescuento.Margin = new Padding(3, 4, 3, 4);
             numDescuento.Name = "numDescuento";
-            numDescuento.Size = new Size(120, 29);
+            numDescuento.Size = new Size(137, 34);
             numDescuento.TabIndex = 2;
             // 
             // btnGuardar
@@ -97,9 +102,10 @@
             btnGuardar.IconColor = Color.Black;
             btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnGuardar.IconSize = 30;
-            btnGuardar.Location = new Point(478, 156);
+            btnGuardar.Location = new Point(546, 208);
+            btnGuardar.Margin = new Padding(3, 4, 3, 4);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(111, 36);
+            btnGuardar.Size = new Size(127, 48);
             btnGuardar.TabIndex = 3;
             btnGuardar.Text = "Guardar";
             btnGuardar.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -110,9 +116,9 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(91, 63);
+            label1.Location = new Point(104, 84);
             label1.Name = "label1";
-            label1.Size = new Size(441, 32);
+            label1.Size = new Size(542, 41);
             label1.TabIndex = 4;
             label1.Text = "Editar Descuentos a Tipos de Clientes";
             // 
@@ -120,9 +126,9 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label2.Location = new Point(91, 140);
+            label2.Location = new Point(104, 187);
             label2.Name = "label2";
-            label2.Size = new Size(73, 17);
+            label2.Size = new Size(92, 23);
             label2.TabIndex = 5;
             label2.Text = "Segmento:";
             // 
@@ -130,51 +136,55 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label3.Location = new Point(328, 140);
+            label3.Location = new Point(375, 187);
             label3.Name = "label3";
-            label3.Size = new Size(114, 17);
+            label3.Size = new Size(144, 23);
             label3.TabIndex = 6;
             label3.Text = "Editar Descuento:";
             // 
             // panel3
             // 
             panel3.BackColor = SystemColors.ButtonShadow;
-            panel3.Location = new Point(478, 156);
+            panel3.Location = new Point(546, 208);
+            panel3.Margin = new Padding(3, 4, 3, 4);
             panel3.Name = "panel3";
-            panel3.Size = new Size(113, 38);
+            panel3.Size = new Size(129, 51);
             panel3.TabIndex = 14;
             // 
             // panel1
             // 
             panel1.BackColor = SystemColors.ButtonShadow;
             panel1.Controls.Add(txtSegmento);
-            panel1.Location = new Point(91, 160);
+            panel1.Location = new Point(104, 213);
+            panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(213, 31);
+            panel1.Size = new Size(243, 41);
             panel1.TabIndex = 15;
             // 
             // panel2
             // 
             panel2.BackColor = SystemColors.ButtonShadow;
             panel2.Controls.Add(numDescuento);
-            panel2.Location = new Point(328, 160);
+            panel2.Location = new Point(375, 213);
+            panel2.Margin = new Padding(3, 4, 3, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(122, 31);
+            panel2.Size = new Size(139, 41);
             panel2.TabIndex = 16;
             // 
             // panel4
             // 
             panel4.BackColor = SystemColors.ButtonShadow;
-            panel4.Location = new Point(85, 58);
+            panel4.Location = new Point(97, 77);
+            panel4.Margin = new Padding(3, 4, 3, 4);
             panel4.Name = "panel4";
-            panel4.Size = new Size(451, 47);
+            panel4.Size = new Size(549, 63);
             panel4.TabIndex = 16;
             // 
             // frmDescuentos
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1134, 761);
+            ClientSize = new Size(1296, 1015);
             Controls.Add(label1);
             Controls.Add(panel4);
             Controls.Add(label3);
@@ -184,6 +194,7 @@
             Controls.Add(panel3);
             Controls.Add(panel1);
             Controls.Add(panel2);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "frmDescuentos";
             Text = "frmDescuentos";
             Load += frmDescuentos_Load;
