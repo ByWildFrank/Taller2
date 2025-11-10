@@ -298,7 +298,31 @@ namespace CapaDeDatos
 
             return venta;
         }
+        public string ObtenerUltimoNumeroDocumento(string tipoDocumento)
+        {
+            string ultimoNumero = null;
+            try
+            {
+                using (SqlConnection cn = Conexion.GetConnection())
+                {
+                    string query = "SELECT TOP 1 NumeroDocumento FROM VENTA " +
+                                   "WHERE TipoDocumento = @TipoDocumento " +
+                                   "ORDER BY IdVenta DESC";
 
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@TipoDocumento", tipoDocumento);
+                    cn.Open();
+
+                    object result = cmd.ExecuteScalar();
+                    if (result != null)
+                    {
+                        ultimoNumero = result.ToString();
+                    }
+                }
+            }
+            catch { ultimoNumero = null; }
+            return ultimoNumero;
+        }
 
     }
 }

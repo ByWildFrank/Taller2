@@ -337,12 +337,16 @@ namespace BeanDesktop
             decimal montoCambio = montoPago - montoTotal;
             if (montoCambio < 0) { MessageBox.Show("El pago es insuficiente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
+            CN_Venta objVentaCN = new CN_Venta();
+
+            string tipoDoc = ((OpcionCombo)cboTipoDocumento.SelectedItem)?.Texto ?? "Boleta";
+            string nuevoNumeroDoc = objVentaCN.GenerarSiguienteNumeroDocumento(tipoDoc);
+
             Venta objVenta = new Venta()
             {
                 IdUsuario = usuarioLogueado.IdUsuario,
                 TipoDocumento = ((OpcionCombo)cboTipoDocumento.SelectedItem)?.Texto ?? "Boleta",
-                NumeroDocumento = txtDocumentoCliente.Text.Trim(),
-                IdCliente = idClienteSeleccionado,
+                NumeroDocumento = nuevoNumeroDoc, // <-- Usamos el número generado                IdCliente = idClienteSeleccionado,
                 MontoPago = montoPago,
                 MontoCambio = montoCambio,
                 MontoTotal = montoTotal,
@@ -355,7 +359,7 @@ namespace BeanDesktop
                 dtDetalleParaSQL.Columns.Remove("NombreProducto");
 
             string mensaje = string.Empty;
-            CN_Venta objVentaCN = new CN_Venta();
+            
 
             int idVentaGenerada = objVentaCN.Registrar(objVenta, dtDetalleParaSQL, out mensaje);
 

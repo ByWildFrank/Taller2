@@ -46,5 +46,28 @@ namespace BeanDesktop.CapaDeNegocio
             if (idVenta <= 0) return null;
             return objCD.ObtenerPorId(idVenta);
         }
+        public string GenerarSiguienteNumeroDocumento(string tipoDocumento)
+        {
+            string ultimoNumero = objCD.ObtenerUltimoNumeroDocumento(tipoDocumento);
+            string prefijo = (tipoDocumento == "Boleta") ? "B001-" : "F001-";
+            int nuevoCorrelativo = 1;
+
+            if (!string.IsNullOrEmpty(ultimoNumero))
+            {
+                try
+                {
+                    // Intentamos extraer el número (ej: de "B001-0015" extrae 15)
+                    int ultimoCorrelativo = int.Parse(ultimoNumero.Split('-')[1]);
+                    nuevoCorrelativo = ultimoCorrelativo + 1;
+                }
+                catch
+                {
+                    nuevoCorrelativo = 1; // Si falla el parseo, resetea
+                }
+            }
+
+            // Formatea el nuevo número con 4 dígitos (ej: 16 -> "0016")
+            return prefijo + nuevoCorrelativo.ToString("D4");
+        }
     }
 }

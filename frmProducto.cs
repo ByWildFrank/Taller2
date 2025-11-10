@@ -49,11 +49,14 @@ namespace BeanDesktop
             txtBusqueda.TextChanged += TxtBusqueda_TextChanged;
             cmbCategoriaBusqueda.SelectedIndexChanged += CmbCategoriaBusqueda_SelectedIndexChanged;
 
-            // Conectar botón de añadir stock
+            // Conectar botones
             btnAnadirStock.Click += btnAnadirStock_Click;
-
-            // Conectar botón limpiar
             btnLimpiar.Click += btnLimpiar_Click;
+            btnGuardar.Click += btnGuardar_Click;
+            btnEliminar.Click += btnEliminar_Click;
+
+            // Conectar clic de la grilla
+            dgvProductos.CellClick += dgvProductos_CellClick;
 
             Limpiar(); // Establece el estado inicial
         }
@@ -69,12 +72,12 @@ namespace BeanDesktop
             CN_Categoria cnCategoria = new CN_Categoria();
             var categorias = cnCategoria.Listar().Where(c => c.Estado).ToList();
 
-            // ✅ CORRECCIÓN: Asigna la lista de categorías (sin "Todas") al combo de edición
+            //  Asigna la lista de categorías (sin "Todas") al combo de edición
             cmbCategoria.DataSource = new List<Categoria>(categorias);
             cmbCategoria.DisplayMember = "Descripcion";
             cmbCategoria.ValueMember = "IdCategoria";
 
-            // ✅ CORRECCIÓN: Crea una nueva lista con "Todas" para el combo de búsqueda
+            //  Crea una nueva lista con "Todas" para el combo de búsqueda
             var categoriasBusqueda = new List<Categoria>(categorias);
             categoriasBusqueda.Insert(0, new Categoria { IdCategoria = 0, Descripcion = "Todas" });
             cmbCategoriaBusqueda.DataSource = categoriasBusqueda;
@@ -111,7 +114,9 @@ namespace BeanDesktop
                 int.TryParse(cmbCategoriaBusqueda.SelectedValue.ToString(), out idCategoria);
 
             if (idCategoria > 0)
-                listaFiltrada = listaFiltrada.Where(p => p.oCategoria.IdCategoria == idCategoria);
+            {
+                listaFiltrada = listaFiltrada.Where(p => p.oCategoria != null && p.oCategoria.IdCategoria == idCategoria);
+            }
 
             string textoBusqueda = txtBusqueda.Text.Trim().ToUpper();
             string columnaFiltro = ((OpcionCombo)cboBusqueda.SelectedItem).Valor.ToString();

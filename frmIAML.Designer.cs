@@ -33,16 +33,17 @@
             btnSegmentar = new FontAwesome.Sharp.IconButton();
             btnDescargarCsv = new FontAwesome.Sharp.IconButton();
             dgvResultados = new DataGridView();
+            IdCliente = new DataGridViewTextBoxColumn();
+            NombreCompleto = new DataGridViewTextBoxColumn();
+            FrecuenciaDeCompra = new DataGridViewTextBoxColumn();
+            Segmento = new DataGridViewTextBoxColumn();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             pltGraficoClusters = new OxyPlot.WindowsForms.PlotView();
             numClusters = new NumericUpDown();
             lblStatusML = new Label();
             txtInsights = new TextBox();
-            IdCliente = new DataGridViewTextBoxColumn();
-            NombreCompleto = new DataGridViewTextBoxColumn();
-            FrecuenciaDeCompra = new DataGridViewTextBoxColumn();
-            Segmento = new DataGridViewTextBoxColumn();
             panel1 = new Panel();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvResultados).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numClusters).BeginInit();
             panel1.SuspendLayout();
@@ -53,7 +54,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ActiveCaptionText;
-            label1.Location = new Point(674, 24);
+            label1.Location = new Point(692, 26);
             label1.Name = "label1";
             label1.Size = new Size(259, 30);
             label1.TabIndex = 2;
@@ -109,6 +110,26 @@
             dgvResultados.Size = new Size(1110, 208);
             dgvResultados.TabIndex = 15;
             // 
+            // IdCliente
+            // 
+            IdCliente.HeaderText = "Id Cliente";
+            IdCliente.Name = "IdCliente";
+            // 
+            // NombreCompleto
+            // 
+            NombreCompleto.HeaderText = "Nombre";
+            NombreCompleto.Name = "NombreCompleto";
+            // 
+            // FrecuenciaDeCompra
+            // 
+            FrecuenciaDeCompra.HeaderText = "Frecuencia";
+            FrecuenciaDeCompra.Name = "FrecuenciaDeCompra";
+            // 
+            // Segmento
+            // 
+            Segmento.HeaderText = "Segmento";
+            Segmento.Name = "Segmento";
+            // 
             // sqlCommand1
             // 
             sqlCommand1.CommandTimeout = 30;
@@ -130,9 +151,9 @@
             // 
             numClusters.Location = new Point(169, 82);
             numClusters.Name = "numClusters";
-            numClusters.Size = new Size(66, 23);
+            numClusters.Size = new Size(76, 23);
             numClusters.TabIndex = 21;
-            numClusters.Value = new decimal(new int[] { 2, 0, 0, 0 });
+            numClusters.Value = new decimal(new int[] { 4, 0, 0, 0 });
             // 
             // lblStatusML
             // 
@@ -153,26 +174,6 @@
             txtInsights.Size = new Size(434, 308);
             txtInsights.TabIndex = 23;
             // 
-            // IdCliente
-            // 
-            IdCliente.HeaderText = "Id Cliente";
-            IdCliente.Name = "IdCliente";
-            // 
-            // NombreCompleto
-            // 
-            NombreCompleto.HeaderText = "Nombre";
-            NombreCompleto.Name = "NombreCompleto";
-            // 
-            // FrecuenciaDeCompra
-            // 
-            FrecuenciaDeCompra.HeaderText = "Frecuencia";
-            FrecuenciaDeCompra.Name = "FrecuenciaDeCompra";
-            // 
-            // Segmento
-            // 
-            Segmento.HeaderText = "Segmento";
-            Segmento.Name = "Segmento";
-            // 
             // panel1
             // 
             panel1.BackColor = SystemColors.ButtonShadow;
@@ -182,12 +183,22 @@
             panel1.Size = new Size(125, 40);
             panel1.TabIndex = 24;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(169, 64);
+            label2.Name = "label2";
+            label2.Size = new Size(275, 15);
+            label2.TabIndex = 25;
+            label2.Text = "Selecciona el nro de clusters y presiona Segmentar:\r\n";
+            // 
             // frmIAML
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightGray;
             ClientSize = new Size(1134, 761);
+            Controls.Add(label2);
             Controls.Add(txtInsights);
             Controls.Add(lblStatusML);
             Controls.Add(numClusters);
@@ -224,5 +235,6 @@
         private DataGridViewTextBoxColumn FrecuenciaDeCompra;
         private DataGridViewTextBoxColumn Segmento;
         private Panel panel1;
+        private Label label2;
     }
 }
