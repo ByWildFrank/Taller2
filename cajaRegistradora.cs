@@ -20,6 +20,7 @@ namespace BeanDesktop
         private int idClienteSeleccionado = 0;
         private Usuario usuarioLogueado;
         private decimal _descuentoPorcentajeCliente = 0;
+        private List<Cliente> _listaClientesActivos;
 
         // Guardamos la lista completa de productos para filtrar en memoria
         private List<Producto> _listaProductosCompleta;
@@ -62,6 +63,9 @@ namespace BeanDesktop
             cboTipoDocumento.ValueMember = "Valor";
             cboTipoDocumento.SelectedIndex = 0;
 
+
+            _listaClientesActivos = new CN_Cliente().ListarActivos();
+
             CargarSugerenciasClientes();
             CargarProductos(); // Carga la lista _listaProductosCompleta
 
@@ -86,10 +90,8 @@ namespace BeanDesktop
 
         private void CargarSugerenciasClientes()
         {
-            List<Cliente> listaClientes = new CN_Cliente().ListarActivos();
             var autoCompleteCollection = new AutoCompleteStringCollection();
-
-            foreach (var cliente in listaClientes)
+            foreach (var cliente in _listaClientesActivos)
             {
                 autoCompleteCollection.Add($"{cliente.Documento} - {cliente.NombreCompleto}");
             }
@@ -286,16 +288,14 @@ namespace BeanDesktop
             }
 
             string documentoBusqueda = textoBusqueda.Split(' ')[0];
-            CN_Cliente objCliente = new CN_Cliente();
+            
             Cliente clienteEncontrado = null;
 
-            clienteEncontrado = objCliente.ListarActivos()
-                .FirstOrDefault(c => c.Documento.Equals(documentoBusqueda, StringComparison.OrdinalIgnoreCase));
+            clienteEncontrado = _listaClientesActivos.FirstOrDefault(c => c.Documento.Equals(documentoBusqueda, StringComparison.OrdinalIgnoreCase));
 
             if (clienteEncontrado == null)
             {
-                clienteEncontrado = objCliente.ListarActivos()
-                    .FirstOrDefault(c => c.NombreCompleto.Equals(textoBusqueda, StringComparison.OrdinalIgnoreCase));
+                clienteEncontrado = _listaClientesActivos.FirstOrDefault(c => c.NombreCompleto.Equals(textoBusqueda, StringComparison.OrdinalIgnoreCase));
             }
 
             if (clienteEncontrado != null)
@@ -346,7 +346,7 @@ namespace BeanDesktop
             {
                 IdUsuario = usuarioLogueado.IdUsuario,
                 TipoDocumento = ((OpcionCombo)cboTipoDocumento.SelectedItem)?.Texto ?? "Boleta",
-                NumeroDocumento = nuevoNumeroDoc, // <-- Usamos el número generado                IdCliente = idClienteSeleccionado,
+                NumeroDocumento = nuevoNumeroDoc, // <-- Usamos el número generado
                 MontoPago = montoPago,
                 MontoCambio = montoCambio,
                 MontoTotal = montoTotal,
