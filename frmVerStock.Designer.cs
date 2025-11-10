@@ -28,6 +28,7 @@
             lblCategoria = new Label();
             lblBuscar = new Label();
             chkOrdenarPorStock = new CheckBox();
+            exportarExelButton = new FontAwesome.Sharp.IconButton();
             ((System.ComponentModel.ISupportInitialize)dgvStock).BeginInit();
             SuspendLayout();
             // 
@@ -44,14 +45,14 @@
             dgvStock.ReadOnly = true;
             dgvStock.RowHeadersWidth = 51;
             dgvStock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvStock.Size = new Size(1003, 523);
+            dgvStock.Size = new Size(1110, 680);
             dgvStock.TabIndex = 0;
             // 
             // cmbCategoria
             // 
             cmbCategoria.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCategoria.FormattingEnabled = true;
-            cmbCategoria.Location = new Point(133, 21);
+            cmbCategoria.Location = new Point(103, 23);
             cmbCategoria.Name = "cmbCategoria";
             cmbCategoria.Size = new Size(180, 23);
             cmbCategoria.TabIndex = 1;
@@ -59,14 +60,14 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(377, 22);
+            txtBuscar.Location = new Point(347, 24);
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(180, 23);
             txtBuscar.TabIndex = 2;
             // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(577, 21);
+            btnBuscar.Location = new Point(547, 23);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(75, 25);
             btnBuscar.TabIndex = 3;
@@ -77,7 +78,7 @@
             // lblCategoria
             // 
             lblCategoria.AutoSize = true;
-            lblCategoria.Location = new Point(60, 25);
+            lblCategoria.Location = new Point(30, 27);
             lblCategoria.Name = "lblCategoria";
             lblCategoria.Size = new Size(61, 15);
             lblCategoria.TabIndex = 4;
@@ -86,7 +87,7 @@
             // lblBuscar
             // 
             lblBuscar.AutoSize = true;
-            lblBuscar.Location = new Point(317, 25);
+            lblBuscar.Location = new Point(287, 27);
             lblBuscar.Name = "lblBuscar";
             lblBuscar.Size = new Size(54, 15);
             lblBuscar.TabIndex = 5;
@@ -96,7 +97,7 @@
             // 
             chkOrdenarPorStock.AutoSize = true;
             chkOrdenarPorStock.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            chkOrdenarPorStock.Location = new Point(730, 25);
+            chkOrdenarPorStock.Location = new Point(637, 26);
             chkOrdenarPorStock.Name = "chkOrdenarPorStock";
             chkOrdenarPorStock.Size = new Size(285, 21);
             chkOrdenarPorStock.TabIndex = 6;
@@ -104,12 +105,28 @@
             chkOrdenarPorStock.UseVisualStyleBackColor = true;
             chkOrdenarPorStock.CheckedChanged += chkOrdenarPorStock_CheckedChanged;
             // 
+            // exportarExelButton
+            // 
+            exportarExelButton.IconChar = FontAwesome.Sharp.IconChar.FileArrowDown;
+            exportarExelButton.IconColor = Color.Green;
+            exportarExelButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            exportarExelButton.IconSize = 35;
+            exportarExelButton.Location = new Point(958, 15);
+            exportarExelButton.Name = "exportarExelButton";
+            exportarExelButton.Size = new Size(141, 40);
+            exportarExelButton.TabIndex = 9;
+            exportarExelButton.Text = "Exportar en Exel";
+            exportarExelButton.TextImageRelation = TextImageRelation.ImageBeforeText;
+            exportarExelButton.UseVisualStyleBackColor = true;
+            exportarExelButton.Click += exportarExelButton_Click;
+            // 
             // frmVerStock
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
-            ClientSize = new Size(1027, 604);
+            ClientSize = new Size(1134, 761);
+            Controls.Add(exportarExelButton);
             Controls.Add(chkOrdenarPorStock);
             Controls.Add(lblBuscar);
             Controls.Add(lblCategoria);
@@ -126,5 +143,6 @@
         }
 
         private CheckBox chkOrdenarPorStock;
+        private FontAwesome.Sharp.IconButton exportarExelButton;
     }
 }
