@@ -13,28 +13,39 @@ namespace CapaDeDatos
         public List<Cliente> Listar()
         {
             List<Cliente> lista = new List<Cliente>();
-
             using (SqlConnection cn = Conexion.GetConnection())
             {
-                string query = "SELECT IdCliente, Documento, NombreCompleto, Correo, Telefono, Estado, FechaRegistro FROM Cliente";
+                // ✅ CAMBIO: Hacemos JOIN con la nueva tabla SEGMENTO_CONFIG
+                string query = @"
+            SELECT 
+                c.IdCliente, c.Documento, c.NombreCompleto, c.Correo, 
+                c.Telefono, c.Estado, c.FechaRegistro,
+                ISNULL(cs.Segmento, 'Sin Datos') AS Segmento, 
+                ISNULL(sc.DescuentoPorcent, 0) AS DescuentoPorcent
+            FROM CLIENTE c
+            LEFT JOIN CLIENTE_SEGMENTO cs ON c.IdCliente = cs.IdCliente
+            LEFT JOIN SEGMENTO_CONFIG sc ON cs.Segmento = sc.Segmento";
+
                 SqlCommand cmd = new SqlCommand(query, cn);
-                cmd.CommandType = CommandType.Text;
-
                 cn.Open();
-                SqlDataReader dr = cmd.ExecuteReader();
 
-                while (dr.Read())
+                using (SqlDataReader dr = cmd.ExecuteReader())
                 {
-                    lista.Add(new Cliente()
+                    while (dr.Read())
                     {
-                        IdCliente = Convert.ToInt32(dr["IdCliente"]),
-                        Documento = dr["Documento"].ToString(),
-                        NombreCompleto = dr["NombreCompleto"].ToString(),
-                        Correo = dr["Correo"].ToString(),
-                        Telefono = dr["Telefono"].ToString(),
-                        Estado = Convert.ToBoolean(dr["Estado"]),
-                        FechaRegistro = dr["FechaRegistro"].ToString()
-                    });
+                        lista.Add(new Cliente()
+                        {
+                            IdCliente = Convert.ToInt32(dr["IdCliente"]),
+                            Documento = dr["Documento"].ToString(),
+                            NombreCompleto = dr["NombreCompleto"].ToString(),
+                            Correo = dr["Correo"].ToString(),
+                            Telefono = dr["Telefono"].ToString(),
+                            Estado = Convert.ToBoolean(dr["Estado"]),
+                            // ✅ Llenamos las propiedades (tu clase Cliente ya las tiene)
+                            Segmento = dr["Segmento"].ToString(),
+                            DescuentoPorcent = Convert.ToDecimal(dr["DescuentoPorcent"])
+                        });
+                    }
                 }
             }
             return lista;

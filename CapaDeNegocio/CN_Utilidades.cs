@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,6 +84,25 @@ namespace BeanDesktop.CapaDeNegocio
             {
                 return $"-- ERROR AL GENERAR SCRIPT: \n-- {ex.Message}";
             }
+        }
+        public DataTable ListarSegmentosConfig()
+        {
+            return objCD_Utilidades.ListarSegmentosConfig(); // Asumiendo que objCD_Utilidades está instanciado
+        }
+
+        public bool ActualizarSegmentoConfig(string segmento, decimal descuento, out string mensaje) // ✅ CAMBIO: Añadir out string mensaje
+        {
+            mensaje = string.Empty; // Inicializamos
+
+            // Tu regla de negocio (la cambié a 100% por si acaso)
+            if (descuento < 0 || descuento > 100)
+            {
+                mensaje = "El descuento debe ser un porcentaje entre 0 y 100.";
+                return false;
+            }
+
+            // ✅ CAMBIO: Pasamos la variable 'mensaje' a la capa de datos
+            return objCD_Utilidades.ActualizarSegmentoConfig(segmento, descuento, out mensaje);
         }
     }
 }

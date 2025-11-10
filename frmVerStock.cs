@@ -25,20 +25,16 @@ namespace BeanDesktop
 
             CargarComboCategorias();
 
-            // ✅ PASO 2: Cargamos la lista de productos UNA SOLA VEZ
             _listaCompletaProductos = CN_Producto.Listar();
 
-            // ✅ PASO 3: Cargamos las sugerencias de autocompletado
             CargarSugerenciasBusqueda();
 
-            // ✅ PASO 4: Conectamos el evento TextChanged para el filtro en tiempo real
             txtBuscar.TextChanged += TxtBuscar_TextChanged;
 
-            // Cargamos la grilla por primera vez (mostrará todo)
             ListarStock();
+
         }
 
-        // ✅ NUEVO MÉTODO: Carga las sugerencias en el TextBox
         private void CargarSugerenciasBusqueda()
         {
             var autoCompleteCollection = new AutoCompleteStringCollection();
@@ -46,10 +42,9 @@ namespace BeanDesktop
             {
                 foreach (var producto in _listaCompletaProductos)
                 {
-                    // Añadimos el nombre y el código a las sugerencias
                     if (producto.Nombre != null)
                         autoCompleteCollection.Add(producto.Nombre);
-                    if (producto.codigo != null) // Usamos 'codigo' minúscula como en tu clase
+                    if (producto.codigo != null)
                         autoCompleteCollection.Add(producto.codigo);
                 }
             }
@@ -59,7 +54,6 @@ namespace BeanDesktop
             txtBuscar.AutoCompleteCustomSource = autoCompleteCollection;
         }
 
-        // ✅ NUEVO MÉTODO: El evento que se dispara al escribir en el TextBox
         private void TxtBuscar_TextChanged(object sender, EventArgs e)
         {
             ListarStock();
@@ -78,16 +72,12 @@ namespace BeanDesktop
 
         }
 
-        // ✅ MÉTODO MODIFICADO: Ahora filtra la lista en memoria, no consulta la BD
         private void ListarStock()
         {
-            // Si la lista no está cargada, no hace nada.
             if (_listaCompletaProductos == null) return;
 
-            // Empezamos con la lista completa
             IEnumerable<Producto> listaFiltrada = _listaCompletaProductos;
 
-            // Filtrar por categoría
             int categoriaId = 0;
             int.TryParse(cmbCategoria.SelectedValue?.ToString(), out categoriaId);
 
@@ -103,6 +93,15 @@ namespace BeanDesktop
                     (p.codigo != null && p.codigo.ToUpper().Contains(textoBusqueda)) // Usamos 'codigo' minúscula
                 );
             }
+            // NUEVA LÓGICA DE ORDENAMIENTO
+            if (chkOrdenarPorStock.Checked)
+            {
+                listaFiltrada = listaFiltrada.OrderBy(p => p.stock);
+            }
+            else
+            {
+                listaFiltrada = listaFiltrada.OrderBy(p => p.Nombre);
+            }
 
             // Cargar DataGridView
             dgvStock.DataSource = null; // Forzar refresco
@@ -117,15 +116,19 @@ namespace BeanDesktop
             }).ToList();
         }
 
-        // ✅ MÉTODO MODIFICADO: Ahora solo llama a ListarStock
         private void cmbCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListarStock();
         }
 
-         private void btnBuscar_Click(object sender, EventArgs e)
+        private void btnBuscar_Click(object sender, EventArgs e)
         {
-             ListarStock();
-         }
+            ListarStock();
+        }
+
+        private void chkOrdenarPorStock_CheckedChanged(object sender, EventArgs e)
+        {
+            ListarStock();
+        }
     }
 }

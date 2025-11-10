@@ -27,6 +27,7 @@
             btnBuscar = new Button();
             lblCategoria = new Label();
             lblBuscar = new Label();
+            chkOrdenarPorStock = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)dgvStock).BeginInit();
             SuspendLayout();
             // 
@@ -50,7 +51,7 @@
             // 
             cmbCategoria.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCategoria.FormattingEnabled = true;
-            cmbCategoria.Location = new Point(136, 14);
+            cmbCategoria.Location = new Point(133, 21);
             cmbCategoria.Name = "cmbCategoria";
             cmbCategoria.Size = new Size(180, 23);
             cmbCategoria.TabIndex = 1;
@@ -58,14 +59,14 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(380, 15);
+            txtBuscar.Location = new Point(377, 22);
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(180, 23);
             txtBuscar.TabIndex = 2;
             // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(580, 14);
+            btnBuscar.Location = new Point(577, 21);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(75, 25);
             btnBuscar.TabIndex = 3;
@@ -76,7 +77,7 @@
             // lblCategoria
             // 
             lblCategoria.AutoSize = true;
-            lblCategoria.Location = new Point(63, 18);
+            lblCategoria.Location = new Point(60, 25);
             lblCategoria.Name = "lblCategoria";
             lblCategoria.Size = new Size(61, 15);
             lblCategoria.TabIndex = 4;
@@ -85,11 +86,23 @@
             // lblBuscar
             // 
             lblBuscar.AutoSize = true;
-            lblBuscar.Location = new Point(320, 18);
+            lblBuscar.Location = new Point(317, 25);
             lblBuscar.Name = "lblBuscar";
             lblBuscar.Size = new Size(54, 15);
             lblBuscar.TabIndex = 5;
             lblBuscar.Text = "Nombre:";
+            // 
+            // chkOrdenarPorStock
+            // 
+            chkOrdenarPorStock.AutoSize = true;
+            chkOrdenarPorStock.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chkOrdenarPorStock.Location = new Point(730, 25);
+            chkOrdenarPorStock.Name = "chkOrdenarPorStock";
+            chkOrdenarPorStock.Size = new Size(285, 21);
+            chkOrdenarPorStock.TabIndex = 6;
+            chkOrdenarPorStock.Text = "Mostrar productos con bajo stock primero";
+            chkOrdenarPorStock.UseVisualStyleBackColor = true;
+            chkOrdenarPorStock.CheckedChanged += chkOrdenarPorStock_CheckedChanged;
             // 
             // frmVerStock
             // 
@@ -97,6 +110,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
             ClientSize = new Size(1027, 604);
+            Controls.Add(chkOrdenarPorStock);
             Controls.Add(lblBuscar);
             Controls.Add(lblCategoria);
             Controls.Add(btnBuscar);
@@ -110,5 +124,7 @@
             ResumeLayout(false);
             PerformLayout();
         }
+
+        private CheckBox chkOrdenarPorStock;
     }
 }

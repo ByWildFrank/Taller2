@@ -63,8 +63,9 @@
             dtpInicio.Name = "dtpInicio";
             dtpInicio.Size = new Size(156, 27);
             dtpInicio.TabIndex = 0;
-            if (!enDiseño)
+          
                 dtpInicio.ValueChanged += dtpInicio_ValueChanged;
+   
 
             // dtpFin
             dtpFin.CustomFormat = "dd/MM/yyyy";
@@ -74,9 +75,9 @@
             dtpFin.Name = "dtpFin";
             dtpFin.Size = new Size(156, 27);
             dtpFin.TabIndex = 1;
-            if (!enDiseño)
+            
                 dtpFin.ValueChanged += dtpFin_ValueChanged;
-
+     
             // color
             color.BackColor = Color.WhiteSmoke;
             color.ForeColor = Color.WhiteSmoke;
@@ -151,9 +152,9 @@
             exportarExelButton.Text = "Exportar en Exel";
             exportarExelButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             exportarExelButton.UseVisualStyleBackColor = true;
-            if (!enDiseño)
+            
                 exportarExelButton.Click += exportarExelButton_Click;
-
+          
             // label5
             label5.AutoSize = true;
             label5.BackColor = Color.WhiteSmoke;
@@ -186,8 +187,9 @@
             btnLimpiarBuscador.Size = new Size(48, 31);
             btnLimpiarBuscador.TabIndex = 28;
             btnLimpiarBuscador.UseVisualStyleBackColor = false;
-            if (!enDiseño)
-                btnLimpiarBuscador.Click += btnLimpiarBuscador_Click;
+            
+            btnLimpiarBuscador.Click += btnLimpiarBuscador_Click;
+ 
 
             // btnBuscar
             btnBuscar.BackColor = Color.LightCyan;
@@ -204,16 +206,16 @@
             btnBuscar.Size = new Size(48, 31);
             btnBuscar.TabIndex = 27;
             btnBuscar.UseVisualStyleBackColor = false;
-            if (!enDiseño)
-                btnBuscar.Click += btnBuscar_Click;
+            
+            btnBuscar.Click += btnBuscar_Click;
+     
 
             // txtbusqueda
             txtbusqueda.Location = new Point(828, 183);
             txtbusqueda.Name = "txtbusqueda";
             txtbusqueda.Size = new Size(189, 27);
             txtbusqueda.TabIndex = 25;
-            if (!enDiseño)
-                txtbusqueda.TextChanged += txtbusqueda_TextChanged;
+      
 
             // frmReporteVentas
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -237,7 +239,7 @@
             Name = "frmReporteVentas";
             Text = "frmReporteVentas";
 
-            if (!enDiseño)
+         
                 Load += frmReporteVentas_Load;
 
             ((System.ComponentModel.ISupportInitialize)dgvdata).EndInit();

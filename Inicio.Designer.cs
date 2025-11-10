@@ -58,6 +58,7 @@
             verStockToolStripMenuItem = new ToolStripMenuItem();
             menuClientes = new FontAwesome.Sharp.IconMenuItem();
             menuIAML = new FontAwesome.Sharp.IconMenuItem();
+            menuDescuentos = new FontAwesome.Sharp.IconMenuItem();
             menuBackUp = new FontAwesome.Sharp.IconMenuItem();
             menuAcercaDe = new FontAwesome.Sharp.IconMenuItem();
             panel1.SuspendLayout();
@@ -312,11 +313,11 @@
             menu.Dock = DockStyle.None;
             menu.ImageScalingSize = new Size(20, 20);
             menu.ImeMode = ImeMode.NoControl;
-            menu.Items.AddRange(new ToolStripItem[] { menuUsuarios, menuReporte, menuCajaRegistradora, menuStock, menuClientes, menuIAML, menuBackUp, menuAcercaDe });
+            menu.Items.AddRange(new ToolStripItem[] { menuUsuarios, menuReporte, menuCajaRegistradora, menuStock, menuClientes, menuIAML, menuDescuentos, menuBackUp, menuAcercaDe });
             menu.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
             menu.Location = new Point(0, 0);
             menu.Name = "menu";
-            menu.Size = new Size(241, 486);
+            menu.Size = new Size(241, 565);
             menu.TabIndex = 0;
             menu.Text = "menuStrip1";
             // 
@@ -459,6 +460,21 @@
             menuIAML.Text = "IA/ML";
             menuIAML.Click += menuIAML_Click;
             // 
+            // menuDescuentos
+            // 
+            menuDescuentos.AutoSize = false;
+            menuDescuentos.Font = new Font("Segoe UI", 12F);
+            menuDescuentos.ForeColor = Color.WhiteSmoke;
+            menuDescuentos.IconChar = FontAwesome.Sharp.IconChar.MoneyBillTrendUp;
+            menuDescuentos.IconColor = Color.White;
+            menuDescuentos.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            menuDescuentos.IconSize = 40;
+            menuDescuentos.ImageScaling = ToolStripItemImageScaling.None;
+            menuDescuentos.Name = "menuDescuentos";
+            menuDescuentos.Size = new Size(235, 60);
+            menuDescuentos.Text = "Descuentos";
+            menuDescuentos.Click += menuDescuentos_Click;
+            // 
             // menuBackUp
             // 
             menuBackUp.AutoSize = false;
@@ -547,5 +563,6 @@
         private FontAwesome.Sharp.IconMenuItem menuBackUp;
         private ToolStripMenuItem reporteVentasSubMenuItem;
         private ToolStripMenuItem reporteEstadisticasSubMenuItem;
+        private FontAwesome.Sharp.IconMenuItem menuDescuentos;
     }
 }

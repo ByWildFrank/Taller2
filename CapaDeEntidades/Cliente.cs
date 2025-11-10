@@ -15,5 +15,7 @@ namespace CapaDeEntidades
         public string Telefono { get; set; }
         public bool Estado { get; set; }
         public string FechaRegistro { get; set; }
+        public string Segmento { get; set; }
+        public decimal DescuentoPorcent { get; set; }
     }
 }

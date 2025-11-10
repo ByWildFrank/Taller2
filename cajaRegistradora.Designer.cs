@@ -18,6 +18,7 @@
         private void InitializeComponent()
         {
             pnlCliente = new GroupBox();
+            lblSegmentoCliente = new Label();
             btnNuevoCliente = new Button();
             lblDocumentoCliente = new Label();
             lblNombreCliente = new Label();
@@ -63,6 +64,7 @@
             // pnlCliente
             // 
             pnlCliente.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            pnlCliente.Controls.Add(lblSegmentoCliente);
             pnlCliente.Controls.Add(btnNuevoCliente);
             pnlCliente.Controls.Add(lblDocumentoCliente);
             pnlCliente.Controls.Add(lblNombreCliente);
@@ -76,6 +78,15 @@
             pnlCliente.TabIndex = 0;
             pnlCliente.TabStop = false;
             pnlCliente.Text = "Datos del Cliente";
+            // 
+            // lblSegmentoCliente
+            // 
+            lblSegmentoCliente.AutoSize = true;
+            lblSegmentoCliente.Location = new Point(980, 30);
+            lblSegmentoCliente.Name = "lblSegmentoCliente";
+            lblSegmentoCliente.Size = new Size(107, 15);
+            lblSegmentoCliente.TabIndex = 6;
+            lblSegmentoCliente.Text = "Cliente Segmento";
             // 
             // btnNuevoCliente
             // 
@@ -465,5 +476,6 @@
         private System.Windows.Forms.Button btnRegistrarVenta;
         private NumericUpDown numCantidad;
         private Button btnNuevoCliente;
+        private Label lblSegmentoCliente;
     }
 }

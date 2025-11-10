@@ -19,8 +19,9 @@ namespace BeanDesktop
         private DataTable detalleVenta;
         private int idClienteSeleccionado = 0;
         private Usuario usuarioLogueado;
+        private decimal _descuentoPorcentajeCliente = 0;
 
-        // ✅ Guardamos la lista completa de productos para filtrar en memoria
+        // Guardamos la lista completa de productos para filtrar en memoria
         private List<Producto> _listaProductosCompleta;
 
         public cajaRegistradora(Usuario usuario)
@@ -79,6 +80,8 @@ namespace BeanDesktop
             cboCategoria.SelectedIndexChanged += cboCategoria_SelectedIndexChanged;
 
             dgvProductos.DataBindingComplete += dgvProductos_DataBindingComplete;
+
+            txtDescuento.TextChanged += txtDescuento_TextChanged;
         }
 
         private void CargarSugerenciasClientes()
@@ -206,7 +209,7 @@ namespace BeanDesktop
                 decimal precioVenta = productoSeleccionado.PrecioVenta;
                 int stock = productoSeleccionado.stock;
 
-                // ✅ CAMBIO: Obtener la cantidad deseada desde el NumericUpDown
+                // CAMBIO: Obtener la cantidad deseada desde el NumericUpDown
                 int cantidadAAgregar = (int)numCantidad.Value;
 
                 if (stock <= 0 || cantidadAAgregar > stock)
@@ -260,10 +263,17 @@ namespace BeanDesktop
                 total = detalleVenta.AsEnumerable().Sum(r => r.Field<decimal>("SubTotal"));
             }
 
-            decimal.TryParse(txtDescuento.Text, out decimal descuento);
             txtTotal.Text = total.ToString("0.00");
-            txtDescuentoAplicado.Text = descuento.ToString("0.00");
-            txtTotalFinal.Text = (total - descuento).ToString("0.00");
+
+            // --- LÓGICA DE DESCUENTO ---
+            decimal descuentoCalculado = total * (_descuentoPorcentajeCliente / 100);
+
+            txtDescuento.Text = descuentoCalculado.ToString("0.00"); 
+            txtDescuentoAplicado.Text = descuentoCalculado.ToString("0.00"); 
+            txtTotalFinal.Text = (total - descuentoCalculado).ToString("0.00");
+
+            // Actualizamos el campo de cambio automáticamente
+            txtPago_TextChanged(null, null);
         }
 
         private void btnBuscarCliente_Click(object sender, EventArgs e)
@@ -274,8 +284,8 @@ namespace BeanDesktop
                 MessageBox.Show("Ingrese un documento o nombre para buscar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            string documentoBusqueda = textoBusqueda.Split(' ')[0];
 
+            string documentoBusqueda = textoBusqueda.Split(' ')[0];
             CN_Cliente objCliente = new CN_Cliente();
             Cliente clienteEncontrado = null;
 
@@ -293,13 +303,24 @@ namespace BeanDesktop
                 idClienteSeleccionado = clienteEncontrado.IdCliente;
                 txtDocumentoCliente.Text = clienteEncontrado.Documento;
                 txtNombreCliente.Text = clienteEncontrado.NombreCompleto;
+
+                _descuentoPorcentajeCliente = clienteEncontrado.DescuentoPorcent;
+                lblSegmentoCliente.Text = $"({clienteEncontrado.Segmento} - {clienteEncontrado.DescuentoPorcent}%)";
+                lblSegmentoCliente.ForeColor = Color.RoyalBlue;
+
+                // Forzamos el recálculo de totales
+                CalcularTotales();
             }
             else
             {
                 idClienteSeleccionado = 0;
                 txtNombreCliente.Text = "Cliente no encontrado";
+                lblSegmentoCliente.Text = "(Consumidor Final)";
+                txtDescuento.Text = "0.00";
+                CalcularTotales();
                 MessageBox.Show("Cliente no registrado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            CalcularTotales();
         }
 
         private void btnRegistrarVenta_Click(object sender, EventArgs e)
@@ -368,6 +389,10 @@ namespace BeanDesktop
             detalleVenta.Rows.Clear();
             idClienteSeleccionado = 0;
             cboTipoDocumento.SelectedIndex = 0;
+
+            _descuentoPorcentajeCliente = 0;
+            lblSegmentoCliente.Text = "";
+            txtDescuento.Text = "0.00";
 
             txtBuscarProducto.Clear();
             cboCategoria.SelectedIndex = 0;
@@ -527,6 +552,10 @@ namespace BeanDesktop
             {
                 MessageBox.Show($"Ocurrió un error al generar el PDF:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private void txtDescuento_TextChanged(object sender, EventArgs e)
+        {
+            CalcularTotales();
         }
     }
 }

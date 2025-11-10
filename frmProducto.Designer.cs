@@ -50,6 +50,7 @@
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
+            chkOrdenarStockProd = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             gbAjusteStock.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numStockAnadir).BeginInit();
@@ -74,42 +75,42 @@
             // 
             txtNombre.Location = new Point(546, 49);
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(200, 27);
+            txtNombre.Size = new Size(200, 23);
             txtNombre.TabIndex = 1;
             // 
             // txtDescripcion
             // 
             txtDescripcion.Location = new Point(546, 79);
             txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(200, 27);
+            txtDescripcion.Size = new Size(200, 23);
             txtDescripcion.TabIndex = 2;
             // 
             // txtCodigo
             // 
             txtCodigo.Location = new Point(546, 109);
             txtCodigo.Name = "txtCodigo";
-            txtCodigo.Size = new Size(200, 27);
+            txtCodigo.Size = new Size(200, 23);
             txtCodigo.TabIndex = 3;
             // 
             // txtPrecioFabricacion
             // 
             txtPrecioFabricacion.Location = new Point(546, 203);
             txtPrecioFabricacion.Name = "txtPrecioFabricacion";
-            txtPrecioFabricacion.Size = new Size(100, 27);
+            txtPrecioFabricacion.Size = new Size(100, 23);
             txtPrecioFabricacion.TabIndex = 5;
             // 
             // txtPrecioVenta
             // 
             txtPrecioVenta.Location = new Point(546, 232);
             txtPrecioVenta.Name = "txtPrecioVenta";
-            txtPrecioVenta.Size = new Size(100, 27);
+            txtPrecioVenta.Size = new Size(100, 23);
             txtPrecioVenta.TabIndex = 6;
             // 
             // cmbCategoria
             // 
             cmbCategoria.Location = new Point(546, 140);
             cmbCategoria.Name = "cmbCategoria";
-            cmbCategoria.Size = new Size(200, 28);
+            cmbCategoria.Size = new Size(200, 23);
             cmbCategoria.TabIndex = 7;
             // 
             // btnGuardar
@@ -225,21 +226,21 @@
             // 
             cboEstado.Location = new Point(836, 46);
             cboEstado.Name = "cboEstado";
-            cboEstado.Size = new Size(157, 28);
+            cboEstado.Size = new Size(157, 23);
             cboEstado.TabIndex = 20;
             // 
             // txtBusqueda
             // 
             txtBusqueda.Location = new Point(12, 324);
             txtBusqueda.Name = "txtBusqueda";
-            txtBusqueda.Size = new Size(366, 27);
+            txtBusqueda.Size = new Size(366, 23);
             txtBusqueda.TabIndex = 21;
             // 
             // txtid
             // 
             txtid.Location = new Point(1022, 14);
             txtid.Name = "txtid";
-            txtid.Size = new Size(100, 27);
+            txtid.Size = new Size(100, 23);
             txtid.TabIndex = 22;
             txtid.Visible = false;
             // 
@@ -248,7 +249,7 @@
             cmbCategoriaBusqueda.FormattingEnabled = true;
             cmbCategoriaBusqueda.Location = new Point(574, 324);
             cmbCategoriaBusqueda.Name = "cmbCategoriaBusqueda";
-            cmbCategoriaBusqueda.Size = new Size(184, 28);
+            cmbCategoriaBusqueda.Size = new Size(184, 23);
             cmbCategoriaBusqueda.TabIndex = 23;
             // 
             // gbAjusteStock
@@ -277,7 +278,7 @@
             numStockAnadir.Location = new Point(6, 22);
             numStockAnadir.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numStockAnadir.Name = "numStockAnadir";
-            numStockAnadir.Size = new Size(86, 27);
+            numStockAnadir.Size = new Size(86, 23);
             numStockAnadir.TabIndex = 0;
             numStockAnadir.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
@@ -286,14 +287,14 @@
             txtStockActual.Location = new Point(646, 168);
             txtStockActual.Name = "txtStockActual";
             txtStockActual.ReadOnly = true;
-            txtStockActual.Size = new Size(100, 27);
+            txtStockActual.Size = new Size(100, 23);
             txtStockActual.TabIndex = 2;
             // 
             // numStockInicial
             // 
             numStockInicial.Location = new Point(546, 169);
             numStockInicial.Name = "numStockInicial";
-            numStockInicial.Size = new Size(94, 27);
+            numStockInicial.Size = new Size(94, 23);
             numStockInicial.TabIndex = 24;
             numStockInicial.Visible = false;
             // 
@@ -302,7 +303,7 @@
             cboBusqueda.FormattingEnabled = true;
             cboBusqueda.Location = new Point(384, 324);
             cboBusqueda.Name = "cboBusqueda";
-            cboBusqueda.Size = new Size(184, 28);
+            cboBusqueda.Size = new Size(184, 23);
             cboBusqueda.TabIndex = 26;
             // 
             // label1
@@ -310,7 +311,7 @@
             label1.AutoSize = true;
             label1.Location = new Point(574, 306);
             label1.Name = "label1";
-            label1.Size = new Size(77, 20);
+            label1.Size = new Size(61, 15);
             label1.TabIndex = 27;
             label1.Text = "Categoría:";
             // 
@@ -319,7 +320,7 @@
             label2.AutoSize = true;
             label2.Location = new Point(384, 306);
             label2.Name = "label2";
-            label2.Size = new Size(82, 20);
+            label2.Size = new Size(66, 15);
             label2.TabIndex = 28;
             label2.Text = "Buscar por:";
             // 
@@ -328,7 +329,7 @@
             label3.AutoSize = true;
             label3.Location = new Point(12, 306);
             label3.Name = "label3";
-            label3.Size = new Size(50, 20);
+            label3.Size = new Size(40, 15);
             label3.TabIndex = 29;
             label3.Text = "Filtrar:";
             // 
@@ -338,7 +339,7 @@
             label4.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.Location = new Point(12, 252);
             label4.Name = "label4";
-            label4.Size = new Size(370, 54);
+            label4.Size = new Size(296, 45);
             label4.TabIndex = 30;
             label4.Text = "Lista de Productos";
             // 
@@ -348,13 +349,26 @@
             label5.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.Location = new Point(36, 32);
             label5.Name = "label5";
-            label5.Size = new Size(362, 46);
+            label5.Size = new Size(292, 37);
             label5.TabIndex = 31;
             label5.Text = "Gestión de Productos";
+            // 
+            // chkOrdenarStockProd
+            // 
+            chkOrdenarStockProd.AutoSize = true;
+            chkOrdenarStockProd.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chkOrdenarStockProd.Location = new Point(893, 326);
+            chkOrdenarStockProd.Name = "chkOrdenarStockProd";
+            chkOrdenarStockProd.Size = new Size(229, 19);
+            chkOrdenarStockProd.TabIndex = 32;
+            chkOrdenarStockProd.Text = "Ordenar por stock (de menor a mayor)";
+            chkOrdenarStockProd.UseVisualStyleBackColor = true;
+            chkOrdenarStockProd.CheckedChanged += chkOrdenarStockProd_CheckedChanged;
             // 
             // frmProducto
             // 
             ClientSize = new Size(1134, 761);
+            Controls.Add(chkOrdenarStockProd);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
@@ -435,5 +449,6 @@
         private Label label3;
         private Label label4;
         private Label label5;
+        private CheckBox chkOrdenarStockProd;
     }
 }

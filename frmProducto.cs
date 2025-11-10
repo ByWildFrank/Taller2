@@ -129,6 +129,17 @@ namespace BeanDesktop
             {
                 listaFiltrada = listaFiltrada.Where(p => p.Estado == true);
             }
+            // NUEVA LÓGICA DE ORDENAMIENTO
+            if (chkOrdenarStockProd.Checked)
+            {
+                // Si está marcado, ordena por stock ascendente
+                listaFiltrada = listaFiltrada.OrderBy(p => p.stock);
+            }
+            else
+            {
+                // Orden por defecto (ej: por nombre)
+                listaFiltrada = listaFiltrada.OrderBy(p => p.Nombre);
+            }
 
             dgvProductos.DataSource = null;
             dgvProductos.DataSource = listaFiltrada.ToList();
@@ -316,6 +327,11 @@ namespace BeanDesktop
             gbAjusteStock.Enabled = false;
 
             btnEliminar.Enabled = false;
+        }
+
+        private void chkOrdenarStockProd_CheckedChanged(object sender, EventArgs e)
+        {
+            FiltrarGrilla();
         }
     }
 }
