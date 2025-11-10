@@ -48,131 +48,221 @@
             btnLimpiarBuscador = new FontAwesome.Sharp.IconButton();
             btnBuscar = new FontAwesome.Sharp.IconButton();
             txtbusqueda = new TextBox();
-
+            btnResetFechas = new FontAwesome.Sharp.IconButton();
             ((System.ComponentModel.ISupportInitialize)dgvdata).BeginInit();
             SuspendLayout();
-
-            // --- Evita que el diseñador ejecute eventos ---
-            bool enDiseño = (System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv");
-
+            // 
             // dtpInicio
+            // 
             dtpInicio.CustomFormat = "dd/MM/yyyy";
             dtpInicio.Format = DateTimePickerFormat.Short;
-            dtpInicio.Location = new Point(105, 77);
-            dtpInicio.Margin = new Padding(3, 4, 3, 4);
+            dtpInicio.Location = new Point(92, 58);
             dtpInicio.Name = "dtpInicio";
-            dtpInicio.Size = new Size(156, 27);
+            dtpInicio.Size = new Size(137, 23);
             dtpInicio.TabIndex = 0;
-          
-                dtpInicio.ValueChanged += dtpInicio_ValueChanged;
-   
-
+            dtpInicio.ValueChanged += dtpInicio_ValueChanged;
+            // 
             // dtpFin
+            // 
             dtpFin.CustomFormat = "dd/MM/yyyy";
             dtpFin.Format = DateTimePickerFormat.Short;
-            dtpFin.Location = new Point(350, 77);
-            dtpFin.Margin = new Padding(3, 4, 3, 4);
+            dtpFin.Location = new Point(306, 58);
             dtpFin.Name = "dtpFin";
-            dtpFin.Size = new Size(156, 27);
+            dtpFin.Size = new Size(137, 23);
             dtpFin.TabIndex = 1;
-            
-                dtpFin.ValueChanged += dtpFin_ValueChanged;
-     
+            dtpFin.ValueChanged += dtpFin_ValueChanged;
+            // 
             // color
+            // 
             color.BackColor = Color.WhiteSmoke;
             color.ForeColor = Color.WhiteSmoke;
-            color.Location = new Point(-1, -3);
+            color.Location = new Point(-1, -2);
             color.Name = "color";
-            color.Size = new Size(1296, 237);
+            color.Size = new Size(1134, 178);
             color.TabIndex = 2;
-
+            // 
             // label1
+            // 
             label1.AutoSize = true;
             label1.BackColor = Color.WhiteSmoke;
             label1.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(14, 12);
+            label1.Location = new Point(12, 9);
             label1.Name = "label1";
-            label1.Size = new Size(239, 37);
+            label1.Size = new Size(189, 30);
             label1.TabIndex = 3;
             label1.Text = "Reporte de Ventas";
-
+            // 
             // label2
+            // 
             label2.AutoSize = true;
             label2.BackColor = Color.WhiteSmoke;
-            label2.Location = new Point(18, 83);
+            label2.Location = new Point(16, 62);
             label2.Name = "label2";
-            label2.Size = new Size(87, 20);
+            label2.Size = new Size(70, 15);
             label2.TabIndex = 4;
             label2.Text = "Fecha Inicio";
-
+            // 
             // label3
+            // 
             label3.AutoSize = true;
             label3.BackColor = Color.WhiteSmoke;
-            label3.Location = new Point(278, 83);
+            label3.Location = new Point(243, 62);
             label3.Name = "label3";
-            label3.Size = new Size(70, 20);
+            label3.Size = new Size(57, 15);
             label3.TabIndex = 5;
             label3.Text = "Fecha Fin";
-
+            // 
             // label4
+            // 
             label4.BackColor = Color.WhiteSmoke;
             label4.ForeColor = Color.WhiteSmoke;
-            label4.Location = new Point(-1, 255);
+            label4.Location = new Point(-1, 191);
             label4.Name = "label4";
-            label4.Size = new Size(1296, 607);
+            label4.Size = new Size(1134, 455);
             label4.TabIndex = 6;
-
+            // 
             // dgvdata
+            // 
             dgvdata.AllowUserToDeleteRows = false;
             dgvdata.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvdata.Columns.AddRange(new DataGridViewColumn[] {
-                FechaRegistro, HoraRegistro, TipoDocumento, NumeroDocumento, DocumentoCliente,
-                NombreCliente, MontoTotal, MontoPago, MontoCambio, DescuentoAplicado, UsuarioRegistro,
-                CodigoProducto, NombreProducto, Categoria, PrecioVenta, Cantidad, Subtotal,
-                GananciaBruta, CostoUnitario
-            });
-            dgvdata.Location = new Point(-1, 231);
-            dgvdata.Margin = new Padding(3, 4, 3, 4);
+            dgvdata.Columns.AddRange(new DataGridViewColumn[] { FechaRegistro, HoraRegistro, TipoDocumento, NumeroDocumento, DocumentoCliente, NombreCliente, MontoTotal, MontoPago, MontoCambio, DescuentoAplicado, UsuarioRegistro, CodigoProducto, NombreProducto, Categoria, PrecioVenta, Cantidad, Subtotal, GananciaBruta, CostoUnitario });
+            dgvdata.Location = new Point(-1, 173);
             dgvdata.Name = "dgvdata";
             dgvdata.ReadOnly = true;
             dgvdata.RowHeadersWidth = 51;
-            dgvdata.Size = new Size(1296, 781);
+            dgvdata.Size = new Size(1134, 586);
             dgvdata.TabIndex = 7;
-
+            // 
+            // FechaRegistro
+            // 
+            FechaRegistro.Name = "FechaRegistro";
+            FechaRegistro.ReadOnly = true;
+            // 
+            // HoraRegistro
+            // 
+            HoraRegistro.Name = "HoraRegistro";
+            HoraRegistro.ReadOnly = true;
+            // 
+            // TipoDocumento
+            // 
+            TipoDocumento.Name = "TipoDocumento";
+            TipoDocumento.ReadOnly = true;
+            // 
+            // NumeroDocumento
+            // 
+            NumeroDocumento.Name = "NumeroDocumento";
+            NumeroDocumento.ReadOnly = true;
+            // 
+            // DocumentoCliente
+            // 
+            DocumentoCliente.Name = "DocumentoCliente";
+            DocumentoCliente.ReadOnly = true;
+            // 
+            // NombreCliente
+            // 
+            NombreCliente.Name = "NombreCliente";
+            NombreCliente.ReadOnly = true;
+            // 
+            // MontoTotal
+            // 
+            MontoTotal.Name = "MontoTotal";
+            MontoTotal.ReadOnly = true;
+            // 
+            // MontoPago
+            // 
+            MontoPago.Name = "MontoPago";
+            MontoPago.ReadOnly = true;
+            // 
+            // MontoCambio
+            // 
+            MontoCambio.Name = "MontoCambio";
+            MontoCambio.ReadOnly = true;
+            // 
+            // DescuentoAplicado
+            // 
+            DescuentoAplicado.Name = "DescuentoAplicado";
+            DescuentoAplicado.ReadOnly = true;
+            // 
+            // UsuarioRegistro
+            // 
+            UsuarioRegistro.Name = "UsuarioRegistro";
+            UsuarioRegistro.ReadOnly = true;
+            // 
+            // CodigoProducto
+            // 
+            CodigoProducto.Name = "CodigoProducto";
+            CodigoProducto.ReadOnly = true;
+            // 
+            // NombreProducto
+            // 
+            NombreProducto.Name = "NombreProducto";
+            NombreProducto.ReadOnly = true;
+            // 
+            // Categoria
+            // 
+            Categoria.Name = "Categoria";
+            Categoria.ReadOnly = true;
+            // 
+            // PrecioVenta
+            // 
+            PrecioVenta.Name = "PrecioVenta";
+            PrecioVenta.ReadOnly = true;
+            // 
+            // Cantidad
+            // 
+            Cantidad.Name = "Cantidad";
+            Cantidad.ReadOnly = true;
+            // 
+            // Subtotal
+            // 
+            Subtotal.Name = "Subtotal";
+            Subtotal.ReadOnly = true;
+            // 
+            // GananciaBruta
+            // 
+            GananciaBruta.Name = "GananciaBruta";
+            GananciaBruta.ReadOnly = true;
+            // 
+            // CostoUnitario
+            // 
+            CostoUnitario.Name = "CostoUnitario";
+            CostoUnitario.ReadOnly = true;
+            // 
             // exportarExelButton
+            // 
             exportarExelButton.IconChar = FontAwesome.Sharp.IconChar.FileArrowDown;
             exportarExelButton.IconColor = Color.Green;
             exportarExelButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             exportarExelButton.IconSize = 35;
-            exportarExelButton.Location = new Point(18, 170);
-            exportarExelButton.Margin = new Padding(3, 4, 3, 4);
+            exportarExelButton.Location = new Point(16, 128);
             exportarExelButton.Name = "exportarExelButton";
-            exportarExelButton.Size = new Size(161, 53);
+            exportarExelButton.Size = new Size(141, 40);
             exportarExelButton.TabIndex = 8;
             exportarExelButton.Text = "Exportar en Exel";
             exportarExelButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             exportarExelButton.UseVisualStyleBackColor = true;
-            
-                exportarExelButton.Click += exportarExelButton_Click;
-          
+            exportarExelButton.Click += exportarExelButton_Click;
+            // 
             // label5
+            // 
             label5.AutoSize = true;
             label5.BackColor = Color.WhiteSmoke;
-            label5.Location = new Point(579, 186);
+            label5.Location = new Point(507, 140);
             label5.Name = "label5";
-            label5.Size = new Size(82, 20);
+            label5.Size = new Size(66, 15);
             label5.TabIndex = 9;
             label5.Text = "Buscar por:";
-
+            // 
             // cbobusqueda
+            // 
             cbobusqueda.FormattingEnabled = true;
-            cbobusqueda.Location = new Point(667, 184);
-            cbobusqueda.Margin = new Padding(3, 4, 3, 4);
+            cbobusqueda.Location = new Point(584, 138);
             cbobusqueda.Name = "cbobusqueda";
-            cbobusqueda.Size = new Size(138, 28);
+            cbobusqueda.Size = new Size(121, 23);
             cbobusqueda.TabIndex = 10;
-
+            // 
             // btnLimpiarBuscador
+            // 
             btnLimpiarBuscador.BackColor = Color.AliceBlue;
             btnLimpiarBuscador.Cursor = Cursors.Hand;
             btnLimpiarBuscador.FlatAppearance.BorderColor = Color.Black;
@@ -181,17 +271,15 @@
             btnLimpiarBuscador.IconColor = Color.Black;
             btnLimpiarBuscador.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnLimpiarBuscador.IconSize = 16;
-            btnLimpiarBuscador.Location = new Point(1191, 180);
-            btnLimpiarBuscador.Margin = new Padding(3, 4, 3, 4);
+            btnLimpiarBuscador.Location = new Point(1042, 135);
             btnLimpiarBuscador.Name = "btnLimpiarBuscador";
-            btnLimpiarBuscador.Size = new Size(48, 31);
+            btnLimpiarBuscador.Size = new Size(42, 23);
             btnLimpiarBuscador.TabIndex = 28;
             btnLimpiarBuscador.UseVisualStyleBackColor = false;
-            
             btnLimpiarBuscador.Click += btnLimpiarBuscador_Click;
- 
-
+            // 
             // btnBuscar
+            // 
             btnBuscar.BackColor = Color.LightCyan;
             btnBuscar.Cursor = Cursors.Hand;
             btnBuscar.FlatAppearance.BorderColor = Color.Black;
@@ -200,27 +288,42 @@
             btnBuscar.IconColor = Color.Black;
             btnBuscar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnBuscar.IconSize = 16;
-            btnBuscar.Location = new Point(1137, 181);
-            btnBuscar.Margin = new Padding(3, 4, 3, 4);
+            btnBuscar.Location = new Point(995, 136);
             btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(48, 31);
+            btnBuscar.Size = new Size(42, 23);
             btnBuscar.TabIndex = 27;
             btnBuscar.UseVisualStyleBackColor = false;
-            
             btnBuscar.Click += btnBuscar_Click;
-     
-
+            // 
             // txtbusqueda
-            txtbusqueda.Location = new Point(828, 183);
+            // 
+            txtbusqueda.Location = new Point(724, 137);
+            txtbusqueda.Margin = new Padding(3, 2, 3, 2);
             txtbusqueda.Name = "txtbusqueda";
-            txtbusqueda.Size = new Size(189, 27);
+            txtbusqueda.Size = new Size(166, 23);
             txtbusqueda.TabIndex = 25;
-      
-
+            // 
+            // btnResetFechas
+            // 
+            btnResetFechas.IconChar = FontAwesome.Sharp.IconChar.CalendarCheck;
+            btnResetFechas.IconColor = Color.Black;
+            btnResetFechas.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnResetFechas.IconSize = 25;
+            btnResetFechas.Location = new Point(462, 53);
+            btnResetFechas.Name = "btnResetFechas";
+            btnResetFechas.Size = new Size(135, 32);
+            btnResetFechas.TabIndex = 29;
+            btnResetFechas.Text = "Resetear Fechas";
+            btnResetFechas.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnResetFechas.UseVisualStyleBackColor = true;
+            btnResetFechas.Click += btnResetFechas_Click;
+            // 
             // frmReporteVentas
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1296, 1015);
+            ClientSize = new Size(1134, 761);
+            Controls.Add(btnResetFechas);
             Controls.Add(txtbusqueda);
             Controls.Add(btnLimpiarBuscador);
             Controls.Add(btnBuscar);
@@ -235,13 +338,9 @@
             Controls.Add(dtpFin);
             Controls.Add(dtpInicio);
             Controls.Add(color);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "frmReporteVentas";
             Text = "frmReporteVentas";
-
-         
-                Load += frmReporteVentas_Load;
-
+            Load += frmReporteVentas_Load;
             ((System.ComponentModel.ISupportInitialize)dgvdata).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -282,5 +381,6 @@
         private ComboBox cbobusqueda;
         private FontAwesome.Sharp.IconButton btnLimpiarBuscador;
         private FontAwesome.Sharp.IconButton btnBuscar;
+        private FontAwesome.Sharp.IconButton btnResetFechas;
     }
 }

@@ -43,7 +43,6 @@ namespace BeanDesktop
             // Conectar eventos
             btnBuscar.Click += btnBuscar_Click;
             btnLimpiarBuscador.Click += btnLimpiarBuscador_Click;
-            exportarExelButton.Click += exportarExelButton_Click;
             txtbusqueda.TextChanged += txtbusqueda_TextChanged;
 
             CargarReporte();
@@ -198,6 +197,13 @@ namespace BeanDesktop
                     MessageBox.Show("No se pudo generar el reporte.\nError: " + ex.Message, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
+        }
+
+        private void btnResetFechas_Click(object sender, EventArgs e)
+        {
+            dtpInicio.Value = DateTime.Now.AddYears(-1);
+            dtpFin.Value = DateTime.Now;
+            CargarReporte();
         }
     }
 }

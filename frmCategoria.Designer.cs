@@ -35,17 +35,17 @@
             // lblDescripcion
             // 
             lblDescripcion.AutoSize = true;
-            lblDescripcion.Location = new Point(53, 25);
+            lblDescripcion.Location = new Point(221, 31);
             lblDescripcion.Name = "lblDescripcion";
-            lblDescripcion.Size = new Size(90, 20);
+            lblDescripcion.Size = new Size(72, 15);
             lblDescripcion.TabIndex = 0;
             lblDescripcion.Text = "Descripción:";
             // 
             // txtDescripcion
             // 
-            txtDescripcion.Location = new Point(149, 22);
+            txtDescripcion.Location = new Point(317, 28);
             txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(200, 27);
+            txtDescripcion.Size = new Size(200, 23);
             txtDescripcion.TabIndex = 1;
             // 
             // chkEstado
@@ -53,9 +53,9 @@
             chkEstado.AutoSize = true;
             chkEstado.Checked = true;
             chkEstado.CheckState = CheckState.Checked;
-            chkEstado.Location = new Point(157, 55);
+            chkEstado.Location = new Point(325, 61);
             chkEstado.Name = "chkEstado";
-            chkEstado.Size = new Size(73, 24);
+            chkEstado.Size = new Size(60, 19);
             chkEstado.TabIndex = 2;
             chkEstado.Text = "Activo";
             chkEstado.UseVisualStyleBackColor = true;
@@ -70,13 +70,13 @@
             dgvCategorias.Name = "dgvCategorias";
             dgvCategorias.ReadOnly = true;
             dgvCategorias.RowHeadersWidth = 51;
-            dgvCategorias.Size = new Size(500, 250);
+            dgvCategorias.Size = new Size(720, 362);
             dgvCategorias.TabIndex = 3;
             dgvCategorias.CellClick += dgvCategorias_CellClick;
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(30, 100);
+            btnGuardar.Location = new Point(198, 106);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(90, 30);
             btnGuardar.TabIndex = 4;
@@ -86,7 +86,7 @@
             // 
             // btnEliminar
             // 
-            btnEliminar.Location = new Point(140, 100);
+            btnEliminar.Location = new Point(308, 106);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(90, 30);
             btnEliminar.TabIndex = 5;
@@ -96,7 +96,7 @@
             // 
             // btnNuevo
             // 
-            btnNuevo.Location = new Point(250, 100);
+            btnNuevo.Location = new Point(418, 106);
             btnNuevo.Name = "btnNuevo";
             btnNuevo.Size = new Size(90, 30);
             btnNuevo.TabIndex = 6;
@@ -107,7 +107,7 @@
             // frmCategoria
             // 
             BackColor = SystemColors.ButtonFace;
-            ClientSize = new Size(580, 430);
+            ClientSize = new Size(778, 537);
             Controls.Add(btnNuevo);
             Controls.Add(btnEliminar);
             Controls.Add(btnGuardar);

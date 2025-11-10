@@ -41,28 +41,26 @@
             // 
             lblBuscar.AutoSize = true;
             lblBuscar.Font = new Font("Segoe UI", 9F);
-            lblBuscar.Location = new Point(23, 27);
+            lblBuscar.Location = new Point(38, 33);
             lblBuscar.Name = "lblBuscar";
-            lblBuscar.Size = new Size(167, 20);
+            lblBuscar.Size = new Size(135, 15);
             lblBuscar.TabIndex = 0;
             lblBuscar.Text = "Número de documento:";
             // 
             // txtNumeroDocumento
             // 
             txtNumeroDocumento.Font = new Font("Segoe UI", 9F);
-            txtNumeroDocumento.Location = new Point(189, 24);
-            txtNumeroDocumento.Margin = new Padding(3, 4, 3, 4);
+            txtNumeroDocumento.Location = new Point(183, 31);
             txtNumeroDocumento.Name = "txtNumeroDocumento";
-            txtNumeroDocumento.Size = new Size(205, 27);
+            txtNumeroDocumento.Size = new Size(180, 23);
             txtNumeroDocumento.TabIndex = 1;
             // 
             // btnBuscarVenta
             // 
             btnBuscarVenta.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnBuscarVenta.Location = new Point(417, 19);
-            btnBuscarVenta.Margin = new Padding(3, 4, 3, 4);
+            btnBuscarVenta.Location = new Point(383, 27);
             btnBuscarVenta.Name = "btnBuscarVenta";
-            btnBuscarVenta.Size = new Size(103, 36);
+            btnBuscarVenta.Size = new Size(90, 27);
             btnBuscarVenta.TabIndex = 2;
             btnBuscarVenta.Text = "Buscar";
             btnBuscarVenta.UseVisualStyleBackColor = true;
@@ -71,10 +69,9 @@
             // btnLimpiar
             // 
             btnLimpiar.Font = new Font("Segoe UI", 9F);
-            btnLimpiar.Location = new Point(526, 19);
-            btnLimpiar.Margin = new Padding(3, 4, 3, 4);
+            btnLimpiar.Location = new Point(478, 27);
             btnLimpiar.Name = "btnLimpiar";
-            btnLimpiar.Size = new Size(103, 36);
+            btnLimpiar.Size = new Size(90, 27);
             btnLimpiar.TabIndex = 3;
             btnLimpiar.Text = "Limpiar";
             btnLimpiar.UseVisualStyleBackColor = true;
@@ -88,15 +85,13 @@
             dgvDetalleVenta.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvDetalleVenta.BackgroundColor = Color.White;
             dgvDetalleVenta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDetalleVenta.Location = new Point(23, 280);
-            dgvDetalleVenta.Margin = new Padding(3, 4, 3, 4);
+            dgvDetalleVenta.Location = new Point(20, 210);
             dgvDetalleVenta.MultiSelect = false;
             dgvDetalleVenta.Name = "dgvDetalleVenta";
             dgvDetalleVenta.ReadOnly = true;
             dgvDetalleVenta.RowHeadersWidth = 51;
-            dgvDetalleVenta.RowTemplate.Height = 25;
             dgvDetalleVenta.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDetalleVenta.Size = new Size(937, 453);
+            dgvDetalleVenta.Size = new Size(1094, 531);
             dgvDetalleVenta.TabIndex = 4;
             dgvDetalleVenta.CellDoubleClick += dgvDetalleVenta_CellDoubleClick;
             // 
@@ -104,147 +99,140 @@
             // 
             lblIdVenta.AutoSize = true;
             lblIdVenta.Font = new Font("Segoe UI", 9F);
-            lblIdVenta.Location = new Point(23, 80);
+            lblIdVenta.Location = new Point(38, 73);
             lblIdVenta.Name = "lblIdVenta";
-            lblIdVenta.Size = new Size(68, 20);
+            lblIdVenta.Size = new Size(53, 15);
             lblIdVenta.TabIndex = 5;
             lblIdVenta.Text = "ID Venta:";
             // 
             // txtIdVenta
             // 
             txtIdVenta.Font = new Font("Segoe UI", 9F);
-            txtIdVenta.Location = new Point(171, 76);
-            txtIdVenta.Margin = new Padding(3, 4, 3, 4);
+            txtIdVenta.Location = new Point(168, 70);
             txtIdVenta.Name = "txtIdVenta";
             txtIdVenta.ReadOnly = true;
-            txtIdVenta.Size = new Size(114, 27);
+            txtIdVenta.Size = new Size(100, 23);
             txtIdVenta.TabIndex = 6;
             // 
             // lblTipoDocumento
             // 
             lblTipoDocumento.AutoSize = true;
             lblTipoDocumento.Font = new Font("Segoe UI", 9F);
-            lblTipoDocumento.Location = new Point(309, 80);
+            lblTipoDocumento.Location = new Point(288, 73);
             lblTipoDocumento.Name = "lblTipoDocumento";
-            lblTipoDocumento.Size = new Size(143, 20);
+            lblTipoDocumento.Size = new Size(114, 15);
             lblTipoDocumento.TabIndex = 7;
             lblTipoDocumento.Text = "Tipo de documento:";
             // 
             // txtTipoDocumento
             // 
             txtTipoDocumento.Font = new Font("Segoe UI", 9F);
-            txtTipoDocumento.Location = new Point(458, 76);
-            txtTipoDocumento.Margin = new Padding(3, 4, 3, 4);
+            txtTipoDocumento.Location = new Point(419, 70);
             txtTipoDocumento.Name = "txtTipoDocumento";
             txtTipoDocumento.ReadOnly = true;
-            txtTipoDocumento.Size = new Size(171, 27);
+            txtTipoDocumento.Size = new Size(150, 23);
             txtTipoDocumento.TabIndex = 8;
             // 
             // lblNumeroDocMostrar
             // 
             lblNumeroDocMostrar.AutoSize = true;
             lblNumeroDocMostrar.Font = new Font("Segoe UI", 9F);
-            lblNumeroDocMostrar.Location = new Point(635, 79);
+            lblNumeroDocMostrar.Location = new Point(574, 72);
             lblNumeroDocMostrar.Name = "lblNumeroDocMostrar";
-            lblNumeroDocMostrar.Size = new Size(111, 20);
+            lblNumeroDocMostrar.Size = new Size(90, 15);
             lblNumeroDocMostrar.TabIndex = 9;
             lblNumeroDocMostrar.Text = "N° Documento:";
             // 
             // txtNumeroDocumentoMostrar
             // 
             txtNumeroDocumentoMostrar.Font = new Font("Segoe UI", 9F);
-            txtNumeroDocumentoMostrar.Location = new Point(761, 73);
-            txtNumeroDocumentoMostrar.Margin = new Padding(3, 4, 3, 4);
+            txtNumeroDocumentoMostrar.Location = new Point(684, 68);
             txtNumeroDocumentoMostrar.Name = "txtNumeroDocumentoMostrar";
             txtNumeroDocumentoMostrar.ReadOnly = true;
-            txtNumeroDocumentoMostrar.Size = new Size(171, 27);
+            txtNumeroDocumentoMostrar.Size = new Size(150, 23);
             txtNumeroDocumentoMostrar.TabIndex = 10;
             // 
             // lblCliente
             // 
             lblCliente.AutoSize = true;
             lblCliente.Font = new Font("Segoe UI", 9F);
-            lblCliente.Location = new Point(23, 133);
+            lblCliente.Location = new Point(38, 113);
             lblCliente.Name = "lblCliente";
-            lblCliente.Size = new Size(58, 20);
+            lblCliente.Size = new Size(47, 15);
             lblCliente.TabIndex = 11;
             lblCliente.Text = "Cliente:";
             // 
             // txtCliente
             // 
             txtCliente.Font = new Font("Segoe UI", 9F);
-            txtCliente.Location = new Point(171, 129);
-            txtCliente.Margin = new Padding(3, 4, 3, 4);
+            txtCliente.Location = new Point(168, 110);
             txtCliente.Name = "txtCliente";
             txtCliente.ReadOnly = true;
-            txtCliente.Size = new Size(319, 27);
+            txtCliente.Size = new Size(280, 23);
             txtCliente.TabIndex = 12;
             // 
             // lblDocumentoCliente
             // 
             lblDocumentoCliente.AutoSize = true;
             lblDocumentoCliente.Font = new Font("Segoe UI", 9F);
-            lblDocumentoCliente.Location = new Point(514, 133);
+            lblDocumentoCliente.Location = new Point(468, 113);
             lblDocumentoCliente.Name = "lblDocumentoCliente";
-            lblDocumentoCliente.Size = new Size(148, 20);
+            lblDocumentoCliente.Size = new Size(119, 15);
             lblDocumentoCliente.TabIndex = 13;
             lblDocumentoCliente.Text = "Documento (cliente):";
             // 
             // txtDocumentoCliente
             // 
             txtDocumentoCliente.Font = new Font("Segoe UI", 9F);
-            txtDocumentoCliente.Location = new Point(663, 129);
-            txtDocumentoCliente.Margin = new Padding(3, 4, 3, 4);
+            txtDocumentoCliente.Location = new Point(598, 110);
             txtDocumentoCliente.Name = "txtDocumentoCliente";
             txtDocumentoCliente.ReadOnly = true;
-            txtDocumentoCliente.Size = new Size(251, 27);
+            txtDocumentoCliente.Size = new Size(220, 23);
             txtDocumentoCliente.TabIndex = 14;
             // 
             // lblDescuento
             // 
             lblDescuento.AutoSize = true;
             lblDescuento.Font = new Font("Segoe UI", 9F);
-            lblDescuento.Location = new Point(23, 187);
+            lblDescuento.Location = new Point(38, 153);
             lblDescuento.Name = "lblDescuento";
-            lblDescuento.Size = new Size(82, 20);
+            lblDescuento.Size = new Size(66, 15);
             lblDescuento.TabIndex = 15;
             lblDescuento.Text = "Descuento:";
             // 
             // txtDescuento
             // 
             txtDescuento.Font = new Font("Segoe UI", 9F);
-            txtDescuento.Location = new Point(171, 183);
-            txtDescuento.Margin = new Padding(3, 4, 3, 4);
+            txtDescuento.Location = new Point(168, 150);
             txtDescuento.Name = "txtDescuento";
             txtDescuento.ReadOnly = true;
-            txtDescuento.Size = new Size(114, 27);
+            txtDescuento.Size = new Size(100, 23);
             txtDescuento.TabIndex = 16;
             // 
             // lblMontoTotal
             // 
             lblMontoTotal.AutoSize = true;
             lblMontoTotal.Font = new Font("Segoe UI", 9F);
-            lblMontoTotal.Location = new Point(309, 187);
+            lblMontoTotal.Location = new Point(288, 153);
             lblMontoTotal.Name = "lblMontoTotal";
-            lblMontoTotal.Size = new Size(93, 20);
+            lblMontoTotal.Size = new Size(74, 15);
             lblMontoTotal.TabIndex = 17;
             lblMontoTotal.Text = "Monto Total:";
             // 
             // txtMontoTotal
             // 
             txtMontoTotal.Font = new Font("Segoe UI", 9F);
-            txtMontoTotal.Location = new Point(400, 183);
-            txtMontoTotal.Margin = new Padding(3, 4, 3, 4);
+            txtMontoTotal.Location = new Point(368, 150);
             txtMontoTotal.Name = "txtMontoTotal";
             txtMontoTotal.ReadOnly = true;
-            txtMontoTotal.Size = new Size(137, 27);
+            txtMontoTotal.Size = new Size(120, 23);
             txtMontoTotal.TabIndex = 18;
             // 
             // frmDetalleVenta
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(983, 760);
+            ClientSize = new Size(1134, 761);
             Controls.Add(txtMontoTotal);
             Controls.Add(lblMontoTotal);
             Controls.Add(txtDescuento);
@@ -264,7 +252,6 @@
             Controls.Add(btnBuscarVenta);
             Controls.Add(txtNumeroDocumento);
             Controls.Add(lblBuscar);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "frmDetalleVenta";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Detalle de Ventas";

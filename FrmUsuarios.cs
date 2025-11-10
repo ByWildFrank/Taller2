@@ -119,9 +119,8 @@ namespace BeanDesktop
             int idUsuario = Convert.ToInt32(txtid.Text);
             if (idUsuario != 0 && string.IsNullOrWhiteSpace(txtClave.Text))
             {
-                // Opcional: Confirmar que no se quiere cambiar la clave.
-                // Si no pones esto, simplemente no la cambiará, lo cual es correcto.
-                // objUsuario.Clave se enviará como "" y el SP mantendrá la clave antigua.
+                MessageBox.Show("Debe ingresar una contraseña para el nuevo usuario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             // Si estamos CREANDO (IdUsuario == 0) el campo clave NO puede estar vacío
@@ -132,46 +131,47 @@ namespace BeanDesktop
             }
 
             // --- Si todas las validaciones pasan, creamos el objeto ---
+            bool estadoSeleccionado = Convert.ToInt32(((OpcionCombo)cboEstado.SelectedItem).Valor) == 1;
+
             Usuario objUsusario = new Usuario()
             {
-                IdUsuario = Convert.ToInt32(txtid.Text),
+                IdUsuario = idUsuario,
                 Documento = txtDocumento.Text,
                 NombreCompleto = txtNombreCompleto.Text,
                 Correo = txtCorreo.Text,
                 Clave = txtClave.Text,
                 oRol = new Rol() { IdRol = Convert.ToInt32(((OpcionCombo)cboRol.SelectedItem).Valor) },
-                Estado = Convert.ToInt32(((OpcionCombo)cboEstado.SelectedItem).Valor) == 1 ? true : false
+                Estado = estadoSeleccionado // Asignamos el bool
             };
 
-            if (objUsusario.IdUsuario == 0)
+            if (objUsusario.IdUsuario == 0) // --- REGISTRAR ---
             {
                 int idUsuarioGenerado = new CN_Usuario().Registrar(objUsusario, out mensaje);
 
                 if (idUsuarioGenerado != 0)
                 {
+                    // ✅ CORRECCIÓN: Pasamos el booleano 'estadoSeleccionado' a la grilla
                     dgvdata.Rows.Add(new object[]
                     {
-                    "",
-                    idUsuarioGenerado,
-                    txtDocumento.Text,
-                    txtNombreCompleto.Text,
-                    txtCorreo.Text,
-                    txtClave.Text,
-                    ((OpcionCombo)cboRol.SelectedItem).Valor.ToString(),
-                    ((OpcionCombo)cboRol.SelectedItem).Texto.ToString(),
-                    ((OpcionCombo)cboEstado.SelectedItem).Valor.ToString(),
-                    ((OpcionCombo)cboEstado.SelectedItem).Texto.ToString()
+                "",
+                idUsuarioGenerado,
+                txtDocumento.Text,
+                txtNombreCompleto.Text,
+                txtCorreo.Text,
+                txtClave.Text,
+                ((OpcionCombo)cboRol.SelectedItem).Valor.ToString(),
+                ((OpcionCombo)cboRol.SelectedItem).Texto.ToString(),
+                estadoSeleccionado, // <-- AQUÍ (en lugar de .Valor.ToString())
+                ((OpcionCombo)cboEstado.SelectedItem).Texto.ToString()
                     });
                     Limpiar();
-
                 }
                 else
                 {
-                    //No se registro
-                    MessageBox.Show(mensaje, "Error al Editar", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show(mensaje, "Error al Registrar", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
-            else
+            else // --- EDITAR ---
             {
                 bool resultado = new CN_Usuario().Editar(objUsusario, out mensaje);
                 if (resultado)
@@ -183,19 +183,20 @@ namespace BeanDesktop
                     dgvdata.Rows[indice].Cells["Clave"].Value = txtClave.Text;
                     dgvdata.Rows[indice].Cells["IdRol"].Value = ((OpcionCombo)cboRol.SelectedItem).Valor.ToString();
                     dgvdata.Rows[indice].Cells["Rol"].Value = ((OpcionCombo)cboRol.SelectedItem).Texto.ToString();
-                    dgvdata.Rows[indice].Cells["EstadoValor"].Value = ((OpcionCombo)cboEstado.SelectedItem).Valor.ToString();
+
+                    // ✅ CORRECCIÓN: Pasamos el booleano 'estadoSeleccionado' a la grilla
+                    dgvdata.Rows[indice].Cells["EstadoValor"].Value = estadoSeleccionado; // <-- AQUÍ
                     dgvdata.Rows[indice].Cells["Estado"].Value = ((OpcionCombo)cboEstado.SelectedItem).Texto.ToString();
+
                     Limpiar();
                 }
                 else
                 {
-                    //No se edito
                     MessageBox.Show(mensaje, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
-
-
         }
+        
 
         private void Limpiar()
         {
@@ -337,27 +338,31 @@ namespace BeanDesktop
             {
                 foreach (DataGridViewRow row in dgvdata.Rows)
                 {
-                    // Si la barra de búsqueda está vacía...
+                    if (row.Cells[columnaFiltro].Value == null) continue;
+
+                    bool estaActivo = false;
+                    if (row.Cells["EstadoValor"].Value is bool)
+                    {
+                        estaActivo = (bool)row.Cells["EstadoValor"].Value;
+                    }
+                    else if (row.Cells["EstadoValor"].Value != null)
+                    {
+                        // Intenta convertir desde un string "1" o "0" (por si acaso)
+                        estaActivo = row.Cells["EstadoValor"].Value.ToString() == "1" ||
+                                     row.Cells["EstadoValor"].Value.ToString().ToUpper() == "TRUE";
+                    }
+
+                    bool coincideTexto = row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(textoBusqueda);
+
                     if (string.IsNullOrEmpty(textoBusqueda))
                     {
-                        // ✅ CAMBIO: Solo mostrar los activos
-                        if (row.Cells["EstadoValor"].Value != null && Convert.ToBoolean(row.Cells["EstadoValor"].Value) == true)
-                            row.Visible = true;
-                        else
-                            row.Visible = false;
+                        // Si la búsqueda está vacía, solo mostrar activos
+                        row.Visible = estaActivo;
                     }
                     else
                     {
-                        // Si hay texto, filtramos como antes
-                        if (row.Cells[columnaFiltro].Value != null &&
-                            row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(textoBusqueda))
-                        {
-                            row.Visible = true;
-                        }
-                        else
-                        {
-                            row.Visible = false;
-                        }
+                        // Si hay búsqueda, mostrar si coincide
+                        row.Visible = coincideTexto;
                     }
                 }
             }
